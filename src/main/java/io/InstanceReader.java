@@ -58,11 +58,11 @@ public class InstanceReader {
         try{
             FileReader f = new FileReader(this.instanceFile.getAbsolutePath());
             BufferedReader br = new BufferedReader(f);
-            String nom = this.instanceFile.getName();
+            String nom = this.instanceFile.getName().replace(".txt", "");
             int nbPairePatientDonneur = lireNbPairePatientDonneur(br);
             int nbDonneurAlt = lireNbDonneurAlt(br);
             int tailleMaxCycle = lireTailleMaxCycle(br);
-            int tailleMaxChaine = 0;
+            int tailleMaxChaine = lireTailleMaxChaine(br);
             Instance instance = new Instance(nom, nbPairePatientDonneur, nbDonneurAlt, tailleMaxCycle, tailleMaxChaine);
             br.close();
             f.close();
@@ -135,7 +135,7 @@ public class InstanceReader {
      */
     private int lireTailleMaxChaine(BufferedReader br) throws IOException {
         String ligne = br.readLine();
-        while(!ligne.contains("// K :")) {
+        while(!ligne.contains("// L :")) {
             ligne = br.readLine();
         }
         ligne = br.readLine();
@@ -150,9 +150,9 @@ public class InstanceReader {
      */
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/A-n32-k5.vrp");
+            InstanceReader reader = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");
             reader.readInstance();
-            System.out.println("Instance lue avec success !");
+            System.out.println("Instance lue avec success !");;
         } catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
