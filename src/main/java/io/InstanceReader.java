@@ -113,10 +113,27 @@ public class InstanceReader {
      * Lecture de la taille max cycles.
      * La ligne du dessus doit commencer par "// K :"
      * @param br le lecteur courant du fichier d'instance
-     * @return le nombre de donneurs altruistes
+     * @return la taille max cycles
      * @throws IOException 
      */
     private int lireTailleMaxCycle(BufferedReader br) throws IOException {
+        String ligne = br.readLine();
+        while(!ligne.contains("// K :")) {
+            ligne = br.readLine();
+        }
+        ligne = br.readLine();
+        ligne = ligne.trim();
+        return Integer.parseInt(ligne);        
+    }
+    
+    /**
+     * Lecture de la taille max cycles.
+     * La ligne du dessus doit commencer par "// K :"
+     * @param br le lecteur courant du fichier d'instance
+     * @return la taille max cycles
+     * @throws IOException 
+     */
+    private int lireTailleMaxChaine(BufferedReader br) throws IOException {
         String ligne = br.readLine();
         while(!ligne.contains("// K :")) {
             ligne = br.readLine();
