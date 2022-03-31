@@ -4,12 +4,38 @@
  */
 package solution;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Valek
  */
-public class Cycle {
+public class Cycle extends SchemaEchange{
     
-   
+    @Override
+    protected int evalCoutBenefice() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Cycle(int coutBenefice, LinkedList<Object> paire) {
+        super(coutBenefice, paire);
+    }
+
+    public int getCoutBenefice() {
+        return coutBenefice;
+    }
+
+    public LinkedList<Object> getPaires() {
+        return paires;
+    }
+    
+    
+    
+    @Override
+    public String toString() {
+        return "Cycle{ CoutBénéfice = " + this.coutBenefice + "Paires : " + this.paires + '}';
+    }
+    
+    
     
 }
