@@ -18,5 +18,11 @@ public class Paire extends Noeud {
         super(id);
     }
     
+    @Override
+    public String toString() {
+        return "Paire{" + "id=" + id + '}';
+    }
+    
+    
     
 }
