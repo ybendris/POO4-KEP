@@ -16,6 +16,11 @@ public class DonneurAltruiste extends Noeud {
     public DonneurAltruiste(int id) {
         super(id);
     }
+
     
+    @Override
+    public String toString() {
+        return "DonneurAltruiste{" + "id=" + id + '}';
+    }
     
 }

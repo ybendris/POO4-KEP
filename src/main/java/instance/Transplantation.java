@@ -14,11 +14,17 @@ public class Transplantation {
     private final int benefice;
     
 
-    public Transplantation(Noeud donneur, Paire receveur) {
+    public Transplantation(Noeud donneur, Paire receveur, int benefice) {
         this.donneur = donneur;
         this.receveur = receveur;
-        this.benefice = -2;
+        this.benefice = benefice;
     }
+
+    @Override
+    public String toString() {
+        return "Transplantation{\n" + "benefice=" + benefice + ",\nreceveur=" + receveur + ", \ndonneur=" + donneur + '}';
+    }
+    
     
     
 }

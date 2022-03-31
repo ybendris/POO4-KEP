@@ -9,7 +9,7 @@ package instance;
  * @author yanni
  */
 public abstract class Noeud {
-    private final int id;
+    protected final int id;
 
     public Noeud() {
         this.id = 0;
@@ -19,9 +19,17 @@ public abstract class Noeud {
         this.id = id;
     }
     
-    public int peutDonnerA(Paire p){
-        return -1;
+    /**
+     * Définie si le noeud courant peut donner à la Paire p
+     * @param p
+     * @return boolean
+     */
+    public boolean peutDonnerA(Paire p){
+        return false;
     }
+
+    
+    
     
     
     
