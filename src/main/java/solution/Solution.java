@@ -4,6 +4,7 @@
  */
 package solution;
 
+import instance.Instance;
 import java.util.LinkedList;
 
 /**
@@ -23,12 +24,12 @@ public class Solution {
         this.instance = s.instance;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
-        for(Chaine chaineToAdd : s.getChaines()){
+        /*for(Chaine chaineToAdd : s.getChaines()){
             this.chaines.add(new Chaine(chaineToAdd));
         }
         for(Cycle cycleToAdd : s.getCycles()){
             this.cycles.add(new Cycle(cycleToAdd));
-        }
+        }*/
     }
 
     public Solution(Instance i) {

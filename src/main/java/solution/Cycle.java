@@ -4,6 +4,7 @@
  */
 package solution;
 
+import instance.Paire;
 import java.util.LinkedList;
 
 /**
@@ -17,7 +18,7 @@ public class Cycle extends SchemaEchange{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Cycle(int coutBenefice, LinkedList<Object> paire) {
+    public Cycle(int coutBenefice, LinkedList<Paire> paire) {
         super(coutBenefice, paire);
     }
 
@@ -25,7 +26,7 @@ public class Cycle extends SchemaEchange{
         return coutBenefice;
     }
 
-    public LinkedList<Object> getPaires() {
+    public LinkedList<Paire> getPaires() {
         return paires;
     }
     
