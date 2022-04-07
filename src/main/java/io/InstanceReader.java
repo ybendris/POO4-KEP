@@ -6,6 +6,8 @@
 package io;
 
 import instance.Instance;
+import instance.reseau.DonneurAltruiste;
+import instance.reseau.Paire;
 import io.exception.FileExistException;
 import io.exception.FormatFileException;
 import io.exception.OpenFileException;
@@ -65,15 +67,8 @@ public class InstanceReader {
             int tailleMaxChaine = lireLigne(br, "// L :");
             Instance instance = new Instance(nom, nbPairePatientDonneur, nbDonneurAltruiste, tailleMaxCycle, tailleMaxChaine);
             int[][] matriceBenef = lireMatrice(br, nbPairePatientDonneur, nbDonneurAltruiste);
-            int i,j;
-            for (i=0; i<9; i++){
-                for (j=0; j<9; j++){
-                    
-                    System.out.println(matriceBenef[i][j]);
-                    
-                }
-                System.out.println("\n");
-            }
+            ajouterNoeuds(nbPairePatientDonneur, nbDonneurAltruiste, instance);
+            ajouterTransplantation(matriceBenef, nbPairePatientDonneur, nbDonneurAltruiste, instance);
             br.close();
             f.close();
             return instance;
@@ -111,7 +106,7 @@ public class InstanceReader {
     */
     
     private int[][] lireMatrice(BufferedReader br, int nbPairePatientDonneur, int nbDonneurAltruiste)throws IOException{
-        int[][] matrice = new int[nbPairePatientDonneur][nbPairePatientDonneur + nbDonneurAltruiste];
+        int[][] matrice = new int[nbPairePatientDonneur + nbDonneurAltruiste][nbPairePatientDonneur];
         int i=0, j=0;
         String ligne = br.readLine();
         while((ligne = br.readLine())!=null){
@@ -131,17 +126,47 @@ public class InstanceReader {
     
      /**
     * Ajout des noeuds.
-    * @param matrice la matrice des bénéfices
     * @param nbPairePatientDonneur nombre de paires patient donneur
     * @param nbDonneurAltruiste nombre de donneur altruiste
     * @param instance instance
     * @return
     */
-    private void ajouterNoeuds(int[][] matrice, int nbPairePatientDonneur, int nbDonneurAltruiste, Instance instance){
-        
-
-        return matrice;
-
+    private void ajouterNoeuds(int nbPairePatientDonneur, int nbDonneurAltruiste, Instance instance){
+        int i;
+        for(i = 1; i <= nbPairePatientDonneur; i++){
+            instance.ajouterPaire(new Paire(i));
+        }
+        for(i = 1; i <= nbDonneurAltruiste; i++){
+            instance.ajouterDonneurAltruiste(new DonneurAltruiste(i));
+        }
+    }
+    
+    /**
+    * Ajout des transplantations.
+    * @param nbPairePatientDonneur nombre de paires patient donneur
+    * @param nbDonneurAltruiste nombre de donneur altruiste
+    * @param instance instance
+    * @return
+    */
+    private void ajouterTransplantation(int[][] matrice ,int nbPairePatientDonneur, int nbDonneurAltruiste, Instance instance){        
+        int i, j;
+        for(i = 0; i < nbPairePatientDonneur + nbDonneurAltruiste; i++){
+            for(j = 0; j < nbPairePatientDonneur; j++){
+                int benef = matrice[i][j];
+                if(benef > -1){
+                    if(i < nbDonneurAltruiste){
+                        DonneurAltruiste dA = instance.getDonneurById(i+1);
+                        Paire r = instance.getPaireById(j+1);
+                        dA.ajouterTransplantation(r, benef);
+                    }
+                    else{
+                        Paire d = instance.getPaireById(i - nbDonneurAltruiste + 1);
+                        Paire r = instance.getPaireById(j + 1);
+                        d.ajouterTransplantation(r, benef);
+                    }
+                }
+            }
+        }
     }
     
     
