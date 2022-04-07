@@ -4,7 +4,8 @@
  */
 package solution;
 
-import instance.Paire;
+import instance.reseau.Paire;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.LinkedList;
  * @author Valek
  */
 public class Cycle extends SchemaEchange{
-    
+
     @Override
     protected int evalCoutBenefice() {
         int benefice = 0;
@@ -33,9 +34,14 @@ public class Cycle extends SchemaEchange{
         this.tailleMax = c.tailleMax;
     }
 
+    public Cycle(int coutBenefice) {
+        super(coutBenefice);
+    }
+
     public int getCoutBenefice() {
         return coutBenefice;
     }
+
     
     @Override
     public String toString() {
@@ -51,6 +57,7 @@ public class Cycle extends SchemaEchange{
         c1.paires.add(p2);
         System.out.println("Cycle 1 : " + c1);
     }
+    
     
     
 }

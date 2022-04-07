@@ -4,7 +4,7 @@
  */
 package solution;
 
-import instance.Paire;
+import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -17,6 +17,7 @@ public abstract class SchemaEchange {
     protected int coutBenefice;
     protected int tailleMax;
     protected LinkedList<Paire> paires;
+
 
     public SchemaEchange() {
         this.coutBenefice = 0;

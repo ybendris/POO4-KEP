@@ -4,9 +4,12 @@
  */
 package solution;
 
+
 import instance.DonneurAltruiste;
 import instance.Paire;
 import java.util.Iterator;
+import instance.reseau.DonneurAltruiste;
+import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -28,6 +31,7 @@ public class Chaine extends SchemaEchange {
         }
         return benefice;
     }
+
 
     public Chaine(DonneurAltruiste donneurAlt) {
         super();

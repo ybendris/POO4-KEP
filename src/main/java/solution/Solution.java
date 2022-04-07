@@ -18,6 +18,9 @@ public class Solution {
     private LinkedList<Chaine> chaines;
     private LinkedList<Cycle> cycles;
 
+    /*
+        TODO: ajouter un constructeur par copie de chaine et Cycle
+    */
     public Solution(Solution s) {
         this.benefice = s.benefice;
         this.instance = s.instance;
@@ -80,6 +83,8 @@ public class Solution {
     
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
+        
+        
     }
     
     
