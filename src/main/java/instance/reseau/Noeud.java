@@ -32,7 +32,6 @@ public abstract class Noeud {
         this.transplantations.put(receveur,t);
     }
     
-    
     /**
      * Définie si le noeud courant peut donner à la Paire receveur
      * @param receveur
@@ -64,8 +63,6 @@ public abstract class Noeud {
         }
     }
     
-    
-   
     
     public static void main(String[] args) {
         DonneurAltruiste d1 = new DonneurAltruiste(1);
