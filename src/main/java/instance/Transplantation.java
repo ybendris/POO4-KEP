@@ -24,7 +24,10 @@ public class Transplantation {
     public String toString() {
         return "Transplantation{\n" + "benefice=" + benefice + ",\nreceveur=" + receveur + ", \ndonneur=" + donneur + '}';
     }
-    
+
+    public int getBenefice() {
+        return benefice;
+    }
     
     
 }

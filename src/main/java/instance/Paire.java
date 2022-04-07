@@ -10,9 +10,7 @@ package instance;
  */
 public class Paire extends Noeud {
 
-    public Paire() {
-        super();
-    }
+    
 
     public Paire(int id) {
         super(id);

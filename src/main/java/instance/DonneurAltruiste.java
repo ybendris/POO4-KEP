@@ -9,9 +9,7 @@ package instance;
  * @author yanni
  */
 public class DonneurAltruiste extends Noeud {
-    public DonneurAltruiste() {
-        super();
-    }
+    
 
     public DonneurAltruiste(int id) {
         super(id);
