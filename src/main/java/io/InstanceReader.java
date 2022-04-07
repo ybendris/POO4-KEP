@@ -105,8 +105,7 @@ public class InstanceReader {
     /**
     * Lecture de le la matrice.
     * @param br le lecteur courant du fichier d'instance
-    * @param matrice 
-    * @return l'attribut
+    * @return la matrice
     * @throws IOException 
     */
     
@@ -125,9 +124,20 @@ public class InstanceReader {
                 //System.out.println(ligne);
                 i++;
             }
-        }
-        
+        }        
         return matrice;
+    }
+    
+     /**
+    * Ajout des noeuds.
+    * @param matrice la matrice des bénéfices
+    * @param nbPairePatientDonneur nombre de paires patient donneur
+    * @param nbDonneurAltruiste nombre de donneur altruiste
+    * @param instance instance
+    * @return
+    */
+    private void ajouterNoeuds(int[][] matrice, int nbPairePatientDonneur, int nbDonneurAltruiste, Instance instance){
+        
     }
     
     
