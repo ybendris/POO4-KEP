@@ -59,13 +59,21 @@ public class InstanceReader {
             FileReader f = new FileReader(this.instanceFile.getAbsolutePath());
             BufferedReader br = new BufferedReader(f);
             String nom = this.instanceFile.getName().replace(".txt", "");
-            int nbPairePatientDonneur = lireNbPairePatientDonneur(br);
-            int nbDonneurAlt = lireNbDonneurAlt(br);
-            int tailleMaxCycle = lireTailleMaxCycle(br);
-            int tailleMaxChaine = lireTailleMaxChaine(br);
-            Instance instance = new Instance(nom, nbPairePatientDonneur, nbDonneurAlt, tailleMaxCycle, tailleMaxChaine);
-            int[][] matriceBenef;
-            lireMatrice(br);
+            int nbPairePatientDonneur = lireLigne(br, "// P :");
+            int nbDonneurAltruiste = lireLigne(br, "// N :");
+            int tailleMaxCycle = lireLigne(br, "// K :");
+            int tailleMaxChaine = lireLigne(br, "// L :");
+            Instance instance = new Instance(nom, nbPairePatientDonneur, nbDonneurAltruiste, tailleMaxCycle, tailleMaxChaine);
+            int[][] matriceBenef = lireMatrice(br, nbPairePatientDonneur, nbDonneurAltruiste);
+            int i,j;
+            for (i=0; i<9; i++){
+                for (j=0; j<9; j++){
+                    
+                    System.out.println(matriceBenef[i][j]);
+                    
+                }
+                System.out.println("\n");
+            }
             br.close();
             f.close();
             return instance;
@@ -75,92 +83,58 @@ public class InstanceReader {
             throw new ReaderException("IO exception", ex.getMessage());
         }
     }
-
     
     /**
-     * Lecture du nombre de paires patient-donneur.
-     * La ligne du dessus doit commencer par "// P :"
-     * @param br le lecteur courant du fichier d'instance
-     * @return le nombre de paires patient-donneur
-     * @throws IOException 
-     */
-    private int lireNbPairePatientDonneur(BufferedReader br) throws IOException {
+    * Lecture de l'attribut.
+    * La ligne du dessus doit commencer par le commentaire rentré en paramètre
+    * @param br le lecteur courant du fichier d'instance
+    * @param commentaire chaine de caratère au dessus de la ligne à récupérer
+    * @return l'attribut
+    * @throws IOException 
+    */
+    private int lireLigne(BufferedReader br, String commentaire) throws IOException {
         String ligne = br.readLine();
-        while(!ligne.contains("// P :")) {
+        while(!ligne.contains(commentaire)) {
             ligne = br.readLine();
         }
         ligne = br.readLine();
         ligne = ligne.trim();
-        return Integer.parseInt(ligne);        
-    }
-    
-     /**
-     * Lecture du nombre de donneurs altruistes.
-     * La ligne du dessus doit commencer par "// N :"
-     * @param br le lecteur courant du fichier d'instance
-     * @return le nombre de donneurs altruistes
-     * @throws IOException 
-     */
-    private int lireNbDonneurAlt(BufferedReader br) throws IOException {
-        String ligne = br.readLine();
-        while(!ligne.contains("// N :")) {
-            ligne = br.readLine();
-        }
-        ligne = br.readLine();
-        ligne = ligne.trim();
-        return Integer.parseInt(ligne);        
+        return Integer.parseInt(ligne);
     }
     
     /**
-     * Lecture de la taille max cycles.
-     * La ligne du dessus doit commencer par "// K :"
-     * @param br le lecteur courant du fichier d'instance
-     * @return la taille max cycles
-     * @throws IOException 
-     */
-    private int lireTailleMaxCycle(BufferedReader br) throws IOException {
-        String ligne = br.readLine();
-        while(!ligne.contains("// K :")) {
-            ligne = br.readLine();
-        }
-        ligne = br.readLine();
-        ligne = ligne.trim();
-        return Integer.parseInt(ligne);        
-    }
+    * Lecture de le la matrice.
+    * @param br le lecteur courant du fichier d'instance
+    * @param matrice 
+    * @return l'attribut
+    * @throws IOException 
+    */
     
-    /**
-     * Lecture de la taille max cycles.
-     * La ligne du dessus doit commencer par "// K :"
-     * @param br le lecteur courant du fichier d'instance
-     * @return la taille max cycles
-     * @throws IOException 
-     */
-    private int lireTailleMaxChaine(BufferedReader br) throws IOException {
+    private int[][] lireMatrice(BufferedReader br, int nbPairePatientDonneur, int nbDonneurAltruiste)throws IOException{
+        int[][] matrice = new int[nbPairePatientDonneur][nbPairePatientDonneur + nbDonneurAltruiste];
+        int i=0, j=0;
         String ligne = br.readLine();
-        while(!ligne.contains("// L :")) {
-            ligne = br.readLine();
-        }
-        ligne = br.readLine();
-        ligne = ligne.trim();
-        return Integer.parseInt(ligne);        
-    }
-    
-    private int lireMatrice(BufferedReader br)throws IOException{
-        String ligne = br.readLine();
-        while((ligne = br.readLine())!=null){            
+        while((ligne = br.readLine())!=null){
             if(!ligne.contains("/") && !ligne.isEmpty()){
-                System.out.println(ligne);
+                String l[] = ligne.split("\t");
+                j=0;
+                for(String benef: l){
+                    matrice[i][j] = Integer.parseInt(benef);
+                    j++;
+                }
+                //System.out.println(ligne);
+                i++;
             }
         }
         
-        return 0;
+        return matrice;
     }
     
     
     /**
      * Test de lecture d'une instance.
      * @param args 
-     */
+    */
     public static void main(String[] args) {
         try {
             InstanceReader reader = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");
