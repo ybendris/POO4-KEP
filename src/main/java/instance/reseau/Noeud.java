@@ -59,7 +59,28 @@ public abstract class Noeud {
     }
     
     
-    
+    public static void main(String[] args) {
+        DonneurAltruiste d1 = new DonneurAltruiste(1);
+        Paire p1 = new Paire(2);
+        Paire p2 = new Paire(3);
+        Paire p3 = new Paire(4);
+        
+        d1.ajouterTransplantations(p1, 10);
+        p3.ajouterTransplantations(p2, 2);
+        p2.ajouterTransplantations(p3, 3);
+        
+        System.out.println(d1.getBeneficeVers(p1)); //10
+        System.out.println(d1.getBeneficeVers(p2)); //-1: pas de transplantation crée
+        
+        System.out.println(p3.getBeneficeVers(p2)); //2
+        System.out.println(p2.getBeneficeVers(p3)); //3
+        
+        System.out.println(p1.getBeneficeVers(p1)); //-1: se donne à lui même
+        
+        System.out.println(d1);
+        System.out.println(p1);
+        
+    }
     
     
 }
