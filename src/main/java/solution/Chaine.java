@@ -41,7 +41,7 @@ public class Chaine extends SchemaEchange {
     
     @Override
     public String toString() {
-        return "Chaine{ Benefice = "+ this.coutBenefice + "donneurAlt=" + donneurAlt + "Paires : " this.paires + '}';
+        return "Chaine{ Benefice = "+ this.coutBenefice + "donneurAlt=" + donneurAlt + "Paires : " + this.paires + '}';
     }
 
     @Override
