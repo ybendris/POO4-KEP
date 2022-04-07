@@ -122,16 +122,22 @@ public class Instance {
 
     @Override
     public String toString() {
-        return "Instance{" + "name=" + name + ", nbPairePatientDonneur=" + nbPairePatientDonneur + ", nbDonneurAlt=" + nbDonneurAlt + ", tailleMaxCycle=" + tailleMaxCycle + ", tailleMaxChaine=" + tailleMaxChaine + '}';
+        return "Instance{" + "name=" + name + ", nbPairePatientDonneur=" + nbPairePatientDonneur + ", nbDonneurAlt=" + nbDonneurAlt + ", tailleMaxCycle=" + tailleMaxCycle + ", tailleMaxChaine=" + tailleMaxChaine + ", donneursAltruistes=" + donneursAltruistes + ", paires=" + paires + '}';
     }
+
+
     
     public static void main(String[] args) {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
             
             Instance i = read.readInstance();
             
             System.out.println(i.toString());
+            
+            System.out.println("Benefice Paire 3 - Paire 4 : " + i.getPaireById(3).getBeneficeVers(i.getPaireById(4))); //8
+            System.out.println("Benefice Donneur 1 - Paire 4 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(4))); //5
+            System.out.println("Benefice Donneur 1 - Paire 2 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(2))); //-1
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
