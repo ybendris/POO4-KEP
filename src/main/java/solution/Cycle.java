@@ -34,10 +34,7 @@ public class Cycle extends SchemaEchange{
         this.tailleMax = c.tailleMax;
     }
 
-    public Cycle(int coutBenefice) {
-        super(coutBenefice);
-    }
-
+    @Override
     public int getCoutBenefice() {
         return coutBenefice;
     }

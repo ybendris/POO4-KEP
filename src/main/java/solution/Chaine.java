@@ -5,9 +5,6 @@
 package solution;
 
 
-import instance.DonneurAltruiste;
-import instance.Paire;
-import java.util.Iterator;
 import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 import java.util.LinkedList;
