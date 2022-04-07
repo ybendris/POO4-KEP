@@ -4,8 +4,8 @@
  */
 package solution;
 
-import instance.DonneurAltruiste;
-import instance.Paire;
+import instance.reseau.DonneurAltruiste;
+import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 

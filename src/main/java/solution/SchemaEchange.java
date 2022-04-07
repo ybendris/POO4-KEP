@@ -4,7 +4,7 @@
  */
 package solution;
 
-import instance.Paire;
+import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 
