@@ -6,6 +6,7 @@ package solution;
 
 import instance.DonneurAltruiste;
 import instance.Paire;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -15,42 +16,51 @@ import java.util.Objects;
  */
 public class Chaine extends SchemaEchange {
 
-    private DonneurAltruiste donneurAlt;
+    private DonneurAltruiste donneurAltruiste;
     
     @Override
     protected int evalCoutBenefice() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int benefice = 0;
+        benefice = donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(p.getId());
+            benefice += p.getBeneficeVers(nextPaire);
+        }
+        return benefice;
     }
 
-    public Chaine(DonneurAltruiste donneurAlt, int coutBenefice, LinkedList<Paire> paire) {
-        super(coutBenefice, paire);
-        this.donneurAlt = donneurAlt;
+    public Chaine(DonneurAltruiste donneurAlt) {
+        super();
+        this.donneurAltruiste = donneurAlt;
+    }
+    
+    public Chaine(Chaine ch){
+        this.coutBenefice = ch.coutBenefice;
+        this.paires = ch.paires;
+        this.tailleMax = ch.tailleMax;
+        this.donneurAltruiste = ch.donneurAltruiste;
     }
 
     public DonneurAltruiste getDonneurAlt() {
-        return donneurAlt;
+        return donneurAltruiste;
     }
 
     public int getCoutBenefice() {
         return coutBenefice;
     }
-
-    public LinkedList<Paire> getPaires() {
-        return paires;
-    }
-
-    
     
     @Override
     public String toString() {
-        return "Chaine{ Benefice = "+ this.coutBenefice + "donneurAlt=" + donneurAlt + "Paires : " + this.paires + '}';
+        return " Chaine{ Benefice = "+ this.coutBenefice + " donneurAltruiste = " + donneurAltruiste + " Paires : " + this.paires + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.donneurAltruiste);
         return hash;
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -64,17 +74,19 @@ public class Chaine extends SchemaEchange {
             return false;
         }
         final Chaine other = (Chaine) obj;
-        return Objects.equals(this.donneurAlt, other.donneurAlt);
+        return Objects.equals(this.donneurAltruiste, other.donneurAltruiste);
     }
 
-   
-    
-    
-    
-    
-    
-    
-    
+    public static void main(String[] args) {
+        DonneurAltruiste Altruiste1 = new DonneurAltruiste(1);
+        Chaine ch1 = new Chaine(Altruiste1);
+        Paire p1 = new Paire(1);
+        Paire p2 = new Paire(2);
+        ch1.paires.add(p1);
+        ch1.paires.add(p2);
+        
+        System.out.println("Chaine 1 : " + ch1);
+    }
     
     
     

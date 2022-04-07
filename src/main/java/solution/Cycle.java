@@ -15,28 +15,42 @@ public class Cycle extends SchemaEchange{
     
     @Override
     protected int evalCoutBenefice() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int benefice = 0;
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(p.getId());
+            benefice += p.getBeneficeVers(nextPaire);
+        }
+        return benefice;
     }
 
-    public Cycle(int coutBenefice, LinkedList<Paire> paire) {
-        super(coutBenefice, paire);
+    public Cycle() {
+        super();
+    }
+    
+    public Cycle(Cycle c){
+        this.coutBenefice = c.coutBenefice;
+        this.paires = c.paires;
+        this.tailleMax = c.tailleMax;
     }
 
     public int getCoutBenefice() {
         return coutBenefice;
     }
-
-    public LinkedList<Paire> getPaires() {
-        return paires;
-    }
-    
-    
     
     @Override
     public String toString() {
-        return "Cycle{ CoutBénéfice = " + this.coutBenefice + "Paires : " + this.paires + '}';
+        return "Cycle{ CoutBénéfice = " + this.coutBenefice 
+                + " Paires : " + this.paires + '}';
     }
     
+    public static void main(String[] args) {
+        Cycle c1 = new Cycle();
+        Paire p1 = new Paire(1);
+        Paire p2 = new Paire(2);
+        c1.paires.add(p1);
+        c1.paires.add(p2);
+        System.out.println("Cycle 1 : " + c1);
+    }
     
     
 }
