@@ -122,7 +122,15 @@ public class Instance {
 
     @Override
     public String toString() {
-        return "Instance{" + "name=" + name + ", nbPairePatientDonneur=" + nbPairePatientDonneur + ", nbDonneurAlt=" + nbDonneurAlt + ", tailleMaxCycle=" + tailleMaxCycle + ", tailleMaxChaine=" + tailleMaxChaine + ", donneursAltruistes=" + donneursAltruistes + ", paires=" + paires + '}';
+        return "Instance{" + 
+            "\n\tname=" + name + 
+            ",\n\tbPairePatientDonneur = " + nbPairePatientDonneur + 
+            ",\n\tnbDonneurAlt = " + nbDonneurAlt + 
+            ",\n\ttailleMaxCycle = " + tailleMaxCycle + 
+            ",\n\ttailleMaxChaine = " + tailleMaxChaine + 
+            ",\n\tdonneursAltruistes = " + donneursAltruistes +
+            ",\n\tpaires = " + paires + 
+        "\n}";
     }
 
 
