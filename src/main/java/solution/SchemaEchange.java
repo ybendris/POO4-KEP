@@ -30,8 +30,8 @@ public abstract class SchemaEchange {
         return new LinkedList<Paire>(paires);
     }
     
-    public Paire getPaireByX(int idPaire){ 
-        return null;
+    public Paire getPaireById(int idPaire){ 
+        return this.paires.get(idPaire);
     }
     
     protected abstract int evalCoutBenefice();
