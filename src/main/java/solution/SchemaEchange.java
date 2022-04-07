@@ -15,10 +15,13 @@ import java.util.Objects;
 public abstract class SchemaEchange {
  
     protected int coutBenefice;
+    protected int tailleMax;
     protected LinkedList<Paire> paires;
 
-    public SchemaEchange(int coutBenefice) {
+
+    public SchemaEchange() {
         this.coutBenefice = 0;
+        this.tailleMax = 0;
         this.paires = new LinkedList<>();
     }
 
@@ -26,12 +29,14 @@ public abstract class SchemaEchange {
         return coutBenefice;
     }
     
-    public LinkedList<Paire> getPaires(){
-        return new LinkedList<Paire>(paires);
-    }
-    
-    public Paire getPaireById(int idPaire){ 
-        return this.paires.get(idPaire);
+    public Paire getNextPaire(int idPaireCurrent){
+        if(this.paires.get(idPaireCurrent+1)!=null){
+            return this.paires.get(idPaireCurrent+1);
+        }
+        else{
+            return null;
+        }
+        
     }
     
     protected abstract int evalCoutBenefice();
@@ -41,6 +46,13 @@ public abstract class SchemaEchange {
         return "SchemaEchange{" + "coutBenefice=" + coutBenefice + ", paires=" + paires + '}';
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + this.coutBenefice;
+        hash = 97 * hash + Objects.hashCode(this.paires);
+        return hash;
+    }
     
     @Override
     public boolean equals(Object obj) {

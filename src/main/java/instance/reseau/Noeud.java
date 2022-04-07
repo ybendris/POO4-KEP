@@ -63,7 +63,6 @@ public abstract class Noeud {
         }
     }
 
-
     public int getId() {
         return id;
     }

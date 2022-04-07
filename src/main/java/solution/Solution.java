@@ -6,6 +6,7 @@ package solution;
 
 import instance.Instance;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  *
@@ -25,12 +26,12 @@ public class Solution {
         this.instance = s.instance;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
-        /*for(Chaine chaineToAdd : s.getChaines()){
+        for(Chaine chaineToAdd : s.chaines){
             this.chaines.add(new Chaine(chaineToAdd));
         }
-        for(Cycle cycleToAdd : s.getCycles()){
+        for(Cycle cycleToAdd : s.cycles){
             this.cycles.add(new Cycle(cycleToAdd));
-        }*/
+        }
     }
 
     public Solution(Instance i) {
@@ -44,13 +45,41 @@ public class Solution {
         return benefice;
     }
 
-    public LinkedList<Chaine> getChaines() {
-        return chaines;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.instance);
+        hash = 79 * hash + this.benefice;
+        hash = 79 * hash + Objects.hashCode(this.chaines);
+        hash = 79 * hash + Objects.hashCode(this.cycles);
+        return hash;
     }
 
-    public LinkedList<Cycle> getCycles() {
-        return cycles;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Solution other = (Solution) obj;
+        if (this.benefice != other.benefice) {
+            return false;
+        }
+        if (!Objects.equals(this.instance, other.instance)) {
+            return false;
+        }
+        if (!Objects.equals(this.chaines, other.chaines)) {
+            return false;
+        }
+        return Objects.equals(this.cycles, other.cycles);
     }
+    
+    
     
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
