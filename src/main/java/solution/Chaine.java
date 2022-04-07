@@ -4,8 +4,8 @@
  */
 package solution;
 
-import instance.DonneurAltruiste;
-import instance.Paire;
+import instance.reseau.DonneurAltruiste;
+import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -23,7 +23,7 @@ public class Chaine extends SchemaEchange {
     }
 
     public Chaine(DonneurAltruiste donneurAlt, int coutBenefice, LinkedList<Paire> paire) {
-        super(coutBenefice, paire);
+        super(coutBenefice);
         this.donneurAlt = donneurAlt;
     }
 

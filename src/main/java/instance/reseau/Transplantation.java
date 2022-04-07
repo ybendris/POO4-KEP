@@ -2,7 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package instance;
+package instance.reseau;
+
+import instance.reseau.Paire;
+import instance.reseau.Noeud;
 
 /**
  *
@@ -22,7 +25,11 @@ public class Transplantation {
 
     @Override
     public String toString() {
-        return "Transplantation{\n" + "benefice=" + benefice + ",\nreceveur=" + receveur + ", \ndonneur=" + donneur + '}';
+        return "Transplantation{\n" + 
+                "benefice=" + benefice + 
+                ",\nreceveur=" + receveur + 
+                ", \ndonneur=" + donneur + 
+            '}';
     }
 
     public int getBenefice() {
