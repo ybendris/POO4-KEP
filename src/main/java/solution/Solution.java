@@ -12,8 +12,6 @@ import java.util.LinkedList;
  * @author Valek
  */
 public class Solution {
-    
-    
     private Instance instance;
     private int benefice;
     private LinkedList<Chaine> chaines;
@@ -52,7 +50,7 @@ public class Solution {
     }
     
     public static void main(String[] args) {
-        System.out.println("coucou");
+        System.out.println("Test de la classe Solution:");
     }
     
     
