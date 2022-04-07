@@ -64,6 +64,8 @@ public class InstanceReader {
             int tailleMaxCycle = lireTailleMaxCycle(br);
             int tailleMaxChaine = lireTailleMaxChaine(br);
             Instance instance = new Instance(nom, nbPairePatientDonneur, nbDonneurAlt, tailleMaxCycle, tailleMaxChaine);
+            int[][] matriceBenef;
+            lireMatrice(br);
             br.close();
             f.close();
             return instance;
@@ -141,6 +143,17 @@ public class InstanceReader {
         ligne = br.readLine();
         ligne = ligne.trim();
         return Integer.parseInt(ligne);        
+    }
+    
+    private int lireMatrice(BufferedReader br)throws IOException{
+        String ligne = br.readLine();
+        while((ligne = br.readLine())!=null){            
+            if(!ligne.contains("/") && !ligne.isEmpty()){
+                System.out.println(ligne);
+            }
+        }
+        
+        return 0;
     }
     
     

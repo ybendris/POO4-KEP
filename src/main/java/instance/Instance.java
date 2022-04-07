@@ -26,6 +26,8 @@ public class Instance {
         this.tailleMaxCycle = tailleMaxCycle;
         this.tailleMaxChaine = tailleMaxChaine;
     }
+    
+    
 
     public String getName() {
         return name;
