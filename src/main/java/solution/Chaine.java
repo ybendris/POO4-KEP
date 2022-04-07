@@ -4,6 +4,8 @@
  */
 package solution;
 
+import instance.DonneurAltruiste;
+import instance.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -20,7 +22,7 @@ public class Chaine extends SchemaEchange {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Chaine(DonneurAltruiste donneurAlt, int coutBenefice, LinkedList<Object> paire) {
+    public Chaine(DonneurAltruiste donneurAlt, int coutBenefice, LinkedList<Paire> paire) {
         super(coutBenefice, paire);
         this.donneurAlt = donneurAlt;
     }
@@ -33,7 +35,7 @@ public class Chaine extends SchemaEchange {
         return coutBenefice;
     }
 
-    public LinkedList<Object> getPaires() {
+    public LinkedList<Paire> getPaires() {
         return paires;
     }
 
