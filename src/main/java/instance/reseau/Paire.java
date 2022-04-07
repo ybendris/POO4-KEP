@@ -23,6 +23,10 @@ public class Paire extends Noeud {
         return "Paire{" + "id=" + id + '}';
     }
     
-    
+    public static void main(String[] args) {
+        Paire p1 = new Paire(1);
+        
+        System.out.println(p1);
+    }
     
 }

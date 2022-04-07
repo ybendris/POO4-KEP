@@ -5,6 +5,7 @@
 package solution;
 
 import instance.reseau.Paire;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -13,23 +14,22 @@ import java.util.LinkedList;
  */
 public class Cycle extends SchemaEchange{
     
-    @Override
-    protected int evalCoutBenefice() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
-    public Cycle(int coutBenefice, LinkedList<Paire> paire) {
-        super(coutBenefice, paire);
+    public Cycle(int coutBenefice) {
+        super(coutBenefice);
     }
 
     public int getCoutBenefice() {
         return coutBenefice;
     }
 
-    public LinkedList<Paire> getPaires() {
-        return paires;
-    }
     
+    @Override
+    protected int evalCoutBenefice() {
+        
+        return 0;
+    }
     
     
     @Override

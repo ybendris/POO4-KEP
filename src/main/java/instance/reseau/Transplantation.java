@@ -25,7 +25,11 @@ public class Transplantation {
 
     @Override
     public String toString() {
-        return "Transplantation{\n" + "benefice=" + benefice + ",\nreceveur=" + receveur + ", \ndonneur=" + donneur + '}';
+        return "Transplantation{\n" + 
+                "benefice=" + benefice + 
+                ",\nreceveur=" + receveur + 
+                ", \ndonneur=" + donneur + 
+            '}';
     }
 
     public int getBenefice() {

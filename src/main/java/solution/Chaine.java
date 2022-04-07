@@ -23,7 +23,7 @@ public class Chaine extends SchemaEchange {
     }
 
     public Chaine(DonneurAltruiste donneurAlt, int coutBenefice, LinkedList<Paire> paire) {
-        super(coutBenefice, paire);
+        super(coutBenefice);
         this.donneurAlt = donneurAlt;
     }
 

@@ -21,4 +21,10 @@ public class DonneurAltruiste extends Noeud {
         return "DonneurAltruiste{" + "id=" + id + '}';
     }
     
+    
+    public static void main(String[] args) {
+        DonneurAltruiste d1 = new DonneurAltruiste(1);
+        
+        System.out.println(d1);
+    }
 }
