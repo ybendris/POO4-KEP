@@ -143,9 +143,9 @@ public class Instance {
             
             System.out.println(i.toString());
             
-            System.out.println("Benefice Paire 3 - Paire 4 : " + i.getPaireById(3).getBeneficeVers(i.getPaireById(4))); //8
-            System.out.println("Benefice Donneur 1 - Paire 4 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(4))); //5
-            System.out.println("Benefice Donneur 1 - Paire 2 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(2))); //-1
+            System.out.println("Benefice Paire 4 - Paire 5 : " + i.getPaireById(4).getBeneficeVers(i.getPaireById(5))); //8
+            System.out.println("Benefice Donneur 1 - Paire 5 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(5))); //5
+            System.out.println("Benefice Donneur 1 - Paire 3 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(3))); //-1
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());

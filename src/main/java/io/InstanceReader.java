@@ -100,8 +100,8 @@ public class InstanceReader {
     /**
     * Lecture de le la matrice.
     * @param br le lecteur courant du fichier d'instance
-    * @param matrice
-    * @return la matrice
+    * @param matrice 
+    * @return  matrice des bénéfices
     * @throws IOException 
     */
     
@@ -133,7 +133,7 @@ public class InstanceReader {
     */
     private void ajouterNoeuds(int nbPairePatientDonneur, int nbDonneurAltruiste, Instance instance){
         int i;
-        for(i = 1; i <= nbPairePatientDonneur; i++){
+        for(i = nbDonneurAltruiste + 1; i <= nbPairePatientDonneur + nbDonneurAltruiste; i++){
             instance.ajouterPaire(new Paire(i));
         }
         for(i = 1; i <= nbDonneurAltruiste; i++){
@@ -143,6 +143,7 @@ public class InstanceReader {
     
     /**
     * Ajout des transplantations.
+    * @param matrice matrice des bénéfices
     * @param nbPairePatientDonneur nombre de paires patient donneur
     * @param nbDonneurAltruiste nombre de donneur altruiste
     * @param instance instance
@@ -155,13 +156,13 @@ public class InstanceReader {
                 int benef = matrice[i][j];
                 if(benef > -1){
                     if(i < nbDonneurAltruiste){
-                        DonneurAltruiste dA = instance.getDonneurById(i+1);
-                        Paire r = instance.getPaireById(j+1);
+                        DonneurAltruiste dA = instance.getDonneurById(i + 1);
+                        Paire r = instance.getPaireById(j + nbDonneurAltruiste + 1);
                         dA.ajouterTransplantation(r, benef);
                     }
                     else{
-                        Paire d = instance.getPaireById(i - nbDonneurAltruiste + 1);
-                        Paire r = instance.getPaireById(j + 1);
+                        Paire d = instance.getPaireById(i + 1);
+                        Paire r = instance.getPaireById(j + nbDonneurAltruiste + 1);
                         d.ajouterTransplantation(r, benef);
                     }
                 }
