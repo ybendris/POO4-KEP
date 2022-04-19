@@ -11,7 +11,6 @@ import instance.reseau.Noeud;
  * @author yanni
  */
 public class Paire extends Noeud {
-
     
 
     public Paire(int id) {
