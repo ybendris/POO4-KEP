@@ -5,7 +5,9 @@
 package solution;
 
 import instance.Instance;
+import instance.reseau.Paire;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -79,6 +81,63 @@ public class Solution {
         return Objects.equals(this.cycles, other.cycles);
     }
     
+    public boolean check(){
+        return verifCycles() && verifChaines() && verifTransplantations();
+    }
+    
+    /**
+     * Vérifie que les cycles sont valides
+     * @return 
+     */
+    private boolean verifCycles() {
+        for(Cycle cycle : this.cycles){ //Ses cycles sont tous réalisables
+            if(!cycle.check())
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Vérifie que les chaines sont valides
+     * @return 
+     */
+    private boolean verifChaines() {
+        for(Chaine chaine : this.chaines){ //Ses chaines sont toutes réalisables
+            if(!chaine.check())
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Vérifie que chaque paire patient-donneur n’apparaissant que dans une seule chaîne ou un seul cycle au maximum.
+     * @return 
+     */
+    private boolean verifTransplantations() {
+        List<Paire> pairesAverif = this.instance.getPaires();
+        
+        
+        for(Cycle cycle : this.cycles){
+            for(Paire p : cycle.paires){
+                if(!pairesAverif.remove(p)){
+                    System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
+                    return false;
+                }
+            }
+        }
+        
+        for(Chaine chaine : this.chaines){
+            for(Paire p : chaine.paires){
+                if(!pairesAverif.remove(p)){
+                    System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
+                    return false;
+                }
+            }
+        }
+        
+        
+        return true;
+    }
     
     
     public static void main(String[] args) {
@@ -86,6 +145,7 @@ public class Solution {
         
         
     }
+
     
     
     
