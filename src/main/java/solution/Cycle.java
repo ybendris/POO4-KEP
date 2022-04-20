@@ -46,16 +46,16 @@ public class Cycle extends SchemaEchange{
 
     
     public boolean check(){
-        return verifTailleMaxCycle() && verifBenefice();
+        return verifTailleCycle() && verifBenefice();
     }
     
     /**
-     * Vérifie la taille max d'un cycle
+     * Vérifie la taille max et min d'un cycle
      * @return 
      */
-    private boolean verifTailleMaxCycle() {
+    private boolean verifTailleCycle() {
         System.out.println("Erreur: La taille du cycle ne respecte pas les conditions: "+ this);
-        return this.paires.size() <= this.tailleMax;
+        return (this.paires.size() <= this.tailleMax && this.paires.size() >= 2);
     }
     
     /**

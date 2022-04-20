@@ -6,6 +6,8 @@ package solution;
 
 import instance.Instance;
 import instance.reseau.Paire;
+import io.InstanceReader;
+import io.exception.ReaderException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -138,11 +140,42 @@ public class Solution {
         
         return true;
     }
+
+    public Instance getInstance() {
+        return instance;
+    }
+
     
     
+    @Override
+    public String toString() {
+        return "Solution{\n" + 
+                "\t// Cout total de la solution\n\t" +
+                this.benefice +
+                "\n\t// Description de la solution\n\t" +
+                "// Cycles\n\t" +
+                this.cycles +
+                "\n\t// Chaines\n\t" +
+                this.chaines +
+        "\n}";
+    }
+    
+      
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
-        
+        try{
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+            Instance i = read.readInstance();
+            
+            Solution s = new Solution(i);
+            
+            System.out.println(s.toString());
+            System.out.println(s.check());//true;
+            
+        }
+        catch(ReaderException ex){
+            System.out.println(ex.getMessage());
+        }
         
     }
 

@@ -91,16 +91,17 @@ public class Chaine extends SchemaEchange {
 
     
     public boolean check(){
-        return verifTailleMaxChaine() && verifBenefice();
+        return verifTailleChaine() && verifBenefice();
     }
     
     /**
-     * Vérifie la taille max d'une chaine (prend en compte le donneur -> +1)
+     * Vérifie la taille max et min d'une chaine (prend en compte le donneur -> +1)
+     * 
      * @return 
      */
-    private boolean verifTailleMaxChaine() {
+    private boolean verifTailleChaine() {
         System.out.println("Erreur: La taille de la chaine ne respecte pas les conditions: "+ this);
-        return this.paires.size()+1 <= this.tailleMax;
+        return (this.paires.size()+1 <= this.tailleMax && this.paires.size()+1 >= 2);
     }
     
     /**
