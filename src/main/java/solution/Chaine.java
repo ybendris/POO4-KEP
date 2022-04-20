@@ -35,6 +35,12 @@ public class Chaine extends SchemaEchange {
         this.donneurAltruiste = donneurAlt;
     }
     
+    public Chaine(DonneurAltruiste donneurAlt, int tailleMax) {
+        super();
+        this.donneurAltruiste = donneurAlt;
+        this.tailleMax = tailleMax;
+    }
+    
     public Chaine(Chaine ch){
         this.coutBenefice = ch.coutBenefice;
         this.paires = ch.paires;
@@ -52,7 +58,12 @@ public class Chaine extends SchemaEchange {
     
     @Override
     public String toString() {
-        return " Chaine{ Benefice = "+ this.coutBenefice + " donneurAltruiste = " + donneurAltruiste + " Paires : " + this.paires + '}';
+        return "Chaine{"+
+            "\n\tBenefice = "+ this.coutBenefice +
+            "\n\tTailleMaxChaine = "+ this.tailleMax +
+            "\n\tdonneurAltruiste = " + donneurAltruiste +
+            "\n\tPaires = " + this.paires +
+        "\n}";
     }
 
     @Override
@@ -78,6 +89,43 @@ public class Chaine extends SchemaEchange {
         return Objects.equals(this.donneurAltruiste, other.donneurAltruiste);
     }
 
+    
+    public boolean check(){
+        return verifTailleMaxChaine() && verifBenefice();
+    }
+    
+    /**
+     * Vérifie la taille max d'une chaine (prend en compte le donneur -> +1)
+     * @return 
+     */
+    private boolean verifTailleMaxChaine() {
+        System.out.println("Erreur: La taille de la chaine ne respecte pas les conditions: "+ this);
+        return this.paires.size()+1 <= this.tailleMax;
+    }
+    
+    /**
+     * Vérifie le bénéfice d'une chaine
+     * @return 
+     */
+    private boolean verifBenefice() {
+        var beneficeAverif = this.coutBenefice;
+        var beneficeReel = 0;
+        
+        beneficeReel += this.donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(p.getId());
+            if(nextPaire != null){
+                beneficeReel += p.getBeneficeVers(nextPaire);
+            }
+        }
+        
+        if(beneficeAverif == beneficeReel){
+            return true;
+        }
+        System.out.println("Erreur: le bénéfice de la Chaine est mal calculé");
+        return false;
+    }
+    
     public static void main(String[] args) {
         DonneurAltruiste Altruiste1 = new DonneurAltruiste(1);
         Chaine ch1 = new Chaine(Altruiste1);
@@ -86,10 +134,10 @@ public class Chaine extends SchemaEchange {
         ch1.paires.add(p1);
         ch1.paires.add(p2);
         
-        System.out.println("Chaine 1 : " + ch1);
+        System.out.println(ch1.toString());
     }
-    
-    
-    
+
+   
+
     
 }
