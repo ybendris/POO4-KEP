@@ -55,30 +55,27 @@ public class SolutionWriter {
             f.append(Integer.toString(s.getBenefice()) + "\n\n");
             
             f.append("// Description de la solution\n// Cycles\n");
-            for(Chaine c: chaines){
-                f.append(c.getDonneurAlt().getId() + "\t");
-                for(Paire p : c.getPaires())
-                    f.append(p.getId() + "\t");
-            }
-            f.append("\n\n");      
-            
-            f.append("// Chaines\n");
             for(Cycle cl: cycles){
                 for(Paire p :cl.getPaires()){
                     f.append(p.getId() + "\t");
                 }
+                f.append("\n");
+            }            
+            f.append("\n\n");      
+            
+            f.append("// Chaines\n");
+            for(Chaine c: chaines){
+                f.append(c.getDonneurAlt().getId() + "\t");
+                for(Paire p : c.getPaires()){
+                    f.append(p.getId() + "\t");
+                }
+                f.append("\n");
             }
+            
             f.close();
             return true;
         }
         return false;
-    }
-    
-    public void writeSolution() throws IOException{
-        FileWriter f = new FileWriter(solutionFile);
-        f.append("BRUMAAAAAAAA\n");
-        f.append("SUUUUUUUUUUUUUUUUUUUU\n");        
-        f.close();        
     }
     
     public static void main(String[] args) throws IOException {
