@@ -85,7 +85,7 @@ public class CycleDe2 implements Solveur{
     
     public static void main(String[] args) {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
             Instance i = read.readInstance();
             
             CycleDe2 Cycle2 = new CycleDe2();

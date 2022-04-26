@@ -69,10 +69,15 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     private boolean verifTailleCycle() {
-        System.out.println("Erreur: La taille du cycle ne respecte pas les conditions: "+ this);
-        System.out.println(this.paires.size() <= this.tailleMax);
-        System.out.println(this.paires.size() >= 2);
-        return ((this.paires.size() <= this.tailleMax) && (this.paires.size() >= 2));
+        if(!(this.paires.size() <= this.tailleMax)){
+            System.out.println("Erreur: Le cycle dépasse la taille max ! "+ this);
+            return false;
+        }
+        if(!(this.paires.size() >= 2)){
+            System.out.println("Erreur: Le cycle doit etre au minimum de taille 2 "+ this);
+            return false;
+        }
+        return true;
     }
     
     /**
