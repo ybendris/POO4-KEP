@@ -169,10 +169,7 @@ public class Solution {
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "Solution{" + "benefice=" + benefice + ", chaines=" + chaines + ", cycles=" + cycles + '}';
-    }
+    
     
     public void evalBenefice(){
         for(Cycle c : this.cycles){
