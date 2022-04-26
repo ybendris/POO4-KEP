@@ -4,9 +4,13 @@
  */
 package solution;
 
+import instance.Instance;
 import instance.reseau.Paire;
+import io.InstanceReader;
+import io.exception.ReaderException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import solveur.CycleDe2;
 
 /**
  *
@@ -66,7 +70,9 @@ public class Cycle extends SchemaEchange{
      */
     private boolean verifTailleCycle() {
         System.out.println("Erreur: La taille du cycle ne respecte pas les conditions: "+ this);
-        return (this.paires.size() <= this.tailleMax && this.paires.size() >= 2);
+        System.out.println(this.paires.size() <= this.tailleMax);
+        System.out.println(this.paires.size() >= 2);
+        return ((this.paires.size() <= this.tailleMax) && (this.paires.size() >= 2));
     }
     
     /**
@@ -77,21 +83,22 @@ public class Cycle extends SchemaEchange{
         var beneficeAverif = this.coutBenefice;
         var beneficeReel = 0;
         
-     
+        int i=0;
         for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(p.getId());
+            Paire nextPaire = this.getNextPaire(i);
             if(nextPaire != null){
                 beneficeReel += p.getBeneficeVers(nextPaire);
             }
             else{
                 beneficeReel += p.getBeneficeVers(this.paires.getFirst());
             }
+            i++;
         }
         
         if(beneficeAverif == beneficeReel){
             return true;
         }
-        System.out.println("Erreur: le bénéfice du cycle est mal calculé");
+        System.out.println("Erreur: le bénéfice du cycle est mal calculé("+ beneficeAverif +" , "+beneficeReel+")");
         return false;
     }
     
@@ -115,14 +122,34 @@ public class Cycle extends SchemaEchange{
     }
     
     public static void main(String[] args) {
-        Cycle c1 = new Cycle();
+        /*Cycle c1 = new Cycle();
         Cycle c2 = new Cycle(10);
         Paire p1 = new Paire(1);
         Paire p2 = new Paire(2);
         c1.paires.add(p1);
         c1.paires.add(p2);
         System.out.println("Cycle 1 : " + c1);
-        System.out.println("Cycle 2 : " + c2);
+        System.out.println("Cycle 2 : " + c2);*/
+        
+        try{
+            InstanceReader read = new InstanceReader("instancesInitiales/testInstance.txt");
+            Instance i = read.readInstance();
+            Cycle c3 = new Cycle(3);
+            c3.ajouterPaireAuCycle(i.getPaireById(4));
+            c3.ajouterPaireAuCycle(i.getPaireById(6));
+            System.out.println("eval: "+c3.evalCoutBenefice());
+            
+            System.out.println(c3);
+            
+            System.out.println(c3.check());
+            
+            /*System.out.println("Solution = " + s);
+            System.out.println("sC2 check: " +s.check());*/
+             
+        }
+        catch(ReaderException ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     
