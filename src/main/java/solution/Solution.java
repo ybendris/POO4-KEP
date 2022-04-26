@@ -147,7 +147,7 @@ public class Solution {
         return instance;
     }
 
-
+    /**
     public boolean ajouterPaireNouveauCycle(Paire paireToAdd){
         Cycle nouveauCycle = new Cycle();
         if(nouveauCycle.ajouterPaireAuCycle(paireToAdd)){
@@ -155,10 +155,10 @@ public class Solution {
             return true;
         }
         return false;
-    }
+    }*/
     
     public boolean ajouterPairesNouveauCycleDe2(Paire paireToAdd1, Paire paireToAdd2){
-        Cycle nouveauCycle = new Cycle();
+        Cycle nouveauCycle = new Cycle(2);
         if(nouveauCycle.ajouterPaireAuCycle(paireToAdd1) && nouveauCycle.ajouterPaireAuCycle(paireToAdd2)){
             System.out.println("EvalBenef");
             nouveauCycle.coutBenefice=nouveauCycle.evalCoutBenefice();
@@ -179,20 +179,19 @@ public class Solution {
             this.benefice+=ch.coutBenefice;
         }
     }
-    
-    
+
     @Override
     public String toString() {
-        return "Solution{\n" + 
-                "\t// Cout total de la solution\n\t" +
-                this.benefice +
-                "\n\t// Description de la solution\n\t" +
-                "// Cycles\n\t" +
-                this.cycles +
-                "\n\t// Chaines\n\t" +
-                this.chaines +
-        "\n}";
+        return "Solution{" + 
+                "instance=" + instance + 
+                ", benefice=" + benefice + 
+                ", chaines=" + chaines + 
+                ", cycles=" + cycles + 
+            '}';
     }
+    
+    
+    
     
       
     public static void main(String[] args) {

@@ -89,10 +89,10 @@ public class CycleDe2 implements Solveur{
             Instance i = read.readInstance();
             
             CycleDe2 Cycle2 = new CycleDe2();
+            Solution s = Cycle2.solve(i);
             
-            Solution sC2 = Cycle2.solve(i);
-            
-            System.out.println("Solution = " + sC2);
+            System.out.println("Solution = " + s);
+            System.out.println("sC2 check: " +s.check());
              
         }
         catch(ReaderException ex){
