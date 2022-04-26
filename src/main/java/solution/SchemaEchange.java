@@ -52,6 +52,11 @@ public abstract class SchemaEchange {
         System.out.println("\nPaires First" + this.paires);
         return this.paires.getFirst();
     }
+
+    public LinkedList<Paire> getPaires() {
+        return paires;
+    }
+    
     /*
     public Paire getPaireById(int id){
         if(id >= this.getNbPaires()){
