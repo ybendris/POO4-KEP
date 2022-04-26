@@ -35,7 +35,7 @@ public class InstanceReader {
     /**
      * Constructeur par donnee du chemin du fichier d'instance.
      * @param inputPath le chemin du fichier d'instance, qui doit se terminer 
-     * par l'extension du fichier (.xml).
+     * par l'extension du fichier (.txt).
      * @throws ReaderException lorsque le fichier n'est pas au bon format ou 
      * ne peut pas etre ouvert.
      */

@@ -39,6 +39,11 @@ public class Cycle extends SchemaEchange{
         super();
     }
     
+    public Cycle(int tailleMax){
+        super();
+        this.tailleMax = tailleMax;
+    }
+    
     public Cycle(Cycle c){
         this.coutBenefice = c.coutBenefice;
         this.paires = c.paires;
@@ -51,10 +56,52 @@ public class Cycle extends SchemaEchange{
     }
 
     
+    public boolean check(){
+        return verifTailleCycle() && verifBenefice();
+    }
+    
+    /**
+     * Vérifie la taille max et min d'un cycle
+     * @return 
+     */
+    private boolean verifTailleCycle() {
+        System.out.println("Erreur: La taille du cycle ne respecte pas les conditions: "+ this);
+        return (this.paires.size() <= this.tailleMax && this.paires.size() >= 2);
+    }
+    
+    /**
+     * Vérifie le bénéfice d'un cycle
+     * @return 
+     */
+    private boolean verifBenefice() {
+        var beneficeAverif = this.coutBenefice;
+        var beneficeReel = 0;
+        
+     
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(p.getId());
+            if(nextPaire != null){
+                beneficeReel += p.getBeneficeVers(nextPaire);
+            }
+            else{
+                beneficeReel += p.getBeneficeVers(this.paires.getFirst());
+            }
+        }
+        
+        if(beneficeAverif == beneficeReel){
+            return true;
+        }
+        System.out.println("Erreur: le bénéfice du cycle est mal calculé");
+        return false;
+    }
+    
     @Override
     public String toString() {
-        return "Cycle{ CoutBénéfice = " + this.coutBenefice 
-                + " Paires : " + this.paires + '}';
+        return "Cycle{"+
+            "\n\tBenefice = "+ this.coutBenefice +
+            "\n\tTailleMaxCycle = "+ this.tailleMax +
+            "\n\tPaires = " + this.paires +
+        "\n}";
     }
     
     public boolean ajouterPaireAuCycle(Paire paireToAdd){
@@ -69,11 +116,13 @@ public class Cycle extends SchemaEchange{
     
     public static void main(String[] args) {
         Cycle c1 = new Cycle();
+        Cycle c2 = new Cycle(10);
         Paire p1 = new Paire(1);
         Paire p2 = new Paire(2);
         c1.paires.add(p1);
         c1.paires.add(p2);
         System.out.println("Cycle 1 : " + c1);
+        System.out.println("Cycle 2 : " + c2);
     }
     
     

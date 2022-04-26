@@ -62,11 +62,11 @@ public abstract class Noeud {
             return -1;
         }
     }
+    
 
     public int getId() {
         return id;
     }
-
     
     public static void main(String[] args) {
         DonneurAltruiste d1 = new DonneurAltruiste(1);

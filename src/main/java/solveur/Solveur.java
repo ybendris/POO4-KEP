@@ -8,14 +8,12 @@ import instance.Instance;
 import solution.Solution;
 
 
+
 /**
  *
  * @author Valek
  */
 public interface Solveur {
-    
     public String getNom();
-
     public Solution solve(Instance instance);
-    
 }
