@@ -6,8 +6,10 @@ package solution;
 
 import instance.Instance;
 import instance.reseau.Paire;
+
 import io.InstanceReader;
 import io.exception.ReaderException;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -145,6 +147,41 @@ public class Solution {
         return instance;
     }
 
+
+    public boolean ajouterPaireNouveauCycle(Paire paireToAdd){
+        Cycle nouveauCycle = new Cycle();
+        if(nouveauCycle.ajouterPaireAuCycle(paireToAdd)){
+            this.cycles.add(nouveauCycle);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean ajouterPairesNouveauCycleDe2(Paire paireToAdd1, Paire paireToAdd2){
+        Cycle nouveauCycle = new Cycle();
+        if(nouveauCycle.ajouterPaireAuCycle(paireToAdd1) && nouveauCycle.ajouterPaireAuCycle(paireToAdd2)){
+            System.out.println("EvalBenef");
+            nouveauCycle.coutBenefice=nouveauCycle.evalCoutBenefice();
+            System.out.println("ADDCycle");
+            this.cycles.add(nouveauCycle);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Solution{" + "benefice=" + benefice + ", chaines=" + chaines + ", cycles=" + cycles + '}';
+    }
+    
+    public void evalBenefice(){
+        for(Cycle c : this.cycles){
+            this.benefice += c.coutBenefice;
+        }
+        for(Chaine ch : this.chaines){
+            this.benefice+=ch.coutBenefice;
+        }
+    }
     
     
     @Override

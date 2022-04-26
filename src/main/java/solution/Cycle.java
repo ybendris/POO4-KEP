@@ -17,10 +17,21 @@ public class Cycle extends SchemaEchange{
     @Override
     protected int evalCoutBenefice() {
         int benefice = 0;
+        int i=0;
         for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(p.getId());
-            benefice += p.getBeneficeVers(nextPaire);
+            System.out.println("GET NEXT PAIRE ");
+            Paire nextPaire = this.getNextPaire(i);
+            System.out.println("\nAprès nextPaire");
+            if(nextPaire!=null) benefice += p.getBeneficeVers(nextPaire);
+            else{
+                System.out.println("Recup First");
+                nextPaire = this.getFirstPaire();
+                System.out.println("Somme benefice");
+                benefice += p.getBeneficeVers(nextPaire);
+            }
+            i++;
         }
+        System.out.println("BENEF du cycle = " + benefice);
         return benefice;
     }
 
@@ -91,6 +102,16 @@ public class Cycle extends SchemaEchange{
             "\n\tTailleMaxCycle = "+ this.tailleMax +
             "\n\tPaires = " + this.paires +
         "\n}";
+    }
+    
+    public boolean ajouterPaireAuCycle(Paire paireToAdd){
+        if(paireToAdd != null){
+            this.paires.addLast(paireToAdd);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     public static void main(String[] args) {

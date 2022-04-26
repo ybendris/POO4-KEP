@@ -7,9 +7,11 @@ package solveur;
 import instance.Instance;
 import solution.Solution;
 
+
+
 /**
  *
- * @author yanni
+ * @author Valek
  */
 public interface Solveur {
     public String getNom();
