@@ -24,18 +24,25 @@ public class CycleDe2 implements Solveur{
         return null;
     }
 
+    /***
+     * On réalise des cycles de taille 2, en utilisant l'association de paires 
+     * donnant le meilleur bénéfice
+     * @param instance
+     * @return 
+     */
     @Override
     public Solution solve(Instance instance) {
         Solution s = new Solution(instance);
         LinkedList<Paire> paires = instance.getPaires();
-        Paire paireTest1 = null;
-        Paire paireTest2 =null;
+        Paire paire1 = null;
+        Paire paire2 =null;
         int compatibilite = 1;
         
         while(!paires.isEmpty() && paires.size()>=2 && compatibilite==1){
-            System.out.println("C'est parti : Paires = " + paires + " Taille = " + paires.size());
-            paireTest1 = null;
-            paireTest2 =null;
+            System.out.println("C'est parti : Paires = " + paires 
+                    + " Taille = " + paires.size());
+            paire1 = null;
+            paire2 =null;
             int beneficeP1P2 = 0;
             int beneficeP2P1 = 0;
             int beneficeTotal = 0;
@@ -52,23 +59,23 @@ public class CycleDe2 implements Solveur{
                             beneficeTotal = beneficeP1P2 + beneficeP2P1;
                             if(beneficeTotal > bestBenefice){
                                 bestBenefice = beneficeTotal;
-                                paireTest2 = P2;
-                                paireTest1 = P1;
+                                paire2 = P2;
+                                paire1 = P1;
                             }
                         }   
                     }
                 }
             }
-            if(paireTest1==null && paireTest2==null){
+            if(paire1==null && paire2==null){
                 compatibilite=0;
             }
             else{
-                System.out.println("Paire 1 = " + paireTest1 + " Paire 2 = " + paireTest2);
-                System.out.println("Ajout");
-                s.ajouterPairesNouveauCycleDe2(paireTest1, paireTest2);
-                System.out.println("Remove");
-                paires.remove(paireTest1);
-                paires.remove(paireTest2);
+                //System.out.println("Paire 1 = " + paireTest1 + " Paire 2 = " + paireTest2);
+                //System.out.println("Ajout");
+                s.ajouterPairesNouveauCycleDe2(paire1, paire2);
+                //System.out.println("Remove");
+                paires.remove(paire1);
+                paires.remove(paire2);
             }
            
         }
