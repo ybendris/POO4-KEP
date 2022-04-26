@@ -5,7 +5,12 @@
 package solution;
 
 import instance.Instance;
+import instance.reseau.Paire;
+import io.InstanceReader;
+import io.exception.ReaderException;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -25,12 +30,12 @@ public class Solution {
         this.instance = s.instance;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
-        /*for(Chaine chaineToAdd : s.getChaines()){
+        for(Chaine chaineToAdd : s.chaines){
             this.chaines.add(new Chaine(chaineToAdd));
         }
-        for(Cycle cycleToAdd : s.getCycles()){
+        for(Cycle cycleToAdd : s.cycles){
             this.cycles.add(new Cycle(cycleToAdd));
-        }*/
+        }
     }
 
     public Solution(Instance i) {
@@ -44,19 +49,136 @@ public class Solution {
         return benefice;
     }
 
-    public LinkedList<Chaine> getChaines() {
-        return chaines;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.instance);
+        hash = 79 * hash + this.benefice;
+        hash = 79 * hash + Objects.hashCode(this.chaines);
+        hash = 79 * hash + Objects.hashCode(this.cycles);
+        return hash;
     }
 
-    public LinkedList<Cycle> getCycles() {
-        return cycles;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Solution other = (Solution) obj;
+        if (this.benefice != other.benefice) {
+            return false;
+        }
+        if (!Objects.equals(this.instance, other.instance)) {
+            return false;
+        }
+        if (!Objects.equals(this.chaines, other.chaines)) {
+            return false;
+        }
+        return Objects.equals(this.cycles, other.cycles);
     }
     
+    public boolean check(){
+        return verifCycles() && verifChaines() && verifTransplantations();
+    }
+    
+    /**
+     * Vérifie que les cycles sont valides
+     * @return 
+     */
+    private boolean verifCycles() {
+        for(Cycle cycle : this.cycles){ //Ses cycles sont tous réalisables
+            if(!cycle.check())
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Vérifie que les chaines sont valides
+     * @return 
+     */
+    private boolean verifChaines() {
+        for(Chaine chaine : this.chaines){ //Ses chaines sont toutes réalisables
+            if(!chaine.check())
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Vérifie que chaque paire patient-donneur n’apparaissant que dans une seule chaîne ou un seul cycle au maximum.
+     * @return 
+     */
+    private boolean verifTransplantations() {
+        List<Paire> pairesAverif = this.instance.getPaires();
+        
+        
+        for(Cycle cycle : this.cycles){
+            for(Paire p : cycle.paires){
+                if(!pairesAverif.remove(p)){
+                    System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
+                    return false;
+                }
+            }
+        }
+        
+        for(Chaine chaine : this.chaines){
+            for(Paire p : chaine.paires){
+                if(!pairesAverif.remove(p)){
+                    System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
+                    return false;
+                }
+            }
+        }
+        
+        
+        return true;
+    }
+
+    public Instance getInstance() {
+        return instance;
+    }
+
+    
+    
+    @Override
+    public String toString() {
+        return "Solution{\n" + 
+                "\t// Cout total de la solution\n\t" +
+                this.benefice +
+                "\n\t// Description de la solution\n\t" +
+                "// Cycles\n\t" +
+                this.cycles +
+                "\n\t// Chaines\n\t" +
+                this.chaines +
+        "\n}";
+    }
+    
+      
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
-        
+        try{
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+            Instance i = read.readInstance();
+            
+            Solution s = new Solution(i);
+            
+            System.out.println(s.toString());
+            System.out.println(s.check());//true;
+            
+        }
+        catch(ReaderException ex){
+            System.out.println(ex.getMessage());
+        }
         
     }
+
     
     
     

@@ -4,6 +4,7 @@
  */
 package solution;
 
+
 import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 import java.util.LinkedList;
@@ -15,42 +16,63 @@ import java.util.Objects;
  */
 public class Chaine extends SchemaEchange {
 
-    private DonneurAltruiste donneurAlt;
+    private DonneurAltruiste donneurAltruiste;
     
     @Override
     protected int evalCoutBenefice() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int benefice = 0;
+        benefice = donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(p.getId());
+            benefice += p.getBeneficeVers(nextPaire);
+        }
+        return benefice;
     }
 
-    public Chaine(DonneurAltruiste donneurAlt, int coutBenefice, LinkedList<Paire> paire) {
-        super(coutBenefice);
-        this.donneurAlt = donneurAlt;
+
+    public Chaine(DonneurAltruiste donneurAlt) {
+        super();
+        this.donneurAltruiste = donneurAlt;
+    }
+    
+    public Chaine(DonneurAltruiste donneurAlt, int tailleMax) {
+        super();
+        this.donneurAltruiste = donneurAlt;
+        this.tailleMax = tailleMax;
+    }
+    
+    public Chaine(Chaine ch){
+        this.coutBenefice = ch.coutBenefice;
+        this.paires = ch.paires;
+        this.tailleMax = ch.tailleMax;
+        this.donneurAltruiste = ch.donneurAltruiste;
     }
 
     public DonneurAltruiste getDonneurAlt() {
-        return donneurAlt;
+        return donneurAltruiste;
     }
 
     public int getCoutBenefice() {
         return coutBenefice;
     }
-
-    public LinkedList<Paire> getPaires() {
-        return paires;
-    }
-
-    
     
     @Override
     public String toString() {
-        return "Chaine{ Benefice = "+ this.coutBenefice + "donneurAlt=" + donneurAlt + "Paires : " + this.paires + '}';
+        return "Chaine{"+
+            "\n\tBenefice = "+ this.coutBenefice +
+            "\n\tTailleMaxChaine = "+ this.tailleMax +
+            "\n\tdonneurAltruiste = " + donneurAltruiste +
+            "\n\tPaires = " + this.paires +
+        "\n}";
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.donneurAltruiste);
         return hash;
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -64,19 +86,59 @@ public class Chaine extends SchemaEchange {
             return false;
         }
         final Chaine other = (Chaine) obj;
-        return Objects.equals(this.donneurAlt, other.donneurAlt);
+        return Objects.equals(this.donneurAltruiste, other.donneurAltruiste);
+    }
+
+    
+    public boolean check(){
+        return verifTailleChaine() && verifBenefice();
+    }
+    
+    /**
+     * Vérifie la taille max et min d'une chaine (prend en compte le donneur -> +1)
+     * 
+     * @return 
+     */
+    private boolean verifTailleChaine() {
+        System.out.println("Erreur: La taille de la chaine ne respecte pas les conditions: "+ this);
+        return (this.paires.size()+1 <= this.tailleMax && this.paires.size()+1 >= 2);
+    }
+    
+    /**
+     * Vérifie le bénéfice d'une chaine
+     * @return 
+     */
+    private boolean verifBenefice() {
+        var beneficeAverif = this.coutBenefice;
+        var beneficeReel = 0;
+        
+        beneficeReel += this.donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(p.getId());
+            if(nextPaire != null){
+                beneficeReel += p.getBeneficeVers(nextPaire);
+            }
+        }
+        
+        if(beneficeAverif == beneficeReel){
+            return true;
+        }
+        System.out.println("Erreur: le bénéfice de la Chaine est mal calculé");
+        return false;
+    }
+    
+    public static void main(String[] args) {
+        DonneurAltruiste Altruiste1 = new DonneurAltruiste(1);
+        Chaine ch1 = new Chaine(Altruiste1);
+        Paire p1 = new Paire(1);
+        Paire p2 = new Paire(2);
+        ch1.paires.add(p1);
+        ch1.paires.add(p2);
+        
+        System.out.println(ch1.toString());
     }
 
    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 }

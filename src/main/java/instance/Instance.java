@@ -122,16 +122,34 @@ public class Instance {
 
     @Override
     public String toString() {
-        return "Instance{" + "name=" + name + ", nbPairePatientDonneur=" + nbPairePatientDonneur + ", nbDonneurAlt=" + nbDonneurAlt + ", tailleMaxCycle=" + tailleMaxCycle + ", tailleMaxChaine=" + tailleMaxChaine + '}';
+        return "Instance{" + 
+            "\n\tname=" + name + 
+            ",\n\tbPairePatientDonneur = " + nbPairePatientDonneur + 
+            ",\n\tnbDonneurAlt = " + nbDonneurAlt + 
+            ",\n\ttailleMaxCycle = " + tailleMaxCycle + 
+            ",\n\ttailleMaxChaine = " + tailleMaxChaine + 
+            ",\n\tdonneursAltruistes = " + donneursAltruistes +
+            ",\n\tpaires = " + paires + 
+        "\n}";
     }
+
+
     
     public static void main(String[] args) {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
             
             Instance i = read.readInstance();
             
             System.out.println(i.toString());
+            
+            System.out.println("Benefice Paire 4 - Paire 5 : " + i.getPaireById(4).getBeneficeVers(i.getPaireById(5))); //8
+            System.out.println("Benefice Donneur 1 - Paire 5 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(5))); //5
+            System.out.println("Benefice Donneur 1 - Paire 3 : " + i.getDonneurById(1).getBeneficeVers(i.getPaireById(3))); //-1
+            System.out.println("Benefice Paire id:3 - Paire id:7 : " + i.getPaireById(3).getBeneficeVers(i.getPaireById(7))); //10
+            System.out.println("Benefice Paire id:8 - Paire id:5 : " + i.getPaireById(8).getBeneficeVers(i.getPaireById(5))); //8
+            System.out.println("Benefice Paire id:8 - Paire id:6 : " + i.getPaireById(8).getBeneficeVers(i.getPaireById(6))); //6
+            System.out.println("Benefice Paire id:8 - Paire id:7 : " + i.getPaireById(8).getBeneficeVers(i.getPaireById(7))); //7
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
