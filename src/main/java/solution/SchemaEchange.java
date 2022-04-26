@@ -29,16 +29,48 @@ public abstract class SchemaEchange {
         return coutBenefice;
     }
     
-    public Paire getNextPaire(int idPaireCurrent){
-        if(this.paires.get(idPaireCurrent+1)!=null){
-            return this.paires.get(idPaireCurrent+1);
-        }
-        else{
+    public Paire getNextPaire(int index){
+        System.out.println("Paires = " + this.paires);
+        System.out.println("Taille = " + this.paires.size());
+        System.out.println("Index = " + index);
+        //System.out.println("id = " + idPaireCurrent);
+        if((index+1)<this.paires.size()){
+            System.out.println("Index ok");
+            if(this.paires.get(index)!=null){
+                System.out.println("C'est pas null");
+                return this.paires.get(index+1);
+            }
             return null;
         }
-        
+        else{
+            System.out.println("C'est null");
+            return null;
+        }
     }
     
+    public Paire getFirstPaire(){
+        System.out.println("\nPaires First" + this.paires);
+        return this.paires.getFirst();
+    }
+    /*
+    public Paire getPaireById(int id){
+        if(id >= this.getNbPaires()){
+            return null;
+        }
+        return this.paires.get(id)
+    }
+    
+    private int getNbPaires(){
+        return this.paires.size();
+    }
+    
+     public Client getClientByPosition(int pos){
+        if(pos < 0 || pos >= this.getNbClients()){
+            return null;
+        }
+        return this.clients.get(pos);
+    }
+    */
     protected abstract int evalCoutBenefice();
 
     @Override
