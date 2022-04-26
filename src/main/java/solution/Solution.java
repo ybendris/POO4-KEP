@@ -51,6 +51,14 @@ public class Solution {
         return benefice;
     }
 
+    public LinkedList<Chaine> getChaines() {
+        return chaines;
+    }
+
+    public LinkedList<Cycle> getCycles() {
+        return cycles;
+    }    
+    
     @Override
     public int hashCode() {
         int hash = 3;

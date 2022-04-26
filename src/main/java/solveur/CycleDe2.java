@@ -7,7 +7,9 @@ package solveur;
 import instance.Instance;
 import instance.reseau.Paire;
 import io.InstanceReader;
+import io.SolutionWriter;
 import io.exception.ReaderException;
+import java.io.IOException;
 import java.util.LinkedList;
 import solution.Solution;
 
@@ -81,7 +83,7 @@ public class CycleDe2 implements Solveur{
         return s;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try{
             InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n0_k3_l0.txt");
             Instance i = read.readInstance();
@@ -92,7 +94,12 @@ public class CycleDe2 implements Solveur{
             System.out.println("\nsC2 check: " + s.check());
             
             System.out.println("Solution = " + s);
+
+            System.out.println("sC2 check: " +s.check());
             
+            SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
+            sw.writeSolution(s);
+
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
