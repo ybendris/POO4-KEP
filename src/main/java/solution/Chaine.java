@@ -100,8 +100,16 @@ public class Chaine extends SchemaEchange {
      * @return 
      */
     private boolean verifTailleChaine() {
-        System.out.println("Erreur: La taille de la chaine ne respecte pas les conditions: "+ this);
-        return (this.paires.size()+1 <= this.tailleMax && this.paires.size()+1 >= 2);
+        if(!(this.paires.size()+1 <= this.tailleMax)){
+            System.out.println("Erreur: La chaine dépasse la taille max ! "+ this);
+            return false;
+        }
+        if(!(this.paires.size()+1 >= 2)){
+            System.out.println("Erreur: La chaine doit etre au minimum de taille 2 "+ this);
+            return false;
+        }
+        
+        return true;
     }
     
     /**
