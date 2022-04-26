@@ -30,26 +30,26 @@ public abstract class SchemaEchange {
     }
     
     public Paire getNextPaire(int index){
-        System.out.println("Paires = " + this.paires);
-        System.out.println("Taille = " + this.paires.size());
-        System.out.println("Index = " + index);
+        //System.out.println("Paires = " + this.paires);
+        //System.out.println("Taille = " + this.paires.size());
+        //System.out.println("Index = " + index);
         //System.out.println("id = " + idPaireCurrent);
         if((index+1)<this.paires.size()){
-            System.out.println("Index ok");
+            //System.out.println("Index ok");
             if(this.paires.get(index)!=null){
-                System.out.println("C'est pas null");
+                //System.out.println("C'est pas null");
                 return this.paires.get(index+1);
             }
             return null;
         }
         else{
-            System.out.println("C'est null");
+            //System.out.println("C'est null");
             return null;
         }
     }
     
     public Paire getFirstPaire(){
-        System.out.println("\nPaires First" + this.paires);
+        //System.out.println("\nPaires First" + this.paires);
         return this.paires.getFirst();
     }
     /*

@@ -160,9 +160,9 @@ public class Solution {
     public boolean ajouterPairesNouveauCycleDe2(Paire paireToAdd1, Paire paireToAdd2){
         Cycle nouveauCycle = new Cycle(2);
         if(nouveauCycle.ajouterPaireAuCycle(paireToAdd1) && nouveauCycle.ajouterPaireAuCycle(paireToAdd2)){
-            System.out.println("EvalBenef");
+            //System.out.println("EvalBenef");
             nouveauCycle.coutBenefice=nouveauCycle.evalCoutBenefice();
-            System.out.println("ADDCycle");
+            //System.out.println("ADDCycle");
             this.cycles.add(nouveauCycle);
             return true;
         }

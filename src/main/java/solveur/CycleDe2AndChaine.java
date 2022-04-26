@@ -5,6 +5,7 @@
 package solveur;
 
 import instance.Instance;
+import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 import io.InstanceReader;
 import io.exception.ReaderException;
@@ -15,11 +16,11 @@ import solution.Solution;
  *
  * @author Valek
  */
-public class CycleDe2 implements Solveur{
-
+public class CycleDe2AndChaine implements Solveur{
+    
     @Override
     public String getNom() {
-        return "CycleDe2";
+        return "CycleDe2AndChaine";
     }
 
     /***
@@ -32,6 +33,7 @@ public class CycleDe2 implements Solveur{
     public Solution solve(Instance instance) {
         Solution s = new Solution(instance);
         LinkedList<Paire> paires = instance.getPaires();
+        LinkedList<DonneurAltruiste> donneurAltruiste = instance.getDonneursAltruistes();
         Paire paire1 = null;
         Paire paire2 =null;
         int compatibilite = 1;
@@ -77,6 +79,17 @@ public class CycleDe2 implements Solveur{
             }
            
         }
+        
+        while(!paires.isEmpty() && paires.size()>=instance.getTailleMaxChaine() && compatibilite==1){
+            for(DonneurAltruiste DA1 : ){
+                for(Paire P1 : paires){
+                    if(P1.getBeneficeVers(P1) > -1){
+                        
+                    }
+                }
+            }
+        }
+        
         s.evalBenefice();
         return s;
     }
@@ -86,13 +99,12 @@ public class CycleDe2 implements Solveur{
             InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n0_k3_l0.txt");
             Instance i = read.readInstance();
             
-            CycleDe2 Cycle2 = new CycleDe2();
-            Solution s = Cycle2.solve(i);
-            
-            System.out.println("\nsC2 check: " + s.check());
+            CycleDe2AndChaine c2CH = new CycleDe2AndChaine();
+            Solution s = c2CH.solve(i);
             
             System.out.println("Solution = " + s);
-            
+            System.out.println("sc2CH check: " + s.check());
+             
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
