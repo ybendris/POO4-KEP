@@ -17,11 +17,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  *
  * @author lucas
@@ -97,10 +92,11 @@ public class InstanceReader {
     }
     
     /**
-    * Lecture de le la matrice.
+    * Lecture de le la matrice et ajoute les transplantation.
     * @param br le lecteur courant du fichier d'instance
-    * @param matrice 
-    * @return  matrice des bénéfices
+    * @param  nbDonneurAltruiste Nombre de donneurs altruistes
+    * @param instance 
+    * @return
     * @throws IOException 
     */
     
