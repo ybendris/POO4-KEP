@@ -23,7 +23,7 @@ public class CycleDe2 implements Solveur{
 
     @Override
     public String getNom() {
-        return null;
+        return "cycleDe2";
     }
 
     /***
