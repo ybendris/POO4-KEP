@@ -23,19 +23,14 @@ public class Cycle extends SchemaEchange{
         int benefice = 0;
         int i=0;
         for(Paire p : this.paires){
-            System.out.println("GET NEXT PAIRE ");
             Paire nextPaire = this.getNextPaire(i);
-            System.out.println("\nAprès nextPaire");
             if(nextPaire!=null) benefice += p.getBeneficeVers(nextPaire);
             else{
-                System.out.println("Recup First");
                 nextPaire = this.getFirstPaire();
-                System.out.println("Somme benefice");
                 benefice += p.getBeneficeVers(nextPaire);
             }
             i++;
         }
-        System.out.println("BENEF du cycle = " + benefice);
         return benefice;
     }
 
@@ -69,6 +64,7 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     private boolean verifTailleCycle() {
+
         if(!(this.paires.size() <= this.tailleMax)){
             System.out.println("Erreur: Le cycle dépasse la taille max ! "+ this);
             return false;
@@ -78,6 +74,7 @@ public class Cycle extends SchemaEchange{
             return false;
         }
         return true;
+
     }
     
     /**
@@ -117,13 +114,17 @@ public class Cycle extends SchemaEchange{
     }
     
     public boolean ajouterPaireAuCycle(Paire paireToAdd){
-        if(paireToAdd != null){
+        if(paireToAdd != null && this.getNbPaires()<this.tailleMax){
             this.paires.addLast(paireToAdd);
             return true;
         }
         else{
             return false;
         }
+    }
+    
+    public int getNbPaires(){
+        return this.paires.size();
     }
     
     public static void main(String[] args) {

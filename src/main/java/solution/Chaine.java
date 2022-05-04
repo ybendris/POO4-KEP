@@ -21,11 +21,14 @@ public class Chaine extends SchemaEchange {
     @Override
     protected int evalCoutBenefice() {
         int benefice = 0;
+        int i=0;
         benefice = donneurAltruiste.getBeneficeVers(this.paires.getFirst());
         for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(p.getId());
-            benefice += p.getBeneficeVers(nextPaire);
+            Paire nextPaire = this.getNextPaire(i);
+            if(nextPaire!=null) benefice += p.getBeneficeVers(nextPaire);
+            i++;
         }
+        System.out.println("\nBenef = " + benefice);
         return benefice;
     }
 
@@ -119,20 +122,38 @@ public class Chaine extends SchemaEchange {
     private boolean verifBenefice() {
         var beneficeAverif = this.coutBenefice;
         var beneficeReel = 0;
-        
-        beneficeReel += this.donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        int i=0;
+        beneficeReel = this.donneurAltruiste.getBeneficeVers(this.paires.getFirst());
         for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(p.getId());
+            Paire nextPaire = this.getNextPaire(i);
             if(nextPaire != null){
                 beneficeReel += p.getBeneficeVers(nextPaire);
             }
+            i++;
         }
         
         if(beneficeAverif == beneficeReel){
             return true;
         }
-        System.out.println("Erreur: le bénéfice de la Chaine est mal calculé");
+        System.out.println("Erreur: le bénéfice de la Chaine est mal calculé"
+                + "\n => beneficeAverif = " + beneficeAverif
+                        + " // beneficeReel = " + beneficeReel);
         return false;
+    }
+    
+    public boolean ajouterPaireChaine(Paire paireToAdd){
+        if(paireToAdd != null && this.getNbPaires()<this.tailleMax){
+            this.paires.addLast(paireToAdd);
+            this.coutBenefice=this.evalCoutBenefice();
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public int getNbPaires(){
+        return this.paires.size();
     }
     
     public static void main(String[] args) {

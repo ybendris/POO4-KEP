@@ -17,13 +17,12 @@ import solution.Solution;
  *
  * @author Valek
  */
-public class CycleDe2 implements Solveur{
+public class CycleDeK implements Solveur{
 
     @Override
     public String getNom() {
-
-        return "cycleDe2";
-   }
+        return "CycleDe2";
+    }
 
     /***
      * On réalise des cycles de taille 2, en utilisant l'association de paires 
@@ -35,39 +34,21 @@ public class CycleDe2 implements Solveur{
     public Solution solve(Instance instance) {
         Solution s = new Solution(instance);
         LinkedList<Paire> paires = instance.getPaires();
-        LinkedList<Paire> pairesAjoutCycle = null;
         Paire paire1 = null;
         Paire paire2 =null;
         int compatibilite = 1;
         
         while(!paires.isEmpty() && paires.size()>=2 && compatibilite==1){
+            /*System.out.println("C'est parti : Paires = " + paires 
+                    + " Taille = " + paires.size());*/
             paire1 = null;
             paire2 =null;
+            int beneficeP1P2 = 0;
+            int beneficeP2P1 = 0;
+            int beneficeTotal = 0;
+            int bestBenefice = 0;
             
-            pairesAjoutCycle=bestBeneficePaires(paires, paire1, paire2);
-            paire1=pairesAjoutCycle.get(0);
-            paire2=pairesAjoutCycle.get(1);
-            
-            if(paire1==null && paire2==null){
-                compatibilite=0;
-            }
-            else{
-                s.ajouterPairesNouveauCycleDe2(paire1, paire2);
-                paires.remove(paire1);
-                paires.remove(paire2);
-            }
-           
-        }
-        s.evalBenefice();
-        return s;
-    }
-    
-    private LinkedList<Paire> bestBeneficePaires(LinkedList<Paire> paires, Paire paire1, Paire paire2){
-        int beneficeP1P2 = 0;
-        int beneficeP2P1 = 0;
-        int beneficeTotal = 0;
-        int bestBenefice = 0;
-        for(Paire P1 : paires){
+            for(Paire P1 : paires){
                 for(Paire P2 : paires){
                     if(P1.getBeneficeVers(P2) > -1){
 
@@ -85,25 +66,40 @@ public class CycleDe2 implements Solveur{
                     }
                 }
             }
-        LinkedList<Paire> best =  new LinkedList<Paire>();
-        best.add(paire1);
-        best.add(paire2);
-        return best;
+            if(paire1==null && paire2==null){
+                compatibilite=0;
+            }
+            else{
+                boolean affecte=false;
+                /*if(s.ajouterPaireDernierCycle(paire1)){
+                    affecte=true;
+                }
+                if(affecte=false){
+                    s.ajouterPaireNouveauCycle(paire1);
+                }
+                
+                s.ajouterPaireDernierCycle(paire2);
+               
+                paires.remove(paire1);
+                paires.remove(paire2);*/
+            }
+           
+        }
+        s.evalBenefice();
+        return s;
     }
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n0_k3_l0.txt");
             Instance i = read.readInstance();
             
-            CycleDe2 Cycle2 = new CycleDe2();
-            Solution s = Cycle2.solve(i);
+            CycleDeK CycleK = new CycleDeK();
+            Solution s = CycleK.solve(i);
             
             System.out.println("\nsC2 check: " + s.check());
             
             System.out.println("Solution = " + s);
-
-            System.out.println("sC2 check: " +s.check());
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);
