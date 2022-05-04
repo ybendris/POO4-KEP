@@ -21,8 +21,9 @@ public class CycleDe2 implements Solveur{
 
     @Override
     public String getNom() {
-        return "CycleDe2";
-    }
+
+        return "cycleDe2";
+   }
 
     /***
      * On réalise des cycles de taille 2, en utilisant l'association de paires 
