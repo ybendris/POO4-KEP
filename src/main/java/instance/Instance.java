@@ -124,7 +124,7 @@ public class Instance {
     public String toString() {
         return "Instance{" + 
             "\n\tname=" + name + 
-            ",\n\tbPairePatientDonneur = " + nbPairePatientDonneur + 
+            ",\n\tnbPairePatientDonneur = " + nbPairePatientDonneur + 
             ",\n\tnbDonneurAlt = " + nbDonneurAlt + 
             ",\n\ttailleMaxCycle = " + tailleMaxCycle + 
             ",\n\ttailleMaxChaine = " + tailleMaxChaine + 

@@ -9,10 +9,13 @@ import instance.reseau.Paire;
 
 import io.InstanceReader;
 import io.exception.ReaderException;
+import java.util.HashSet;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
 
 /**
  *
@@ -128,10 +131,14 @@ public class Solution {
     private boolean verifTransplantations() {
         List<Paire> pairesAverif = this.instance.getPaires();
         
+        /**
+         * Opération en temps constant sur un Hashset
+         */
+        Set pairesToCheck = new HashSet();
         
         for(Cycle cycle : this.cycles){
             for(Paire p : cycle.paires){
-                if(!pairesAverif.remove(p)){
+                if(!pairesToCheck.add(p)){
                     System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
                     return false;
                 }
@@ -140,7 +147,7 @@ public class Solution {
         
         for(Chaine chaine : this.chaines){
             for(Paire p : chaine.paires){
-                if(!pairesAverif.remove(p)){
+                if(!pairesToCheck.add(p)){
                     System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
                     return false;
                 }
@@ -168,9 +175,9 @@ public class Solution {
     public boolean ajouterPairesNouveauCycleDe2(Paire paireToAdd1, Paire paireToAdd2){
         Cycle nouveauCycle = new Cycle(2);
         if(nouveauCycle.ajouterPaireAuCycle(paireToAdd1) && nouveauCycle.ajouterPaireAuCycle(paireToAdd2)){
-            System.out.println("EvalBenef");
+            //System.out.println("EvalBenef");
             nouveauCycle.coutBenefice=nouveauCycle.evalCoutBenefice();
-            System.out.println("ADDCycle");
+            //System.out.println("ADDCycle");
             this.cycles.add(nouveauCycle);
             return true;
         }
@@ -190,7 +197,7 @@ public class Solution {
 
     @Override
     public String toString() {
-        return "Solution{" + 
+        return "Solution{\n" + 
                 "instance=" + instance + 
                 ", benefice=" + benefice + 
                 ", chaines=" + chaines + 

@@ -41,8 +41,8 @@ public class CycleDe2 implements Solveur{
         int compatibilite = 1;
         
         while(!paires.isEmpty() && paires.size()>=2 && compatibilite==1){
-            System.out.println("C'est parti : Paires = " + paires 
-                    + " Taille = " + paires.size());
+            /*System.out.println("C'est parti : Paires = " + paires 
+                    + " Taille = " + paires.size());*/
             paire1 = null;
             paire2 =null;
             int beneficeP1P2 = 0;
@@ -87,7 +87,25 @@ public class CycleDe2 implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
+                        
+            
+           InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n0_k3_l0.txt");
+
+            /*
+                InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");
+                InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+                InstanceReader read = new InstanceReader("instancesInitiales/KEP_p18_n0_k4_l0.txt");
+                InstanceReader read = new InstanceReader("instancesInitiales/KEP_p18_n2_k4_l4.txt");
+                InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n0_k3_l0.txt");
+                InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n0_k3_l0.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n0_k3_l0.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n3_k3_l4.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n3_k3_l7.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n3_k3_l13.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n3_k5_l17.txt");
             InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
+            */
             Instance i = read.readInstance();
             
             CycleDe2 Cycle2 = new CycleDe2();
