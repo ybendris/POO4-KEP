@@ -5,6 +5,7 @@
 package solution;
 
 import instance.Instance;
+import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 
 import io.InstanceReader;
@@ -162,15 +163,17 @@ public class Solution {
         return instance;
     }
 
-    /**
+    
     public boolean ajouterPaireNouveauCycle(Paire paireToAdd){
-        Cycle nouveauCycle = new Cycle();
+        int tailleMaxCycle = this.instance.getTailleMaxCycle();
+        Cycle nouveauCycle = new Cycle(tailleMaxCycle);
         if(nouveauCycle.ajouterPaireAuCycle(paireToAdd)){
             this.cycles.add(nouveauCycle);
+            nouveauCycle.coutBenefice = nouveauCycle.evalCoutBenefice();
             return true;
         }
         return false;
-    }*/
+    }
     
     public boolean ajouterPairesNouveauCycleDe2(Paire paireToAdd1, Paire paireToAdd2){
         Cycle nouveauCycle = new Cycle(2);
@@ -206,9 +209,60 @@ public class Solution {
     }
     
     
+    /*public boolean ajouterPaireDernierCycle(Paire paireToAdd){
+        
+        
+        if(this.cycles.isEmpty()){
+            return false;
+        }
+        
+        Cycle dernierCycle = this.cycles.getLast();
+        
+        
+        if(dernierCycle.ajouterPaireAuCycle(paireToAdd)){
+            dernierCycle.coutBenefice=dernierCycle.evalCoutBenefice();
+            return true;
+        }
+        return false;
+    }
+*/
     
+    public boolean ajouterPaireNouvelleChaine(DonneurAltruiste DAToAdd, Paire paireToAdd){
+        
+        int tailleMaxChaine = this.instance.getTailleMaxChaine();
+        Chaine nouvelleChaine = new Chaine(DAToAdd,tailleMaxChaine);
+        if(nouvelleChaine.ajouterPaireChaine(paireToAdd)){
+            this.chaines.add(nouvelleChaine);
+            return true;
+        }
+        return false;
+    }
     
+    public int getSizeChaineByIndex(int i){
+        Chaine ch = this.chaines.get(i);
+        if(ch!=null){
+            return ch.paires.size();
+        }
+        return -1;
+    }
+    
+    public boolean ajouterPaireDerniereChaine(Paire paireToAdd){
+        
+        if(this.chaines.isEmpty()){
+            return false;
+        }
+        
+        Chaine derniereChaine = this.chaines.getLast();
+        
+        if(derniereChaine.ajouterPaireChaine(paireToAdd)){
+            derniereChaine.coutBenefice=derniereChaine.evalCoutBenefice();
+            return true;
+        }
+        return false;
+    }
       
+    
+    
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
         try{

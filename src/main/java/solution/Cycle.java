@@ -69,6 +69,7 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     private boolean verifTailleCycle() {
+
         if(!(this.paires.size() <= this.tailleMax)){
             System.out.println("Erreur: Le cycle dépasse la taille max ! "+ this);
             return false;
@@ -78,6 +79,7 @@ public class Cycle extends SchemaEchange{
             return false;
         }
         return true;
+
     }
     
     /**
@@ -117,13 +119,17 @@ public class Cycle extends SchemaEchange{
     }
     
     public boolean ajouterPaireAuCycle(Paire paireToAdd){
-        if(paireToAdd != null){
+        if(paireToAdd != null && this.getNbPaires()<this.tailleMax){
             this.paires.addLast(paireToAdd);
             return true;
         }
         else{
             return false;
         }
+    }
+    
+    public int getNbPaires(){
+        return this.paires.size();
     }
     
     public static void main(String[] args) {
