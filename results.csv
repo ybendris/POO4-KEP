@@ -1,0 +1,27 @@
+;cycleDe2;;;CycleDe2AndChaine;;
+;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?
+KEP_p100_n0_k3_l0;629;21;true;629;6;true
+KEP_p100_n11_k3_l13;793;7;true;1 201;10;true
+KEP_p100_n11_k3_l4;793;3;true;1 201;5;true
+KEP_p100_n11_k3_l7;793;5;true;1 201;6;true
+KEP_p100_n11_k5_l17;793;4;true;1 201;7;true
+KEP_p100_n5_k3_l13;629;6;true;1 000;9;true
+KEP_p100_n5_k3_l4;629;5;true;917;6;true
+KEP_p100_n5_k3_l7;629;6;true;1 000;7;true
+KEP_p100_n5_k5_l17;629;7;true;1 000;5;true
+KEP_p18_n0_k4_l0;72;0;true;72;0;true
+KEP_p18_n2_k4_l4;72;0;true;77;1;true
+KEP_p50_n0_k3_l0;210;1;true;210;0;true
+KEP_p50_n3_k3_l13;210;1;true;319;1;true
+KEP_p50_n3_k3_l4;210;1;true;319;1;true
+KEP_p50_n3_k3_l7;210;1;true;319;2;true
+KEP_p50_n3_k5_l17;210;0;true;319;0;true
+KEP_p50_n6_k3_l13;158;1;true;407;1;true
+KEP_p50_n6_k3_l4;158;0;true;407;2;true
+KEP_p50_n6_k3_l7;158;1;true;407;1;true
+KEP_p50_n6_k5_l17;158;1;true;407;1;true
+KEP_p9_n0_k3_l0;28;0;true;28;0;true
+KEP_p9_n1_k3_l3;28;0;true;38;0;true
+testInstance;4;0;true;11;0;true
+
+SOMME;8 203;71;true;12 690;71;true
