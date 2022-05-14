@@ -6,6 +6,7 @@ package instance.reseau;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -67,6 +68,27 @@ public abstract class Noeud {
     public int getId() {
         return id;
     }
+
+  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Noeud other = (Noeud) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return Objects.equals(this.transplantations, other.transplantations);
+    }
+    
+    
     
     public static void main(String[] args) {
         DonneurAltruiste d1 = new DonneurAltruiste(1);

@@ -209,7 +209,7 @@ public class Solution {
     }
     
     
-    /*public boolean ajouterPaireDernierCycle(Paire paireToAdd){
+    public boolean ajouterPaireDernierCycle(Paire paireToAdd){
         
         
         if(this.cycles.isEmpty()){
@@ -225,7 +225,7 @@ public class Solution {
         }
         return false;
     }
-*/
+
     
     public boolean ajouterPaireNouvelleChaine(DonneurAltruiste DAToAdd, Paire paireToAdd){
         

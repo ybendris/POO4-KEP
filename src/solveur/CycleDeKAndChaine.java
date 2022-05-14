@@ -5,6 +5,7 @@
 package solveur;
 
 import instance.Instance;
+import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 import io.InstanceReader;
 import io.SolutionWriter;
@@ -17,11 +18,11 @@ import solution.Solution;
  *
  * @author Valek
  */
-public class CycleDeK implements Solveur{
+public class CycleDeKAndChaine implements Solveur{
 
     @Override
     public String getNom() {
-        return "CycleDeK";
+        return "CycleDeKAndChaine";
     }
 
     /***
@@ -37,9 +38,16 @@ public class CycleDeK implements Solveur{
         LinkedList<Paire> paires = instance.getPaires();
         //LinkedList<Paire> copiePairesAjoutCycle = null;
         LinkedList<Paire> pairesValideCycle = null;
+        LinkedList<DonneurAltruiste> donneurAltruiste = instance.getDonneursAltruistes();
         Paire paire1 = null;
         Paire paire2 =null;
         Paire paireARemettre =null;
+        DonneurAltruiste donneurAltruiste1=null;
+        
+        int compatibiliteDAP = 1;
+        int compatibilitePP = 1;
+        
+        int tailleMaxChaine=instance.getTailleMaxChaine();
         
         boolean chercher = true;
         int tailleMaxCycle=instance.getTailleMaxCycle();
@@ -141,6 +149,53 @@ public class CycleDeK implements Solveur{
                 chercher=false;
             }
             
+        }
+        while(!paires.isEmpty() && compatibiliteDAP==1){
+            
+            int beneficeDA1P1 = 0;
+            int bestBenefice = 0;
+            donneurAltruiste1 = null;
+            paire1 = null;
+            int tailleChaineActuelle = -1;
+            int index = -1;
+            
+            for(DonneurAltruiste DA1 : donneurAltruiste){
+                for(Paire P1 : paires){
+                    beneficeDA1P1 = DA1.getBeneficeVers(P1);
+                    if(beneficeDA1P1 > -1){
+                        if(beneficeDA1P1>bestBenefice){
+                            bestBenefice=beneficeDA1P1;
+                            donneurAltruiste1 =DA1;
+                            paire1=P1;
+                        }
+                    }
+                }
+            }
+            if(paire1==null){
+                compatibiliteDAP=0;
+            }
+            else{
+                s.ajouterPaireNouvelleChaine(donneurAltruiste1, paire1);
+                donneurAltruiste.remove(donneurAltruiste1);
+                paires.remove(paire1);
+                index++;
+                
+                while(compatibilitePP==1 && s.getSizeChaineByIndex(index)<tailleMaxChaine-1){
+                    bestBenefice=0;
+                    paire2 = null;
+                    
+                    paire2=bestBenefChainePaire(paires, paire1);
+                    
+                    if(paire2==null){
+                        compatibilitePP=0;
+                    }
+                    else{
+                        s.ajouterPaireDerniereChaine(paire2);
+                        paires.remove(paire2);
+                        paire1=paire2;
+                    }
+                }
+            }
         }
         s.evalBenefice();
         return s;
@@ -258,15 +313,29 @@ public class CycleDeK implements Solveur{
     return verif;
 }
     
+     private Paire bestBenefChainePaire (LinkedList<Paire> paires, Paire paire1){
+        int beneficeP1P2 = 0;
+        int bestBenefice = 0;
+        Paire bestPaire = null;
+        for(Paire P2 : paires){
+                        beneficeP1P2 = paire1.getBeneficeVers(P2);
+                        if(beneficeP1P2>bestBenefice){
+                            bestBenefice=beneficeP1P2;
+                            bestPaire=P2;
+                        }
+        }
+        return bestPaire;
+    }
+    
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k3_l13.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
             Instance i = read.readInstance();
             
-            CycleDeK CycleK = new CycleDeK();
-            Solution s = CycleK.solve(i);
+            CycleDeKAndChaine CycleKCH = new CycleDeKAndChaine();
+            Solution s = CycleKCH.solve(i);
             
-            System.out.println("\nsCK check: " + s.check());
+            System.out.println("\nsCKCH check: " + s.check());
             
             System.out.println("Solution = " + s);
             
