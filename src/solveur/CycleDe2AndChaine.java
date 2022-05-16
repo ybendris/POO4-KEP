@@ -65,6 +65,15 @@ public class CycleDe2AndChaine implements Solveur{
            
         }
         
+        getChaineCycle2(paires, compatibiliteDAP, donneurAltruiste, s, compatibilitePP, tailleMaxChaine);
+        s.evalBenefice();
+        return s;
+    }
+
+    private void getChaineCycle2(LinkedList<Paire> paires, int compatibiliteDAP, LinkedList<DonneurAltruiste> donneurAltruiste, Solution s, int compatibilitePP, int tailleMaxChaine) {
+        DonneurAltruiste donneurAltruiste1;
+        Paire paire1;
+        Paire paire2;
         while(!paires.isEmpty() && compatibiliteDAP==1){
             
             int beneficeDA1P1 = 0;
@@ -112,8 +121,6 @@ public class CycleDe2AndChaine implements Solveur{
                 }
             }
         }
-        s.evalBenefice();
-        return s;
     }
     
     private Paire bestBenefChainePaire (LinkedList<Paire> paires, Paire paire1){
