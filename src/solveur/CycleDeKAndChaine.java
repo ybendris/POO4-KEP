@@ -162,25 +162,24 @@ public class CycleDeKAndChaine implements Solveur{
         
         for(Paire p : paires)
         {
-            if(!p.equals(lastPaire)){
-                if(precPaire.getBeneficeVers(p)>-1){
-                    //System.out.println("Paire précedente : " + p.getId()+ " paire actuelle : " + beginPaire.getId() + " benefice " + p.getBeneficeVers(beginPaire));
+                if(lastPaire.getBeneficeVers(p)>-1){
+                    System.out.println("Paire précedente : " + lastPaire.getId()+ " paire actuelle : " + p.getId() + " benefice " + p.getBeneficeVers(beginPaire));
                     if(p.getBeneficeVers(beginPaire)>-1){
                      
-                        beneficeTotal=p.getBeneficeVers(beginPaire)+precPaire.getBeneficeVers(p);
+                        beneficeTotal=p.getBeneficeVers(beginPaire)+lastPaire.getBeneficeVers(p);
                 
                         if(beneficeTotal>bestBenefice){
                             pTemp=p;
                         }
                     }
                 }
-            }
+            
             
         }
         if(pTemp!=null){
-            temp.remove(lastPaire);
             temp.add(pTemp);    
         }
+        
         return temp;
     }
     
@@ -287,19 +286,16 @@ public class CycleDeKAndChaine implements Solveur{
                 else{
                     System.out.println(" Ah non on peut pas boucler");
                     if(pairesAjoutCycle.size()>1){
+                        paires.add(pairesAjoutCycle.getLast());
+                        pairesAjoutCycle.removeLast();
                         pairesValideCycle=nouvelleDernierePaire(paires, pairesAjoutCycle);
                         System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
-                        if(pairesAjoutCycle.equals(pairesValideCycle)/*compareLists(pairesAjoutCycle, pairesValideCycle)*/){
-                            paires.add(pairesAjoutCycle.getLast());
-                            pairesAjoutCycle.removeLast();
-                        }
-                        else{
+                        if(!pairesAjoutCycle.equals(pairesValideCycle)){
                             System.out.println("Les 2 listes ne sont pas égales");
                             pairesAjoutCycle=pairesValideCycle;
                             paires.remove(pairesAjoutCycle.getLast());
                             System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
-                            valide =true;
-                            
+                            valide = true;
                         }
                     }
                     else{                    
