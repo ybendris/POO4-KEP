@@ -11,7 +11,9 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import solution.Solution;
 import static solveur.CycleDeK.compareLists;
 
@@ -119,12 +121,10 @@ public class CycleDeKAndChaine implements Solveur{
         boolean nouveau=true;
         for(Paire p : pairesAjoutCycle){
             if(nouveau==true){
-                System.out.println("Insertion nouveau cycle");
                 s.ajouterPaireNouveauCycle(p);
                 nouveau = false;
             }
             else{
-                System.out.println("Insertion dernier cycle");
                 s.ajouterPaireDernierCycle(p);
             }
         }
@@ -141,7 +141,7 @@ public class CycleDeKAndChaine implements Solveur{
     
     private LinkedList<Paire> nouvelleDernierePaire(LinkedList<Paire> paires,LinkedList<Paire> pairesCycle){
         
-        LinkedList<Paire> temp =  pairesCycle;
+        LinkedList<Paire> temp =  new LinkedList<Paire>(pairesCycle);
         
         int tailleCycle=temp.size();
         
@@ -163,11 +163,15 @@ public class CycleDeKAndChaine implements Solveur{
         for(Paire p : paires)
         {
             if(!p.equals(lastPaire)){
-                if(precPaire.getBeneficeVers(p)>-1 && p.getBeneficeVers(beginPaire)>-1){
-
-                beneficeTotal=p.getBeneficeVers(beginPaire)+precPaire.getBeneficeVers(p);
-                if(beneficeTotal>bestBenefice){
-                    pTemp=p;
+                if(precPaire.getBeneficeVers(p)>-1){
+                    //System.out.println("Paire précedente : " + p.getId()+ " paire actuelle : " + beginPaire.getId() + " benefice " + p.getBeneficeVers(beginPaire));
+                    if(p.getBeneficeVers(beginPaire)>-1){
+                     
+                        beneficeTotal=p.getBeneficeVers(beginPaire)+precPaire.getBeneficeVers(p);
+                
+                        if(beneficeTotal>bestBenefice){
+                            pTemp=p;
+                        }
                     }
                 }
             }
@@ -177,7 +181,6 @@ public class CycleDeKAndChaine implements Solveur{
             temp.remove(lastPaire);
             temp.add(pTemp);    
         }
-        
         return temp;
     }
     
@@ -242,12 +245,13 @@ public class CycleDeKAndChaine implements Solveur{
     }
      
      private void getCycleDeK(Instance instance, LinkedList<Paire> paires, Solution s) {
-        LinkedList<Paire> pairesValideCycle;
+        LinkedList<Paire> pairesValideCycle = new LinkedList<Paire>();
+        Set<Paire> pairesProblemes = new HashSet<Paire>();
         Paire paire1 = null;
         Paire paire2 =null;
-        Paire paireARemettre =null;
         boolean chercher = true;
         int tailleMaxCycle=instance.getTailleMaxCycle();
+        int cpt=0;
         
         while(!paires.isEmpty() && paires.size()>=2 && chercher==true){
             
@@ -258,7 +262,7 @@ public class CycleDeKAndChaine implements Solveur{
             LinkedList<Paire> pairesAjoutCycle = null;
             
             pairesAjoutCycle=bestBeneficePaires(paires);
-           
+
             if(pairesAjoutCycle.get(1)!=null) paire1=pairesAjoutCycle.get(1);
             else{
                 paire1=null;
@@ -266,14 +270,11 @@ public class CycleDeKAndChaine implements Solveur{
             
             paires.remove(paire1);
             paires.remove(pairesAjoutCycle.get(0));
-            if(paireARemettre!=null){
-                paires.add(paireARemettre);
-                paireARemettre=null;
-            }
-            
-        
+          
             paire1 = getNextPaireCycleK(paires, compatibilite, paire1, pairesAjoutCycle, tailleMaxCycle);
 
+            System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
+            
             Paire lastPaire = pairesAjoutCycle.getLast();
             Paire beginPaire = pairesAjoutCycle.getFirst();
             
@@ -284,36 +285,55 @@ public class CycleDeKAndChaine implements Solveur{
                     valide=true;
                 }
                 else{
+                    System.out.println(" Ah non on peut pas boucler");
                     if(pairesAjoutCycle.size()>1){
                         pairesValideCycle=nouvelleDernierePaire(paires, pairesAjoutCycle);
-
-                        if(compareLists(pairesAjoutCycle, pairesValideCycle)){
+                        System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
+                        if(pairesAjoutCycle.equals(pairesValideCycle)/*compareLists(pairesAjoutCycle, pairesValideCycle)*/){
                             paires.add(pairesAjoutCycle.getLast());
                             pairesAjoutCycle.removeLast();
                         }
                         else{
+                            System.out.println("Les 2 listes ne sont pas égales");
                             pairesAjoutCycle=pairesValideCycle;
                             paires.remove(pairesAjoutCycle.getLast());
-                            valide=true;
+                            System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
+                            valide =true;
+                            
                         }
                     }
                     else{                    
                         continu=false;
-                        paireARemettre=pairesAjoutCycle.getFirst();
+                        pairesProblemes.add(pairesAjoutCycle.getFirst());
                     }
                 }
                 
             }
             
             if(valide==true){
-                insererPairesCycleSolution(pairesAjoutCycle, s);   
+                insererPairesCycleSolution(pairesAjoutCycle, s);
+                if(cpt<1){
+                    for(Paire p : pairesProblemes){
+                    paires.add(p);
+                    }
+                    pairesProblemes.clear();
+                }
             }
             
             if(paire1==null)
             {
-                chercher=false;
+                cpt++;
+                if(cpt>1){
+                    chercher=false;
+                }
+                else{
+                    for(Paire p : pairesProblemes){
+                    paires.add(p);
+                    }
+                    pairesProblemes.clear();
+                
+                }
             }
-            
         }
     }
 
@@ -365,7 +385,6 @@ public class CycleDeKAndChaine implements Solveur{
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);
             
-            System.out.println(s.getCycles().getLast().check());
             
 
         }

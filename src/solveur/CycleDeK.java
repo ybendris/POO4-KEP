@@ -10,7 +10,9 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import solution.Solution;
 
 /**
@@ -41,12 +43,14 @@ public class CycleDeK implements Solveur{
     }
 
     private void getCycleDeK(Instance instance, LinkedList<Paire> paires, Solution s) {
-        LinkedList<Paire> pairesValideCycle;
+        LinkedList<Paire> pairesValideCycle = new LinkedList<Paire>();
+        Set<Paire> pairesProblemes = new HashSet<Paire>();
         Paire paire1 = null;
         Paire paire2 =null;
         Paire paireARemettre =null;
         boolean chercher = true;
         int tailleMaxCycle=instance.getTailleMaxCycle();
+        int cpt=0;
         
         while(!paires.isEmpty() && paires.size()>=2 && chercher==true){
             
@@ -57,7 +61,7 @@ public class CycleDeK implements Solveur{
             LinkedList<Paire> pairesAjoutCycle = null;
             
             pairesAjoutCycle=bestBeneficePaires(paires);
-           
+
             if(pairesAjoutCycle.get(1)!=null) paire1=pairesAjoutCycle.get(1);
             else{
                 paire1=null;
@@ -65,14 +69,11 @@ public class CycleDeK implements Solveur{
             
             paires.remove(paire1);
             paires.remove(pairesAjoutCycle.get(0));
-            if(paireARemettre!=null){
-                paires.add(paireARemettre);
-                paireARemettre=null;
-            }
-            
-        
+          
             paire1 = getNextPaireCycleK(paires, compatibilite, paire1, pairesAjoutCycle, tailleMaxCycle);
 
+            System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
+            
             Paire lastPaire = pairesAjoutCycle.getLast();
             Paire beginPaire = pairesAjoutCycle.getFirst();
             
@@ -83,39 +84,58 @@ public class CycleDeK implements Solveur{
                     valide=true;
                 }
                 else{
+                    System.out.println(" Ah non on peut pas boucler");
                     if(pairesAjoutCycle.size()>1){
                         pairesValideCycle=nouvelleDernierePaire(paires, pairesAjoutCycle);
-
-                        if(compareLists(pairesAjoutCycle, pairesValideCycle)){
+                        System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
+                        if(pairesAjoutCycle.equals(pairesValideCycle)/*compareLists(pairesAjoutCycle, pairesValideCycle)*/){
                             paires.add(pairesAjoutCycle.getLast());
                             pairesAjoutCycle.removeLast();
                         }
                         else{
+                            System.out.println("Les 2 listes ne sont pas égales");
                             pairesAjoutCycle=pairesValideCycle;
                             paires.remove(pairesAjoutCycle.getLast());
-                            valide=true;
+                            System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
+                            valide =true;
+                            
                         }
                     }
                     else{                    
                         continu=false;
-                        paireARemettre=pairesAjoutCycle.getFirst();
+                        pairesProblemes.add(pairesAjoutCycle.getFirst());
                     }
                 }
                 
             }
             
             if(valide==true){
-                insererPairesCycleSolution(pairesAjoutCycle, s);   
+                insererPairesCycleSolution(pairesAjoutCycle, s);
+                if(cpt<1){
+                    for(Paire p : pairesProblemes){
+                    paires.add(p);
+                    }
+                    pairesProblemes.clear();
+                }
             }
             
             if(paire1==null)
             {
-                chercher=false;
+                cpt++;
+                if(cpt>1){
+                    chercher=false;
+                }
+                else{
+                    for(Paire p : pairesProblemes){
+                    paires.add(p);
+                    }
+                    pairesProblemes.clear();
+                
+                }
             }
-            
         }
     }
-
+    
     private Paire getNextPaireCycleK(LinkedList<Paire> paires, int compatibilite, Paire paire1, LinkedList<Paire> pairesAjoutCycle, int tailleMaxCycle) {
         Paire paire2;
         while(!paires.isEmpty() && paires.size()>=2 && compatibilite==1 && paire1!=null){
@@ -175,7 +195,7 @@ public class CycleDeK implements Solveur{
     
     private LinkedList<Paire> nouvelleDernierePaire(LinkedList<Paire> paires,LinkedList<Paire> pairesCycle){
         
-        LinkedList<Paire> temp =  pairesCycle;
+        LinkedList<Paire> temp =  new LinkedList<Paire>(pairesCycle);
         
         int tailleCycle=temp.size();
         
@@ -263,7 +283,7 @@ public class CycleDeK implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k3_l13.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p18_n0_k4_l0.txt");
             Instance i = read.readInstance();
             
             CycleDeK CycleK = new CycleDeK();
