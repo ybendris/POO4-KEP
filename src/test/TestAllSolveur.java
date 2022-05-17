@@ -19,6 +19,8 @@ import java.util.Objects;
 import solution.Solution;
 import solveur.CycleDe2;
 import solveur.CycleDe2AndChaine;
+import solveur.CycleDeK;
+import solveur.CycleDeKAndChaine;
 import solveur.Solveur;
 
 /**
@@ -72,6 +74,8 @@ public class TestAllSolveur {
         // TO CHECK : constructeur par defaut de la classe InsertionSimple
         solveurs.add(new CycleDe2());
         solveurs.add(new CycleDe2AndChaine());
+        solveurs.add(new CycleDeK());
+        solveurs.add(new CycleDeKAndChaine());
     }
     
     /**

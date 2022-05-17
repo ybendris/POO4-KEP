@@ -93,11 +93,18 @@ public class Cycle extends SchemaEchange{
         int i=0;
         for(Paire p : this.paires){
             Paire nextPaire = this.getNextPaire(i);
+            int beneficeToAdd;
             if(nextPaire != null){
-                beneficeReel += p.getBeneficeVers(nextPaire);
+                beneficeToAdd = p.getBeneficeVers(nextPaire);
             }
             else{
-                beneficeReel += p.getBeneficeVers(this.paires.getFirst());
+                beneficeToAdd = p.getBeneficeVers(this.paires.getFirst());
+            }
+            if(beneficeToAdd != -1){
+                beneficeReel += beneficeToAdd;
+            }
+            else{
+                return false;
             }
             i++;
         }
@@ -107,6 +114,22 @@ public class Cycle extends SchemaEchange{
         }
         System.out.println("Erreur: le bénéfice du cycle est mal calculé("+ beneficeAverif +" , "+beneficeReel+")");
         return false;
+    }
+    
+    
+    private boolean verifTransplantation() {
+        int i=0;
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(i);
+            if(nextPaire == null)
+                nextPaire = this.paires.getFirst();
+            
+            if(!p.peutDonnerA(nextPaire))
+                return false;
+ 
+            i++;
+        }
+        return true;
     }
     
     @Override
@@ -162,6 +185,8 @@ public class Cycle extends SchemaEchange{
             System.out.println(ex.getMessage());
         }
     }
+
+    
     
     
     
