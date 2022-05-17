@@ -97,6 +97,22 @@ public class Chaine extends SchemaEchange {
         return verifTailleChaine() && verifBenefice();
     }
     
+    private boolean verifTransplantation(){
+        if(!this.donneurAltruiste.peutDonnerA(this.paires.getFirst()))
+            return false;
+        
+        int i=0;
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(i);
+            if(nextPaire != null){
+                if(!p.peutDonnerA(nextPaire))
+                    return false;
+                i++;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Vérifie la taille max et min d'une chaine (prend en compte le donneur -> +1)
      * 
@@ -116,18 +132,26 @@ public class Chaine extends SchemaEchange {
     }
     
     /**
-     * Vérifie le bénéfice d'une chaine
+     * Vérifie le calcul du bénéfice d'une chaine + vérifie les -1
      * @return 
      */
     private boolean verifBenefice() {
         var beneficeAverif = this.coutBenefice;
         var beneficeReel = 0;
         int i=0;
-        beneficeReel = this.donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        
+        if(this.donneurAltruiste.getBeneficeVers(this.paires.getFirst()) != -1)
+            beneficeReel = this.donneurAltruiste.getBeneficeVers(this.paires.getFirst());
+        else 
+            return false;
+        
         for(Paire p : this.paires){
             Paire nextPaire = this.getNextPaire(i);
             if(nextPaire != null){
-                beneficeReel += p.getBeneficeVers(nextPaire);
+                if(p.getBeneficeVers(nextPaire) != -1)
+                    beneficeReel += p.getBeneficeVers(nextPaire);
+                else
+                    return false;
             }
             i++;
         }

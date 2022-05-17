@@ -1,48 +1,48 @@
 ;cycleDe2;;;CycleDe2AndChaine;;;CycleDeK;;;CycleDeKAndChaine;;
 ;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?
-KEP_p100_n0_k3_l0;629;7;true;629;4;true;317;11;true;317;7;true
-KEP_p100_n11_k3_l13;793;3;true;1 201;5;true;609;4;true;1 018;8;true
-KEP_p100_n11_k3_l4;793;2;true;1 201;3;true;609;3;true;1 018;18;true
-KEP_p100_n11_k3_l7;793;3;true;1 201;2;true;609;4;true;1 018;15;true
-KEP_p100_n11_k5_l17;793;3;true;1 201;2;true;652;20;true;981;29;true
-KEP_p100_n33_k3_l13;663;2;true;1 871;4;true;413;3;true;1 594;19;true
-KEP_p100_n33_k3_l4;663;0;true;1 871;16;true;413;2;true;1 594;23;true
-KEP_p100_n33_k3_l7;663;1;true;1 871;2;true;413;9;true;1 594;30;true
-KEP_p100_n33_k5_l17;663;0;true;1 871;5;true;339;15;true;1 525;50;true
-KEP_p100_n5_k3_l13;629;0;true;1 000;2;true;317;2;true;711;21;true
-KEP_p100_n5_k3_l4;629;1;true;917;1;true;317;18;true;628;21;true
-KEP_p100_n5_k3_l7;629;0;true;1 000;1;true;317;2;true;711;18;true
-KEP_p100_n5_k5_l17;629;1;true;1 000;1;true;411;41;true;782;26;true
-KEP_p18_n0_k4_l0;72;0;true;72;0;true;38;0;true;38;26;true
+KEP_p100_n0_k3_l0;629;36;true;629;13;true;844;10;false;844;15;false
+KEP_p100_n11_k3_l13;793;0;true;1 201;41;true;801;12;false;1 186;25;false
+KEP_p100_n11_k3_l4;793;18;true;1 201;15;true;801;0;false;1 186;30;false
+KEP_p100_n11_k3_l7;793;5;true;1 201;4;true;801;0;false;1 186;57;false
+KEP_p100_n11_k5_l17;793;0;true;1 201;26;true;1 010;0;false;1 395;31;false
+KEP_p100_n33_k3_l13;663;7;true;1 871;25;true;850;5;false;2 021;36;false
+KEP_p100_n33_k3_l4;663;0;true;1 871;73;true;850;5;false;2 021;41;false
+KEP_p100_n33_k3_l7;663;0;true;1 871;18;true;850;3;false;2 021;9;false
+KEP_p100_n33_k5_l17;663;1;true;1 871;49;true;835;16;false;1 980;40;false
+KEP_p100_n5_k3_l13;629;1;true;1 000;9;true;844;3;false;1 146;46;false
+KEP_p100_n5_k3_l4;629;1;true;917;6;true;844;7;false;1 116;90;false
+KEP_p100_n5_k3_l7;629;0;true;1 000;13;true;844;0;false;1 146;27;false
+KEP_p100_n5_k5_l17;629;0;true;1 000;0;true;1 199;83;false;1 411;11;false
+KEP_p18_n0_k4_l0;72;0;true;72;0;true;38;0;true;38;17;true
 KEP_p18_n2_k4_l4;72;0;true;77;0;true;38;0;true;43;0;true
-KEP_p250_n0_k3_l0;1 862;13;true;1 862;12;true;1 285;36;true;1 285;50;true
-KEP_p250_n13_k3_l13;1 862;10;true;2 975;15;true;1 285;28;true;2 500;60;true
-KEP_p250_n13_k3_l4;1 862;13;true;2 839;13;true;1 285;28;true;2 261;62;true
-KEP_p250_n13_k3_l7;1 862;13;true;2 943;12;true;1 285;29;true;2 358;62;true
-KEP_p250_n13_k5_l17;1 862;13;true;2 975;11;true;1 635;75;true;3 035;125;true
-KEP_p250_n28_k3_l13;2 123;15;true;4 097;15;true;1 385;70;true;3 165;79;true
-KEP_p250_n28_k3_l4;2 123;15;true;4 097;16;true;1 385;37;true;3 165;75;true
-KEP_p250_n28_k3_l7;2 123;15;true;4 097;16;true;1 385;53;true;3 165;67;true
-KEP_p250_n28_k5_l17;2 123;15;true;4 097;15;true;2 353;105;true;3 990;139;true
-KEP_p250_n83_k3_l13;3 039;21;true;7 556;26;true;1 738;41;true;6 331;69;true
-KEP_p250_n83_k3_l4;3 039;24;true;7 504;21;true;1 738;34;true;6 322;67;true
-KEP_p250_n83_k3_l7;3 039;19;true;7 556;26;true;1 738;41;true;6 323;62;true
-KEP_p250_n83_k5_l17;3 039;17;true;7 556;23;true;2 769;48;true;7 109;95;true
-KEP_p50_n0_k3_l0;210;0;true;210;0;true;122;2;true;122;21;true
-KEP_p50_n17_k3_l13;211;0;true;1 144;0;true;52;0;true;983;22;true
-KEP_p50_n17_k3_l4;211;0;true;1 015;1;true;52;0;true;854;22;true
-KEP_p50_n17_k3_l7;211;0;true;1 144;0;true;52;1;true;983;19;true
-KEP_p50_n17_k5_l17;211;1;true;1 144;0;true;143;1;true;1 068;21;true
-KEP_p50_n3_k3_l13;210;0;true;319;0;true;122;0;true;328;1;true
-KEP_p50_n3_k3_l4;210;0;true;319;0;true;122;0;true;328;23;true
-KEP_p50_n3_k3_l7;210;0;true;319;0;true;122;0;true;328;3;true
-KEP_p50_n3_k5_l17;210;0;true;319;0;true;122;0;true;328;22;true
-KEP_p50_n6_k3_l13;158;0;true;407;0;true;114;0;true;282;0;true
-KEP_p50_n6_k3_l4;158;0;true;407;0;true;114;0;true;282;26;true
-KEP_p50_n6_k3_l7;158;0;true;407;0;true;114;0;true;282;0;true
-KEP_p50_n6_k5_l17;158;0;true;407;1;true;234;21;true;402;0;true
-KEP_p9_n0_k3_l0;28;0;true;28;0;true;40;0;true;40;24;true
-KEP_p9_n1_k3_l3;28;0;true;38;0;true;40;1;true;45;0;true
-testInstance;4;0;true;11;0;true;4;0;true;11;0;true
+KEP_p250_n0_k3_l0;1 862;32;true;1 862;71;true;2 022;59;false;2 022;93;false
+KEP_p250_n13_k3_l13;1 862;18;true;2 975;56;true;2 022;38;false;3 170;108;false
+KEP_p250_n13_k3_l4;1 862;24;true;2 839;55;true;2 022;19;false;2 986;87;false
+KEP_p250_n13_k3_l7;1 862;87;true;2 943;33;true;2 022;23;false;3 083;52;false
+KEP_p250_n13_k5_l17;1 862;30;true;2 975;33;true;2 956;16;false;3 880;32;false
+KEP_p250_n28_k3_l13;2 123;22;true;4 097;55;true;2 073;27;false;3 780;51;false
+KEP_p250_n28_k3_l4;2 123;21;true;4 097;46;true;2 073;22;false;3 780;61;false
+KEP_p250_n28_k3_l7;2 123;30;true;4 097;35;true;2 073;20;false;3 780;33;false
+KEP_p250_n28_k5_l17;2 123;24;true;4 097;23;true;3 659;19;false;5 321;89;false
+KEP_p250_n83_k3_l13;3 039;42;true;7 556;91;true;2 796;139;false;7 404;258;false
+KEP_p250_n83_k3_l4;3 039;82;true;7 504;98;true;2 796;32;false;7 174;90;false
+KEP_p250_n83_k3_l7;3 039;47;true;7 556;51;true;2 796;30;false;7 365;120;false
+KEP_p250_n83_k5_l17;3 039;89;true;7 556;51;true;4 322;17;false;8 163;50;false
+KEP_p50_n0_k3_l0;210;0;true;210;0;true;243;0;false;243;1;false
+KEP_p50_n17_k3_l13;211;0;true;1 144;0;true;225;0;false;1 071;0;false
+KEP_p50_n17_k3_l4;211;0;true;1 015;0;true;225;0;false;942;0;false
+KEP_p50_n17_k3_l7;211;0;true;1 144;0;true;225;0;false;1 071;0;false
+KEP_p50_n17_k5_l17;211;0;true;1 144;0;true;286;0;false;1 132;0;false
+KEP_p50_n3_k3_l13;210;0;true;319;0;true;243;0;false;352;0;false
+KEP_p50_n3_k3_l4;210;0;true;319;0;true;243;0;false;352;0;false
+KEP_p50_n3_k3_l7;210;0;true;319;0;true;243;0;false;352;0;false
+KEP_p50_n3_k5_l17;210;0;true;319;0;true;316;0;false;399;0;false
+KEP_p50_n6_k3_l13;158;0;true;407;0;true;206;0;false;395;0;false
+KEP_p50_n6_k3_l4;158;0;true;407;0;true;206;0;false;395;0;false
+KEP_p50_n6_k3_l7;158;0;true;407;0;true;206;0;false;395;0;false
+KEP_p50_n6_k5_l17;158;0;true;407;0;true;329;0;false;497;30;false
+KEP_p9_n0_k3_l0;28;0;true;28;0;true;35;0;false;35;0;false
+KEP_p9_n1_k3_l3;28;3;true;38;0;true;35;0;false;45;1;false
+testInstance;4;0;true;11;0;true;4;0;false;9;0;false
 
-SOMME;41 657;227;true;84 775;271;true;28 647;785;true;71 247;1 527;true
+SOMME;41 657;620;true;84 775;990;true;48 351;605;false;88 333;1 631;false
