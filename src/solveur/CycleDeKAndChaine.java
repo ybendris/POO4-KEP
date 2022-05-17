@@ -352,7 +352,7 @@ public class CycleDeKAndChaine implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
             Instance i = read.readInstance();
             
             CycleDeKAndChaine CycleKCH = new CycleDeKAndChaine();
@@ -364,6 +364,9 @@ public class CycleDeKAndChaine implements Solveur{
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);
+            
+            System.out.println(s.getCycles().getLast().check());
+            
 
         }
         catch(ReaderException ex){

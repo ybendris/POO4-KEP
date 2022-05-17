@@ -168,7 +168,7 @@ public class CycleDe2AndChaine implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k5_l17.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p100_n11_k3_l13.txt");
             Instance i = read.readInstance();
             
             CycleDe2AndChaine c2CH = new CycleDe2AndChaine();
