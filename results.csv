@@ -1,48 +1,48 @@
 ;cycleDe2;;;CycleDe2AndChaine;;;CycleDeK;;;CycleDeKAndChaine;;
 ;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?;Bénéfices;tps(ms);valide ?
-KEP_p100_n0_k3_l0;629;6;true;629;3;true;844;5;true;844;7;true
-KEP_p100_n11_k3_l13;793;2;true;1 201;3;true;801;0;true;1 186;13;true
-KEP_p100_n11_k3_l4;793;2;true;1 201;3;true;801;2;true;1 186;3;true
-KEP_p100_n11_k3_l7;793;2;true;1 201;3;true;801;3;true;1 186;4;true
-KEP_p100_n11_k5_l17;793;2;true;1 201;3;true;1 010;0;true;1 395;4;true
-KEP_p100_n33_k3_l13;663;2;true;1 871;9;true;850;2;true;2 021;2;true
-KEP_p100_n33_k3_l4;663;0;true;1 871;10;true;850;7;true;2 021;3;true
-KEP_p100_n33_k3_l7;663;4;true;1 871;4;true;850;10;true;2 021;2;true
-KEP_p100_n33_k5_l17;663;0;true;1 871;0;true;835;19;true;1 980;3;true
-KEP_p100_n5_k3_l13;629;0;true;1 000;1;true;844;3;true;1 146;14;true
-KEP_p100_n5_k3_l4;629;0;true;917;1;true;844;0;true;1 116;16;true
-KEP_p100_n5_k3_l7;629;1;true;1 000;1;true;844;0;true;1 146;14;true
-KEP_p100_n5_k5_l17;629;1;true;1 000;1;true;1 199;1;true;1 411;14;true
-KEP_p18_n0_k4_l0;72;0;true;72;0;true;38;0;true;38;0;true
+KEP_p100_n0_k3_l0;629;7;true;629;4;true;317;11;true;317;7;true
+KEP_p100_n11_k3_l13;793;3;true;1 201;5;true;609;4;true;1 018;8;true
+KEP_p100_n11_k3_l4;793;2;true;1 201;3;true;609;3;true;1 018;18;true
+KEP_p100_n11_k3_l7;793;3;true;1 201;2;true;609;4;true;1 018;15;true
+KEP_p100_n11_k5_l17;793;3;true;1 201;2;true;652;20;true;981;29;true
+KEP_p100_n33_k3_l13;663;2;true;1 871;4;true;413;3;true;1 594;19;true
+KEP_p100_n33_k3_l4;663;0;true;1 871;16;true;413;2;true;1 594;23;true
+KEP_p100_n33_k3_l7;663;1;true;1 871;2;true;413;9;true;1 594;30;true
+KEP_p100_n33_k5_l17;663;0;true;1 871;5;true;339;15;true;1 525;50;true
+KEP_p100_n5_k3_l13;629;0;true;1 000;2;true;317;2;true;711;21;true
+KEP_p100_n5_k3_l4;629;1;true;917;1;true;317;18;true;628;21;true
+KEP_p100_n5_k3_l7;629;0;true;1 000;1;true;317;2;true;711;18;true
+KEP_p100_n5_k5_l17;629;1;true;1 000;1;true;411;41;true;782;26;true
+KEP_p18_n0_k4_l0;72;0;true;72;0;true;38;0;true;38;26;true
 KEP_p18_n2_k4_l4;72;0;true;77;0;true;38;0;true;43;0;true
-KEP_p250_n0_k3_l0;1 862;11;true;1 862;16;true;2 022;10;true;2 022;14;true
-KEP_p250_n13_k3_l13;1 862;13;true;2 975;14;true;2 022;8;true;3 170;13;true
-KEP_p250_n13_k3_l4;1 862;6;true;2 839;17;true;2 022;10;true;2 986;10;true
-KEP_p250_n13_k3_l7;1 862;3;true;2 943;18;true;2 022;7;true;3 083;25;true
-KEP_p250_n13_k5_l17;1 862;14;true;2 975;14;true;2 956;9;true;3 880;11;true
-KEP_p250_n28_k3_l13;2 123;11;true;4 097;10;true;2 073;18;true;3 780;12;true
-KEP_p250_n28_k3_l4;2 123;0;true;4 097;25;true;2 073;11;true;3 780;19;true
-KEP_p250_n28_k3_l7;2 123;14;true;4 097;16;true;2 073;5;true;3 780;20;true
-KEP_p250_n28_k5_l17;2 123;15;true;4 097;17;true;3 659;12;true;5 321;15;true
-KEP_p250_n83_k3_l13;3 039;21;true;7 556;24;true;2 796;16;true;7 404;25;true
-KEP_p250_n83_k3_l4;3 039;15;true;7 504;24;true;2 796;13;true;7 174;30;true
-KEP_p250_n83_k3_l7;3 039;18;true;7 556;26;true;2 796;16;true;7 365;21;true
-KEP_p250_n83_k5_l17;3 039;18;true;7 556;22;true;4 322;10;true;8 163;40;true
-KEP_p50_n0_k3_l0;210;0;true;210;0;true;243;2;true;243;0;true
-KEP_p50_n17_k3_l13;211;0;true;1 144;0;true;225;1;true;1 071;15;true
-KEP_p50_n17_k3_l4;211;0;true;1 015;0;true;225;0;true;942;1;true
-KEP_p50_n17_k3_l7;211;0;true;1 144;0;true;225;0;true;1 071;1;true
-KEP_p50_n17_k5_l17;211;0;true;1 144;0;true;286;19;true;1 132;0;true
-KEP_p50_n3_k3_l13;210;0;true;319;0;true;243;0;true;352;0;true
-KEP_p50_n3_k3_l4;210;0;true;319;0;true;243;0;true;352;0;true
-KEP_p50_n3_k3_l7;210;0;true;319;0;true;243;0;true;352;19;true
-KEP_p50_n3_k5_l17;210;0;true;319;0;true;316;0;true;399;2;true
-KEP_p50_n6_k3_l13;158;0;true;407;0;true;206;0;true;395;0;true
-KEP_p50_n6_k3_l4;158;0;true;407;0;true;206;1;true;395;19;true
-KEP_p50_n6_k3_l7;158;0;true;407;0;true;206;0;true;395;1;true
-KEP_p50_n6_k5_l17;158;0;true;407;0;true;329;0;true;497;1;true
-KEP_p9_n0_k3_l0;28;0;true;28;0;true;35;0;true;35;18;true
-KEP_p9_n1_k3_l3;28;0;true;38;0;true;35;0;true;45;0;true
-testInstance;4;0;true;11;0;true;4;0;true;9;0;true
+KEP_p250_n0_k3_l0;1 862;13;true;1 862;12;true;1 285;36;true;1 285;50;true
+KEP_p250_n13_k3_l13;1 862;10;true;2 975;15;true;1 285;28;true;2 500;60;true
+KEP_p250_n13_k3_l4;1 862;13;true;2 839;13;true;1 285;28;true;2 261;62;true
+KEP_p250_n13_k3_l7;1 862;13;true;2 943;12;true;1 285;29;true;2 358;62;true
+KEP_p250_n13_k5_l17;1 862;13;true;2 975;11;true;1 635;75;true;3 035;125;true
+KEP_p250_n28_k3_l13;2 123;15;true;4 097;15;true;1 385;70;true;3 165;79;true
+KEP_p250_n28_k3_l4;2 123;15;true;4 097;16;true;1 385;37;true;3 165;75;true
+KEP_p250_n28_k3_l7;2 123;15;true;4 097;16;true;1 385;53;true;3 165;67;true
+KEP_p250_n28_k5_l17;2 123;15;true;4 097;15;true;2 353;105;true;3 990;139;true
+KEP_p250_n83_k3_l13;3 039;21;true;7 556;26;true;1 738;41;true;6 331;69;true
+KEP_p250_n83_k3_l4;3 039;24;true;7 504;21;true;1 738;34;true;6 322;67;true
+KEP_p250_n83_k3_l7;3 039;19;true;7 556;26;true;1 738;41;true;6 323;62;true
+KEP_p250_n83_k5_l17;3 039;17;true;7 556;23;true;2 769;48;true;7 109;95;true
+KEP_p50_n0_k3_l0;210;0;true;210;0;true;122;2;true;122;21;true
+KEP_p50_n17_k3_l13;211;0;true;1 144;0;true;52;0;true;983;22;true
+KEP_p50_n17_k3_l4;211;0;true;1 015;1;true;52;0;true;854;22;true
+KEP_p50_n17_k3_l7;211;0;true;1 144;0;true;52;1;true;983;19;true
+KEP_p50_n17_k5_l17;211;1;true;1 144;0;true;143;1;true;1 068;21;true
+KEP_p50_n3_k3_l13;210;0;true;319;0;true;122;0;true;328;1;true
+KEP_p50_n3_k3_l4;210;0;true;319;0;true;122;0;true;328;23;true
+KEP_p50_n3_k3_l7;210;0;true;319;0;true;122;0;true;328;3;true
+KEP_p50_n3_k5_l17;210;0;true;319;0;true;122;0;true;328;22;true
+KEP_p50_n6_k3_l13;158;0;true;407;0;true;114;0;true;282;0;true
+KEP_p50_n6_k3_l4;158;0;true;407;0;true;114;0;true;282;26;true
+KEP_p50_n6_k3_l7;158;0;true;407;0;true;114;0;true;282;0;true
+KEP_p50_n6_k5_l17;158;0;true;407;1;true;234;21;true;402;0;true
+KEP_p9_n0_k3_l0;28;0;true;28;0;true;40;0;true;40;24;true
+KEP_p9_n1_k3_l3;28;0;true;38;0;true;40;1;true;45;0;true
+testInstance;4;0;true;11;0;true;4;0;true;11;0;true
 
-SOMME;41 657;181;true;84 775;285;true;48 351;220;true;88 333;431;true
+SOMME;41 657;227;true;84 775;271;true;28 647;785;true;71 247;1 527;true
