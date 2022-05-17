@@ -150,8 +150,11 @@ public class Chaine extends SchemaEchange {
             if(nextPaire != null){
                 if(p.getBeneficeVers(nextPaire) != -1)
                     beneficeReel += p.getBeneficeVers(nextPaire);
-                else
-                    return false;
+                else{
+                    System.out.println("Erreur Chaine : y a un -1");
+                     return false;
+                }
+                   
             }
             i++;
         }

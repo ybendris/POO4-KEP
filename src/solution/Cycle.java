@@ -104,6 +104,8 @@ public class Cycle extends SchemaEchange{
                 beneficeReel += beneficeToAdd;
             }
             else{
+                System.out.println("Erreur Cycle : y a un -1");
+                System.out.println("id paire = " + p.getId());
                 return false;
             }
             i++;
