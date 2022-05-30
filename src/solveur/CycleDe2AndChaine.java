@@ -66,6 +66,7 @@ public class CycleDe2AndChaine implements Solveur{
         }
         
         getChaineCycle2(paires, compatibiliteDAP, donneurAltruiste, s, compatibilitePP, tailleMaxChaine);
+        s.setPairesRestantes(paires);
         s.evalBenefice();
         return s;
     }
@@ -176,6 +177,8 @@ public class CycleDe2AndChaine implements Solveur{
             
             System.out.println("Solution = " + s);
             System.out.println("sc2CH check: " + s.check());
+            
+            System.out.println(s.wola());
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

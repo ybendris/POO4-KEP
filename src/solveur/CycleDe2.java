@@ -60,6 +60,8 @@ public class CycleDe2 implements Solveur{
             }
            
         }
+        
+        s.setPairesRestantes(paires);
         s.evalBenefice();
         return s;
     }
@@ -70,23 +72,23 @@ public class CycleDe2 implements Solveur{
         int beneficeTotal = 0;
         int bestBenefice = 0;
         for(Paire P1 : paires){
-                for(Paire P2 : paires){
-                    if(P1.getBeneficeVers(P2) > -1){
+            for(Paire P2 : paires){
+                if(P1.getBeneficeVers(P2) > -1){
 
-                        if(P2.getBeneficeVers(P1) > -1){
+                    if(P2.getBeneficeVers(P1) > -1){
 
-                            beneficeP1P2 = P1.getBeneficeVers(P2);
-                            beneficeP2P1 = P2.getBeneficeVers(P1);
-                            beneficeTotal = beneficeP1P2 + beneficeP2P1;
-                            if(beneficeTotal > bestBenefice){
-                                bestBenefice = beneficeTotal;
-                                paire2 = P2;
-                                paire1 = P1;
-                            }
-                        }   
-                    }
+                        beneficeP1P2 = P1.getBeneficeVers(P2);
+                        beneficeP2P1 = P2.getBeneficeVers(P1);
+                        beneficeTotal = beneficeP1P2 + beneficeP2P1;
+                        if(beneficeTotal > bestBenefice){
+                            bestBenefice = beneficeTotal;
+                            paire2 = P2;
+                            paire1 = P1;
+                        }
+                    }   
                 }
             }
+        }
         LinkedList<Paire> best =  new LinkedList<Paire>();
         best.add(paire1);
         best.add(paire2);
@@ -120,8 +122,10 @@ public class CycleDe2 implements Solveur{
             Solution s = Cycle2.solve(i);
             
             System.out.println("\nsC2 check: " + s.check());
-            
             System.out.println("Solution = " + s);
+            
+            System.out.println(s.wola());
+            
 
             System.out.println("sC2 check: " +s.check());
             

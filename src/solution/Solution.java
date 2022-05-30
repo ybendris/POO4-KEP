@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import operateur.InsertionPaire;
 
 
 /**
@@ -24,9 +25,10 @@ import java.util.Set;
  */
 public class Solution {
     private Instance instance;
-    private int benefice;
+    private int benefice; 
     private LinkedList<Chaine> chaines;
     private LinkedList<Cycle> cycles;
+    private LinkedList<Paire> pairesRestantes;
 
     /*
         TODO: ajouter un constructeur par copie de chaine et Cycle
@@ -36,6 +38,7 @@ public class Solution {
         this.instance = s.instance;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
+        this.pairesRestantes = new LinkedList<>();
         for(Chaine chaineToAdd : s.chaines){
             this.chaines.add(new Chaine(chaineToAdd));
         }
@@ -49,6 +52,7 @@ public class Solution {
         this.instance = i;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
+        this.pairesRestantes = new LinkedList<>();
     }
 
     public int getBenefice() {
@@ -205,6 +209,7 @@ public class Solution {
                 ", benefice=" + benefice + 
                 ", chaines=" + chaines + 
                 ", cycles=" + cycles + 
+                ", nbPairesRestant=" + this.pairesRestantes.size()+ 
             '}';
     }
     
@@ -226,6 +231,8 @@ public class Solution {
         return false;
     }
 
+    
+    
     
     public boolean ajouterPaireNouvelleChaine(DonneurAltruiste DAToAdd, Paire paireToAdd){
         
@@ -260,19 +267,141 @@ public class Solution {
         }
         return false;
     }
+    
+    public InsertionPaire wola(){
+        InsertionPaire best = new InsertionPaire();
+        InsertionPaire current = new InsertionPaire();
+       
+        boolean improve = true;
+        while(improve == true){
+            best = new InsertionPaire();
+            improve = false;
+            for(Paire p : this.pairesRestantes){
+                current = this.getMeilleureInsertion(p);
+                if(current.isMeilleur(best)){
+                    best = current;
+                }
+            }
+            
+            if(best.isMouvementAmeliorant()){
+                best.doMouvementIfRealisable();
+                improve = true;
+                this.pairesRestantes.remove(best.getPaireToInsert());
+            }
+        }
+        
+        return best;
+    }
+    
       
+    public InsertionPaire getMeilleureInsertion(Paire paireToInsert){
+        InsertionPaire best = new InsertionPaire();
+        
+        System.out.println("Cycle");
+        for(Cycle cycle : this.cycles){
+            InsertionPaire courrant = cycle.getMeilleureInsertion(paireToInsert);
+            
+            if(courrant.isMeilleur(best)) best = courrant;
+        }
+        
+         System.out.println("Chaine");
+        /*for(Chaine chaine : this.chaines){
+            InsertionPaire courrant = chaine.getMeilleureInsertion(paireToInsert);
+            if(courrant.isMeilleur(best)) best = courrant;
+        }*/
+        
+        return best;
+    }
+    
+    public boolean doInsertion(InsertionPaire infos){
+        if(infos == null) return false;
+        if(!infos.doMouvementIfRealisable())return false;
+        
+        this.benefice += infos.getDeltaBenefice();
+        return true;
+    }
+
+    public void setPairesRestantes(LinkedList<Paire> pairesRestantes) {
+        this.pairesRestantes = pairesRestantes;
+    }
+    
     
     
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/yannistest.txt");
             Instance i = read.readInstance();
             
             Solution s = new Solution(i);
             
             System.out.println(s.toString());
-            System.out.println(s.check());//true;
+            System.out.println(s.check());//true
+            
+            DonneurAltruiste d1 = i.getDonneurById(1);
+            DonneurAltruiste d2 = i.getDonneurById(2);
+            Paire p3 = i.getPaireById(3);
+            Paire p4 = i.getPaireById(4);
+            Paire p5 = i.getPaireById(5);
+            Paire p6 = i.getPaireById(6);
+            Paire p7 = i.getPaireById(7);
+            
+            System.out.println(d1.getBeneficeVers(p3)); //5
+            System.out.println(d2.getBeneficeVers(p3)); //2
+            
+            
+            System.out.println(p5.getBeneficeVers(p7)); //2
+            System.out.println(p7.getBeneficeVers(p6)); //6 
+            System.out.println(p6.getBeneficeVers(p5)); //4
+            System.out.println(p6.getBeneficeVers(p7)); //4 -> cout modifié (j'ai ajouté un cout retour)
+            
+            System.out.println();
+            
+            Cycle c1 = new Cycle(3); // taille max 3
+            
+            System.out.println("Test Insertion");
+           
+            c1.ajouterPaireFin(p7);
+            System.out.println(c1.toString());
+            
+            c1.ajouterPaireFin(p6);
+            System.out.println(c1.toString());
+            
+            System.out.println("ICI");
+            System.out.println(c1.deltaBeneficeInsertion(p5, 2)); //2
+            System.out.println(c1.deltaBeneficeInsertion(p5, 1)); //-2147483648
+            
+            InsertionPaire op = new InsertionPaire(c1,p5,2);
+            System.out.println(op.toString());
+            c1.doInsertion(op);
+            
+            System.out.println("\n\n");
+            //c1.ajouterPaire(p5, 2);
+            System.out.println("---------------");
+            System.out.println(c1.toString());
+            
+            
+            System.out.println("---------------");
+            
+           
+            
+            s.cycles.add(c1);
+            
+            Chaine chaine1 = new Chaine(d1,3); 
+            s.chaines.add(chaine1);
+            
+            
+            System.out.println(s.toString());
+            
+            
+            InsertionPaire operateur = s.getMeilleureInsertion(p3);
+            System.out.println(operateur);
+            
+            s.doInsertion(operateur);
+            
+            System.out.println(s.toString());
+            
+            InsertionPaire operateur2 = s.getMeilleureInsertion(p5);
             
         }
         catch(ReaderException ex){

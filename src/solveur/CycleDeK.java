@@ -38,6 +38,7 @@ public class CycleDeK implements Solveur{
         LinkedList<Paire> paires = instance.getPaires();
         LinkedList<Paire> pairesValideCycle = null;
         getCycleDeK(instance, paires, s);
+        s.setPairesRestantes(paires);
         s.evalBenefice();
         return s;
     }
@@ -283,6 +284,8 @@ public class CycleDeK implements Solveur{
             System.out.println("\nsCK check: " + s.check());
             
             System.out.println("Solution = " + s);
+            
+            System.out.println(s.wola());
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

@@ -5,11 +5,13 @@
 package solution;
 
 import instance.Instance;
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import io.InstanceReader;
 import io.exception.ReaderException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import operateur.InsertionPaire;
 import solveur.CycleDe2;
 
 /**
@@ -60,6 +62,7 @@ public class Cycle extends SchemaEchange{
     }
 
     
+    @Override
     public boolean check(){
         return verifTailleCycle() && verifBenefice();
     }
@@ -143,15 +146,7 @@ public class Cycle extends SchemaEchange{
         "\n}";
     }
     
-    public boolean ajouterPaireAuCycle(Paire paireToAdd){
-        if(paireToAdd != null && this.getNbPaires()<this.tailleMax){
-            this.paires.addLast(paireToAdd);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+   
     
     public int getNbPaires(){
         return this.paires.size();
@@ -171,8 +166,8 @@ public class Cycle extends SchemaEchange{
             InstanceReader read = new InstanceReader("instancesInitiales/testInstance.txt");
             Instance i = read.readInstance();
             Cycle c3 = new Cycle(3);
-            c3.ajouterPaireAuCycle(i.getPaireById(4));
-            c3.ajouterPaireAuCycle(i.getPaireById(6));
+            c3.ajouterPaireFin(i.getPaireById(4));
+            c3.ajouterPaireFin(i.getPaireById(6));
             System.out.println("eval: "+c3.evalCoutBenefice());
             
             System.out.println(c3);
@@ -187,6 +182,206 @@ public class Cycle extends SchemaEchange{
             System.out.println(ex.getMessage());
         }
     }
+
+    /**
+    * Note: ne vérifie pas la possibilité les transplantations
+    * @param paireToAdd
+    * @return 
+    */
+    public boolean ajouterPaireAuCycle(Paire paireToAdd){
+        if(paireToAdd != null && this.getNbPaires()<this.tailleMax){
+            this.paires.addLast(paireToAdd);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public int deltaBeneficeInsertionFin(Paire paireToAdd){
+        return deltaBeneficeInsertion(paireToAdd, this.getNbPaires());
+    }
+    
+    public boolean ajouterPairePossibleFin(Paire paireToAdd){
+        return this.ajouterPairePossible(paireToAdd, this.getNbPaires());
+    }
+    
+    
+    
+    /**
+     * Ajout une paire à dernière position de liste de paire 
+     * Permet l'ajout dans un cycle vide 
+     * @param paireToAdd
+     * @return 
+     */
+    public boolean ajouterPaireFin(Paire paireToAdd){
+        return ajouterPaire(paireToAdd,this.getNbPaires());
+    }
+        
+    
+    /**
+     * Si l'ajout d'une paire à une position donnée est réalisable alors on réalise l'ajout
+     * @param paireToAdd
+     * @param position
+     * @return 
+     */
+    public boolean ajouterPaire(Paire paireToAdd, int position){
+        if(ajouterPairePossible(paireToAdd, position)){
+            this.coutBenefice += this.deltaBeneficeInsertion(paireToAdd, position);
+            this.paires.add(position, paireToAdd);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    /**
+     * Vérifie si la paire 'paireToAdd' peut être inséré avant la position 'position'
+     * Vérifie la tailleMax de la séquence et les compatibilités
+     * @param paireToAdd
+     * @param position
+     * @return 
+     */
+    public boolean ajouterPairePossible(Paire paireToAdd, int position){ 
+        if(!(this.getNbPaires() < this.tailleMax)) return false; // vérification taille max (K)
+        if(paireToAdd == null) return false;
+        
+        if(this.paires.isEmpty()) {
+            return true;
+        }
+        else{
+            Paire nPrec = this.getPrec(position);
+            Paire nCour = this.getCurrent(position);
+            return nPrec.peutDonnerA(paireToAdd) && paireToAdd.peutDonnerA(nCour);
+        }
+    }
+    
+    /**
+     * Donne le bénéfice si on veut ajouter une Paire Patient-Donneur à une position donnée dans la liste des paires du cycle
+     * @param position
+     * @param clientToAdd
+     * @return 
+     */
+    @Override
+    public int deltaBeneficeInsertion(Paire paireToAdd, int position) {
+        if(!this.isPositionInsertionValide(position) || paireToAdd == null){
+            return Integer.MIN_VALUE;
+        }
+        int deltaBenefice = 0;
+        int benefice;
+        if(this.paires.isEmpty()){
+            return 0;
+        }
+        else if(this.getNbPaires() == 1){
+            Paire nPrec = this.getPrec(position);
+            
+            benefice = nPrec.getBeneficeVers(paireToAdd);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+            
+            
+            benefice = paireToAdd.getBeneficeVers(nPrec);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+        }
+        else{
+            Paire nPrec = this.getPrec(position);
+            Paire nCour = this.getCurrent(position);
+            deltaBenefice -= nPrec.getBeneficeVers(nCour);
+            
+            benefice = nPrec.getBeneficeVers(paireToAdd);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+            
+            benefice = paireToAdd.getBeneficeVers(nCour);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+        }
+        
+        return deltaBenefice;
+    }
+    
+    /**
+     * Donne le bénéfice si on veut ajouter une séquence de Paire Patient-Donneur entre deux positions donnée
+     * La liste de paires est ordonnée et les transplantations sont réalisables
+     * @param pairesToAdd
+     * @param positionDebut 
+     * @param positionFin
+     * @return 
+     */
+    @Override
+    public int deltaBeneficeInsertionSeq(LinkedList<Paire> pairesToAdd, int position) {
+        if(!this.isPositionInsertionValide(position) || pairesToAdd == null){
+            return Integer.MIN_VALUE;
+        }
+        
+        int deltaCout = 0;
+        
+        Paire nPrec = this.getPrec(position);
+        Paire nCour = this.getCurrent(position);
+        
+        deltaCout -= nPrec.getBeneficeVers(nCour);
+        deltaCout += nPrec.getBeneficeVers(pairesToAdd.getFirst());
+        deltaCout += getBeneficeSequence(pairesToAdd);
+        deltaCout += pairesToAdd.getLast().getBeneficeVers(nCour);
+
+        return deltaCout;
+    }
+    
+    public int getBeneficeSequence(LinkedList<Paire> pairesToAdd){
+        int benefice = 0;
+        int i=0;
+        
+        for(Paire p : this.paires){
+            Paire nextPaire = this.getNextPaire(i);
+            if(nextPaire!=null) 
+                benefice += p.getBeneficeVers(nextPaire);
+            i++;
+        }
+        return benefice;
+    }
+    
+    /**
+     * Renvoie la paire du cycle qui précède la position 'position'
+     *  si 'position' correspond à la position de la première paire du cycle alors on renvoie la dernière paire
+     * @param position
+     * @return 
+     */
+    @Override
+    public Paire getPrec(int position) {
+        if(position == 0) return this.paires.getLast();
+        return this.paires.get(position-1);
+    }
+
+    /**
+     * Renvoie la paire du cycle qui correspond à la position 'position'
+     *  si 'position' est égal au nombre de paire alors on renvoie la première paire
+     * @param position
+     * @return 
+     */
+    @Override
+    public Paire getCurrent(int position) {
+        if(position == this.getNbPaires()) return this.paires.getFirst();
+        return this.paires.get(position);
+    }
+
+    /**
+     * Renvoie la paire du cycle qui succède la position 'position'
+     *  si 'position' correspond à la position de la dernière paire du cycle (ou plus) alors on renvoie la première paire
+     * @param position
+     * @return 
+     */
+    @Override
+    public Paire getNext(int position) {
+        if(position >= this.getNbPaires()-1) return this.paires.getFirst();
+        return this.paires.get(position+1);
+    }
+
+    
+    
+
+    
 
     
     

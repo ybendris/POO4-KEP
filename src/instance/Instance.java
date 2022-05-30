@@ -83,7 +83,7 @@ public class Instance {
     }
     
     /**
-    * @return  une copie de la liste des paires
+    * @return une copie de la liste des paires
     */ 
     public LinkedList<Paire> getPaires(){
         return new LinkedList<>(this.paires.values());

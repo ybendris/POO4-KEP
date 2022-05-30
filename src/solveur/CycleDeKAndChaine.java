@@ -60,6 +60,7 @@ public class CycleDeKAndChaine implements Solveur{
         
         getChaineCycleDeK(paires, compatibiliteDAP, donneurAltruiste, s, compatibilitePP, tailleMaxChaine);
         
+        s.setPairesRestantes(paires);
         s.evalBenefice();
         return s;
     }
@@ -368,15 +369,22 @@ public class CycleDeKAndChaine implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+            InstanceReader read = new InstanceReader("instancesTest/KEP_p250_n13_k5_l17.txt");
             Instance i = read.readInstance();
             
             CycleDeKAndChaine CycleKCH = new CycleDeKAndChaine();
             Solution s = CycleKCH.solve(i);
             
+           
+            
             System.out.println("\nsCKCH check: " + s.check());
             
             System.out.println("Solution = " + s);
+            
+           
+            System.out.println("Amélioration");
+            s.doInsertion(s.wola());
+            
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

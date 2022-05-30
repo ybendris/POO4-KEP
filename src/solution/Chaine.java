@@ -6,9 +6,11 @@ package solution;
 
 
 import instance.reseau.DonneurAltruiste;
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
+import operateur.InsertionPaire;
 
 /**
  *
@@ -92,7 +94,7 @@ public class Chaine extends SchemaEchange {
         return Objects.equals(this.donneurAltruiste, other.donneurAltruiste);
     }
 
-    
+    @Override
     public boolean check(){
         return verifTailleChaine() && verifBenefice();
     }
@@ -194,7 +196,68 @@ public class Chaine extends SchemaEchange {
         System.out.println(ch1.toString());
     }
 
-   
+    
+    /**
+     * Donne le bénéfice si on veut ajouter une Paire Patient-Donneur à une position donnée dans la liste des paires de la chaine
+     * Donne aussi le deltaBenefice dans le cas ou on veut ajouter à la fin de la chaine
+     * @param position
+     * @param clientToAdd
+     * @return 
+     */
+    @Override
+    public int deltaBeneficeInsertion(Paire paireToAdd, int position){
+        if(!this.isPositionInsertionValide(position) || paireToAdd == null){
+            return Integer.MIN_VALUE;
+        }
+        int deltaBenefice = 0;
+        int benefice;
+        Noeud nPrec = this.getPrec(position);
+        
+        if(position >= this.getNbPaires()){ //Si on veut insérer à la fin de la chaine
+           
+            benefice = nPrec.getBeneficeVers(paireToAdd);
+            if(nPrec.getBeneficeVers(paireToAdd) == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+        }
+        else{
+            Paire nCour = this.getCurrent(position);
+             
+            deltaBenefice -= nPrec.getBeneficeVers(nCour);
+            
+            benefice = nPrec.getBeneficeVers(paireToAdd);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+            
+            benefice = paireToAdd.getBeneficeVers(nCour);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+        }
+        return deltaBenefice;
+    }
+    
+    
+    
+
+    @Override
+    public Noeud getPrec(int position) {
+        if(position == 0) return this.donneurAltruiste;
+        return this.paires.get(position-1);
+    }
+
+    @Override
+    public Paire getCurrent(int position) {
+        return this.paires.get(position);
+    }
+
+    @Override
+    public Noeud getNext(int position) {
+        return this.paires.get(position+1);
+    }
+
+    @Override
+    public int deltaBeneficeInsertionSeq(LinkedList<Paire> pairesToAdd, int positionI) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     
 }

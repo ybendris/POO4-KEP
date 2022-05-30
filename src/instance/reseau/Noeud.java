@@ -108,6 +108,9 @@ public abstract class Noeud {
         
         System.out.println(p1.getBeneficeVers(p1)); //-1: se donne à lui même
         
+        System.out.println(d1.peutDonnerA(p1)); //true
+        System.out.println(d1.peutDonnerA(p2)); //false
+        
         System.out.println(d1);
         System.out.println(p1);
     }

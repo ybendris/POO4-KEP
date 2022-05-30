@@ -4,9 +4,11 @@
  */
 package solution;
 
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
+import operateur.InsertionPaire;
 
 /**
  *
@@ -77,6 +79,7 @@ public abstract class SchemaEchange {
     }
     */
     protected abstract int evalCoutBenefice();
+    
 
     @Override
     public String toString() {
@@ -110,6 +113,80 @@ public abstract class SchemaEchange {
     }
     
     
+    public abstract int deltaBeneficeInsertion(Paire paireToAdd,int position);
+    public abstract int deltaBeneficeInsertionSeq(LinkedList<Paire> pairesToAdd, int positionI);
+    public abstract Noeud getPrec(int position);
+    public abstract Noeud getCurrent(int position);
+    public abstract Noeud getNext(int position);
+    public abstract boolean check();
+    
+    
+    public boolean doInsertion(InsertionPaire infos){
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+        
+        Paire paireToAdd = infos.getPaireToInsert();
+        int position = infos.getPosition();
+        /**
+         * Ajoute le client à la position indiqué par l'opérateur d'insertion
+         */
+        this.paires.add(position, paireToAdd);
+        this.coutBenefice += infos.getDeltaBenefice(); //MAJ cout total
+       
+        
+        if (!this.check()){
+            System.out.println("Mauvaise insertion du client, "+paireToAdd);
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        return true;
+    }
+    
+
+    protected boolean isPositionInsertionValide(int position) {
+        if(0 <= position && position <= this.getNbPaires()){
+            return true;
+        }
+        return false;
+    }
+
+    private int getNbPaires() {
+        return this.paires.size();
+    }
+    
+    /**
+     * Retourne le meilleur opérateur d'insertion d'une paire
+     * @param paireToInsert
+     * @return 
+     */
+    InsertionPaire getMeilleureInsertion(Paire paireToInsert) {
+        InsertionPaire meilleur = new InsertionPaire();
+        if(!this.insertionPairePossible(paireToInsert)) 
+            return meilleur;//return d'une valeur par défaut
+        
+        
+        
+        for(int pos = 0; pos<=this.paires.size(); pos++){
+            InsertionPaire courrant = new InsertionPaire(this, paireToInsert, pos);
+            
+         
+            if(courrant.isMeilleur(meilleur))
+                meilleur = courrant;
+        }
+        
+        return meilleur;
+    }
+
+    /**
+     * Potentiellement ya de la place dans le cycle
+     * @param paireToInsert
+     * @return 
+     */
+    private boolean insertionPairePossible(Paire paireToInsert) {
+        if(this.getNbPaires() >= this.tailleMax) return false;
+        return true;             
+    }
     
     
 }
