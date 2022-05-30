@@ -169,8 +169,6 @@ public abstract class SchemaEchange {
         
         for(int pos = 0; pos<=this.paires.size(); pos++){
             InsertionPaire courrant = new InsertionPaire(this, paireToInsert, pos);
-            
-         
             if(courrant.isMeilleur(meilleur))
                 meilleur = courrant;
         }
@@ -178,15 +176,10 @@ public abstract class SchemaEchange {
         return meilleur;
     }
 
-    /**
-     * Potentiellement ya de la place dans le cycle
-     * @param paireToInsert
-     * @return 
-     */
-    private boolean insertionPairePossible(Paire paireToInsert) {
-        if(this.getNbPaires() >= this.tailleMax) return false;
-        return true;             
-    }
+    
+    public abstract boolean insertionPairePossible(Paire paireToInsert);
+    
+    
     
     
 }

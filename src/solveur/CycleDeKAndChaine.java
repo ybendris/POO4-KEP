@@ -62,6 +62,8 @@ public class CycleDeKAndChaine implements Solveur{
         
         s.setPairesRestantes(paires);
         s.evalBenefice();
+        
+        
         return s;
     }
 
@@ -383,13 +385,31 @@ public class CycleDeKAndChaine implements Solveur{
             
            
             System.out.println("Amélioration");
-            s.doInsertion(s.wola());
             
+            s.wola();
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);
             
+            Paire p64 = s.getInstance().getPaireById(64);
+            Paire p68 = s.getInstance().getPaireById(68);
+            Paire p161 = s.getInstance().getPaireById(161);
             
+            Paire p88 = s.getInstance().getPaireById(88);
+            Paire p205 = s.getInstance().getPaireById(205);
+            Paire p111 = s.getInstance().getPaireById(111);
+            Paire p173 = s.getInstance().getPaireById(173);
+            Paire p142 = s.getInstance().getPaireById(142);
+            
+            
+            Paire p73 = s.getInstance().getPaireById(73);
+            Paire p140 = s.getInstance().getPaireById(140);
+            Paire p242 = s.getInstance().getPaireById(242);
+            Paire p157 = s.getInstance().getPaireById(157);
+            
+            System.out.println(p73.getBeneficeVers(p157));
+            System.out.println(p157.getBeneficeVers(p140));
+            System.out.println(p73.getBeneficeVers(p140));
 
         }
         catch(ReaderException ex){

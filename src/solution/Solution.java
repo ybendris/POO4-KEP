@@ -284,7 +284,7 @@ public class Solution {
             }
             
             if(best.isMouvementAmeliorant()){
-                best.doMouvementIfRealisable();
+                this.doInsertion(best);
                 improve = true;
                 this.pairesRestantes.remove(best.getPaireToInsert());
             }
@@ -305,10 +305,10 @@ public class Solution {
         }
         
          System.out.println("Chaine");
-        /*for(Chaine chaine : this.chaines){
+        for(Chaine chaine : this.chaines){
             InsertionPaire courrant = chaine.getMeilleureInsertion(paireToInsert);
             if(courrant.isMeilleur(best)) best = courrant;
-        }*/
+        }
         
         return best;
     }

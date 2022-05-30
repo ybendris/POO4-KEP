@@ -379,7 +379,15 @@ public class Cycle extends SchemaEchange{
     }
 
     
-    
+    /**
+     * Potentiellement ya de la place dans le cycle
+     * @param paireToInsert
+     * @return 
+     */
+    public boolean insertionPairePossible(Paire paireToInsert) {
+        if(this.getNbPaires() >= this.tailleMax) return false;
+        return true;             
+    }
 
     
 

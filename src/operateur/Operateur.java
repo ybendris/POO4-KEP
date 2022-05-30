@@ -73,6 +73,7 @@ public abstract class Operateur {
         if(!this.isMouvementRealisable()){
             return false;
         }
+        
         return this.doMouvement();
     }
 

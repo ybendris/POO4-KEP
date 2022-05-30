@@ -260,4 +260,15 @@ public class Chaine extends SchemaEchange {
     }
 
     
+    /**
+     * Potentiellement ya de la place dans la chaine
+     * @param paireToInsert
+     * @return 
+     */
+    public boolean insertionPairePossible(Paire paireToInsert) {
+        if(this.getNbPaires()+1 >= this.tailleMax) return false;
+        return true;             
+    }
+
+    
 }
