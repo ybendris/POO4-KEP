@@ -34,10 +34,16 @@ public abstract class OperateurInterSequences extends OperateurLocal {
     
     @Override
     protected int evalDeltaBenefice() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.deltaBeneficeSequence = this.evalDeltaBeneficeSequence();
+        this.deltaBeneficeAutreSequence = this.evalDeltaBeneficeAutreSequence();
+        
+        if(this.deltaBeneficeSequence == Integer.MIN_VALUE || this.deltaBeneficeAutreSequence == Integer.MIN_VALUE){
+            return Integer.MIN_VALUE;
+        }
+        return this.deltaBeneficeSequence + this.deltaBeneficeAutreSequence;
     }
     
-    protected abstract int evalDeltaCoutTournee();
-    protected abstract int evalDeltaCoutAutreTournee();
+    protected abstract int evalDeltaBeneficeSequence();
+    protected abstract int evalDeltaBeneficeAutreSequence();
     
 }

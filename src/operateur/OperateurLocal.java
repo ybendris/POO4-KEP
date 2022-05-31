@@ -34,8 +34,8 @@ public abstract class OperateurLocal extends Operateur {
         this.finSequenceI = finSequenceI;
         this.finSequenceJ = finSequenceJ;
        
-        this.pairesSequenceI = (LinkedList)this.sequence.getPaires().subList(debutSequenceI, finSequenceI);
-        this.pairesSequenceJ = (LinkedList)this.sequence.getPaires().subList(debutSequenceJ, finSequenceJ);
+        this.pairesSequenceI = (LinkedList)this.sequence.getPaires().subList(debutSequenceI, finSequenceI+1);
+        this.pairesSequenceJ = (LinkedList)this.sequence.getPaires().subList(debutSequenceJ, finSequenceJ+1);
     }
 
     public int getDebutSequenceI() {
@@ -66,7 +66,7 @@ public abstract class OperateurLocal extends Operateur {
     public static OperateurLocal getOperateur(TypeOperateurLocal type){
         switch(type){
             case INTER_DEPLACEMENT:
-                return new InterDeplacement();
+                return new InterRemplacement();
             
             default:
                 return null;
@@ -77,7 +77,7 @@ public abstract class OperateurLocal extends Operateur {
     public static OperateurLocal getOperateur(TypeOperateurLocal type){
         switch(type){
             case INTER_DEPLACEMENT:
-                return new InterDeplacement();
+                return new InterRemplacement();
             case INTER_ECHANGE:
                 return new InterEchange();
             case INTRA_DEPLACEMENT:
@@ -107,7 +107,7 @@ public abstract class OperateurLocal extends Operateur {
     public static OperateurInterTournees getOperateurInter(TypeOperateurLocal type, Tournee tournee, Tournee autreTournee, int positionI, int positionJ) {
         switch(type) {
             case INTER_DEPLACEMENT:
-                return new InterDeplacement(tournee, autreTournee, positionI, positionJ);
+                return new InterRemplacement(tournee, autreTournee, positionI, positionJ);
             case INTER_ECHANGE:
                 return new InterEchange(tournee, autreTournee, positionI, positionJ);
             default:

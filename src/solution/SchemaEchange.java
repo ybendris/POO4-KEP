@@ -54,6 +54,19 @@ public abstract class SchemaEchange {
         //System.out.println("\nPaires First" + this.paires);
         return this.paires.getFirst();
     }
+    
+    public int getBeneficeSequence(LinkedList<Paire> pairesToAdd){
+        int benefice = 0;
+        int i=0;
+        
+        for(Paire p : pairesToAdd){
+            Paire nextPaire = this.getNextPaire(i);
+            if(nextPaire!=null) 
+                benefice += p.getBeneficeVers(nextPaire);
+            i++;
+        }
+        return benefice;
+    }
 
     public LinkedList<Paire> getPaires() {
         return paires;
@@ -178,6 +191,9 @@ public abstract class SchemaEchange {
 
     
     public abstract boolean insertionPairePossible(Paire paireToInsert);
+
+    public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ);
+    
     
     
     

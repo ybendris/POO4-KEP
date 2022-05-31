@@ -9,6 +9,7 @@ import instance.reseau.DonneurAltruiste;
 import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import operateur.InsertionPaire;
 
@@ -268,6 +269,171 @@ public class Chaine extends SchemaEchange {
     public boolean insertionPairePossible(Paire paireToInsert) {
         if(this.getNbPaires()+1 >= this.tailleMax) return false;
         return true;             
+    }
+
+    /**
+     * Vérifie les paramètres pour le remplacement inter-sequences, 
+     * renvoie Integer.MIN_VALUE s'il y a un problème, on calcule sinon
+     * @param debutSequenceI
+     * @param finSequenceI
+     * @param pairesSequenceJ
+     * @return 
+     */
+    @Override
+    public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+        if(debutSequenceI > finSequenceI){
+            return Integer.MIN_VALUE;
+        }
+        
+        LinkedList<Paire> pairesSequenceI = this.convertToList(this.paires.subList(debutSequenceI, finSequenceI +1));
+        
+        //Attention ca ou pairesSequenceJ est vide (suppression)
+        //Insertion si finI - debutI == 1 (Insertion)
+        //Echange
+        if(pairesSequenceI == null){
+            return Integer.MIN_VALUE;
+        }
+         if(pairesSequenceJ == null){
+            return Integer.MIN_VALUE;
+        }
+        
+        if(this.getNbPaires() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
+            return Integer.MIN_VALUE;
+        }
+       
+        
+        return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
+    }
+    
+    
+    public LinkedList<Paire> convertToList(List<Paire> paires){
+        return new LinkedList<Paire>(paires);
+    }
+    
+    
+   
+
+    /**
+     * Renvoie le benefice engendré par le remplacement de la chaine entre debutSequenceI et finSequenceI
+     * par la sequence pairesSequenceJ
+     * @param debutSequenceI
+     * @param finSequenceI
+     * @param pairesSequenceJ
+     * @return 
+     */
+    private int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+        int deltaBenefice = 0;
+        //Attention ca ou pairesSequenceJ est vide (suppression)
+        //Insertion si finI - debutI == 1 (Insertion)
+        //Echange
+        LinkedList<Paire> pairesSequenceI = this.convertToList(this.paires.subList(debutSequenceI, finSequenceI +1));
+
+        Noeud nPrecSeqI = this.getPrec(debutSequenceI); //2
+        
+        
+       
+        
+        Noeud nFirstSeqI = pairesSequenceI.getFirst(); //3
+        Noeud nLastSeqI = pairesSequenceI.getLast(); //4
+        
+        //Suppression
+        if(pairesSequenceJ.size() == 0){
+            System.out.println("On veut supprimer");
+            if(finSequenceI >= this.getNbPaires()){ // supprimer la fin
+                System.out.println("pas à la fin");
+                Noeud nNextSeqI = this.getNext(finSequenceI); //5
+                deltaBenefice+= nPrecSeqI.getBeneficeVers((Paire)nNextSeqI);
+                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+                deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
+            }
+            else{
+                System.out.println("à la fin");
+                System.out.println(nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI));
+                System.out.println(this.getBeneficeSequence(pairesSequenceI));
+                System.out.println(pairesSequenceI);
+                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+            }
+        }
+        else{
+            
+            Noeud nFirstSeqJ = pairesSequenceJ.getFirst(); //8
+            Noeud nLastSeqJ = pairesSequenceJ.getLast(); //10
+            //Insertion
+            if(finSequenceI - debutSequenceI == 1){
+                System.out.println("On veut insérer");
+                deltaBenefice-= nFirstSeqI.getBeneficeVers((Paire)nLastSeqI);
+
+                deltaBenefice+= nFirstSeqI.getBeneficeVers((Paire)nFirstSeqJ);
+                deltaBenefice+= this.getBeneficeSequence(pairesSequenceJ);
+                deltaBenefice+= nLastSeqJ.getBeneficeVers((Paire)nLastSeqI);
+            }
+            //Echange
+            else{
+                System.out.println("Echanger");
+                Noeud nNextSeqI = this.getNext(finSequenceI); //5
+                nPrecSeqI = this.getCurrent(debutSequenceI); //2
+                nNextSeqI = this.getCurrent(finSequenceI); //5
+
+                pairesSequenceI = (LinkedList)this.paires.subList(debutSequenceI+1, finSequenceI); //3-4
+
+                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+                deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
+
+                deltaBenefice+= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqJ);
+                deltaBenefice+= this.getBeneficeSequence(pairesSequenceJ);
+                deltaBenefice+= nLastSeqJ.getBeneficeVers((Paire)nNextSeqI);
+            }
+        }
+        
+
+        return deltaBenefice;
+    }
+
+    /**
+     * Ajout une paire à dernière position de liste de paire 
+     * Permet l'ajout dans une chaine vide par exemple
+     * @param paireToAdd
+     * @return 
+     */
+    public boolean ajouterPaireFin(Paire paireToAdd){
+        return ajouterPaire(paireToAdd,this.getNbPaires());
+    }
+    
+    private boolean ajouterPaire(Paire paireToAdd, int position) {
+       if(ajouterPairePossible(paireToAdd, position)){
+            this.coutBenefice += this.deltaBeneficeInsertion(paireToAdd, position);
+            this.paires.add(position, paireToAdd);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    /**
+     * Vérifie si la paire 'paireToAdd' peut être inséré avant la position 'position'
+     * Vérifie la tailleMax de la séquence et les compatibilités
+     * @param paireToAdd
+     * @param position
+     * @return 
+     */
+    public boolean ajouterPairePossible(Paire paireToAdd, int position){ 
+        if(!(this.getNbPaires()+1 < this.tailleMax)) return false; // vérification taille max (L)
+        if(paireToAdd == null) return false;
+        
+        if(position >= this.getNbPaires()){ // ajout à la fin
+            Noeud nPrec = this.getPrec(position);
+            
+            return nPrec.peutDonnerA(paireToAdd);
+        }
+        else{
+            Noeud nPrec = this.getPrec(position);
+            Noeud nNext = this.getNext(position);
+            return nPrec.peutDonnerA(paireToAdd) && paireToAdd.peutDonnerA((Paire)nNext);
+        }
     }
 
     

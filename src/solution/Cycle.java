@@ -210,7 +210,7 @@ public class Cycle extends SchemaEchange{
     
     /**
      * Ajout une paire à dernière position de liste de paire 
-     * Permet l'ajout dans un cycle vide 
+     * Permet l'ajout dans un cycle vide par exemple
      * @param paireToAdd
      * @return 
      */
@@ -329,18 +329,7 @@ public class Cycle extends SchemaEchange{
         return deltaCout;
     }
     
-    public int getBeneficeSequence(LinkedList<Paire> pairesToAdd){
-        int benefice = 0;
-        int i=0;
-        
-        for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(i);
-            if(nextPaire!=null) 
-                benefice += p.getBeneficeVers(nextPaire);
-            i++;
-        }
-        return benefice;
-    }
+   
     
     /**
      * Renvoie la paire du cycle qui précède la position 'position'
@@ -387,6 +376,11 @@ public class Cycle extends SchemaEchange{
     public boolean insertionPairePossible(Paire paireToInsert) {
         if(this.getNbPaires() >= this.tailleMax) return false;
         return true;             
+    }
+
+    @Override
+    public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

@@ -9,6 +9,7 @@ import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 import io.InstanceReader;
 import io.exception.ReaderException;
+import java.util.LinkedList;
 import operateur.InsertionPaire;
 import solution.Chaine;
 import solution.Cycle;
@@ -18,7 +19,7 @@ import solution.Solution;
  *
  * @author yanni
  */
-public class TestInsertion {
+public class TestRemplacement {
     public static void main(String[] args) {
         try{
             InstanceReader read = new InstanceReader("instancesInitiales/yannistest.txt");
@@ -44,7 +45,7 @@ public class TestInsertion {
             System.out.println(p5.getBeneficeVers(p7)); //2
             System.out.println(p7.getBeneficeVers(p6)); //6 
             System.out.println(p6.getBeneficeVers(p5)); //4
-            System.out.println(p6.getBeneficeVers(p7)); //3 -> cout modifié (j'ai ajouté un cout retour)
+            System.out.println(p6.getBeneficeVers(p7)); //4 -> cout modifié (j'ai ajouté un cout retour)
             
             System.out.println();
             
@@ -58,16 +59,20 @@ public class TestInsertion {
             c1.ajouterPaireFin(p6);
             System.out.println(c1.toString());
             
-            System.out.println("ICI");
-            System.out.println(c1.deltaBeneficeInsertion(p5, 2)); //3
-            System.out.println(c1.deltaBeneficeInsertion(p5, 1)); //-2147483648
+            Chaine ch1 = new Chaine(d1,4);
             
-            InsertionPaire op = new InsertionPaire(c1,p5,2);
-            System.out.println(op.toString());
-            c1.doInsertion(op);
+            ch1.ajouterPaireFin(p3);
+            System.out.println(ch1.toString());
+            ch1.ajouterPaireFin(p5);
+            System.out.println(ch1.toString());
             
             
-            System.out.println(c1.toString());
+            LinkedList<Paire> PairesJ = new LinkedList();
+            
+            System.out.println( ch1.deltaBeneficeRemplacementInter(1, 1, PairesJ));
+           
+            
+            
                           
             
         }
