@@ -380,7 +380,111 @@ public class Cycle extends SchemaEchange{
 
     @Override
     public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI );
+        
+        //Attention ca ou pairesSequenceJ est vide (suppression)
+        //Insertion si finI - debutI == 1 (Insertion)
+        //Echange
+        
+        if(pairesSequenceI == null){
+            return Integer.MIN_VALUE;
+        }
+         if(pairesSequenceJ == null){
+            return Integer.MIN_VALUE;
+        }
+        
+        if(this.getNbPaires() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
+            return Integer.MIN_VALUE;
+        }
+       
+        
+        return deltaBeneficeRemplacement(debutSequenceI, finSequenceI, pairesSequenceJ);
+    }
+
+    private int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+        int deltaBenefice = 0;
+        //Attention ca ou pairesSequenceJ est vide (suppression)
+        //Insertion si finI - debutI == 1 (Insertion)
+        //Echange
+        LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI );
+
+        Noeud nPrecSeqI = this.getPrec(debutSequenceI); //2
+        
+        
+       
+        
+        Noeud nFirstSeqI = pairesSequenceI.getFirst(); //3
+        Noeud nLastSeqI = pairesSequenceI.getLast(); //4
+        int benefice = 0;
+        //Suppression
+        if(pairesSequenceJ.size() == 0){
+            if(finSequenceI >= this.getNbPaires()){ // supprimer la fin
+                Noeud nNextSeqI = this.getNext(finSequenceI); //5
+                
+                benefice = nPrecSeqI.getBeneficeVers((Paire)nNextSeqI);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+                
+                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+                deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
+            }
+            else{
+                
+                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+            }
+        }
+        else{
+            
+            Noeud nFirstSeqJ = pairesSequenceJ.getFirst(); //8
+            Noeud nLastSeqJ = pairesSequenceJ.getLast(); //10
+            //Insertion
+            if(Math.abs(finSequenceI - debutSequenceI) == 1){
+                
+                deltaBenefice-= nFirstSeqI.getBeneficeVers((Paire)nLastSeqI);
+
+                
+                
+                benefice = nFirstSeqI.getBeneficeVers((Paire)nFirstSeqJ);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+                
+                benefice = this.getBeneficeSequence(pairesSequenceJ);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+                
+                benefice = nLastSeqJ.getBeneficeVers((Paire)nLastSeqI);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+            }
+            //Echange
+            else{
+                Noeud nNextSeqI = this.getNext(finSequenceI); //5
+                nPrecSeqI = this.getCurrent(debutSequenceI); //2
+                nNextSeqI = this.getCurrent(finSequenceI); //5
+
+                pairesSequenceI = (LinkedList)this.paires.subList(debutSequenceI+1, finSequenceI); //3-4
+
+                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+                deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
+
+                benefice = nPrecSeqI.getBeneficeVers((Paire)nFirstSeqJ);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+                
+                benefice = this.getBeneficeSequence(pairesSequenceJ);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+                
+                benefice = nLastSeqJ.getBeneficeVers((Paire)nNextSeqI);
+                if(benefice == -1) return Integer.MIN_VALUE;
+                deltaBenefice += benefice;
+            }
+        }
+
+        return deltaBenefice;
     }
 
     

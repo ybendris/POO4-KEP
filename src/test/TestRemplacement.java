@@ -69,11 +69,22 @@ public class TestRemplacement {
             
             LinkedList<Paire> PairesJ = new LinkedList();
             
-            System.out.println( ch1.deltaBeneficeRemplacementInter(1, 1, PairesJ));
+            System.out.println("Suppression de chaine (fin)");
+            System.out.println(ch1.deltaBeneficeRemplacementInter(1, 1, PairesJ)); //-2
+           
+            
+            System.out.println("Insertion dans cycle");
+            PairesJ.add(p5);
+            System.out.println(c1.deltaBeneficeRemplacementInter(1 ,0, PairesJ)); //3
+            
+                    
+            //System.out.println(c1.toString());
            
             
             
-                          
+            //System.out.println(c2.deltaBeneficeRemplacementInter(1, 1, PairesJ));
+           
+         
             
         }
         catch(ReaderException ex){

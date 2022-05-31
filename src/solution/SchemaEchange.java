@@ -7,6 +7,7 @@ package solution;
 import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import operateur.InsertionPaire;
 
@@ -55,15 +56,34 @@ public abstract class SchemaEchange {
         return this.paires.getFirst();
     }
     
+    //this.paires.subList(debutSequenceI, finSequenceI +1)
+    public LinkedList<Paire> convertToLinkedList(int debut, int fin){
+        if(debut <= fin){
+            return new LinkedList<Paire>(this.paires.subList(debut, fin+1));
+        }
+        
+        LinkedList<Paire> pairesSubList = new LinkedList<Paire>();
+        
+        int index;
+        for(index=debut; index != fin; index = (index + 1) % this.getNbPaires()){
+            pairesSubList.add(this.paires.get(index));
+        }
+        pairesSubList.add(this.paires.get(index));
+        
+        return pairesSubList;
+    }
+    
+    
     public int getBeneficeSequence(LinkedList<Paire> pairesToAdd){
         int benefice = 0;
-        int i=0;
         
-        for(Paire p : pairesToAdd){
-            Paire nextPaire = this.getNextPaire(i);
-            if(nextPaire!=null) 
-                benefice += p.getBeneficeVers(nextPaire);
-            i++;
+        for(int i=0; i < pairesToAdd.size()-1; i++){
+            
+            Paire current = pairesToAdd.get(i);   
+            Paire next = pairesToAdd.get(i+1);
+           
+            benefice += current.getBeneficeVers(next);
+            
         }
         return benefice;
     }
