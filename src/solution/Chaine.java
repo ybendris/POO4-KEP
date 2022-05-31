@@ -329,7 +329,9 @@ public class Chaine extends SchemaEchange {
         Noeud nPrecSeqI = this.getPrec(debutSequenceI); //2
         
         
-       
+        System.out.println("debutSequenceI "+debutSequenceI);
+        System.out.println("finSequenceI "+finSequenceI);
+        System.out.println("pairesSequenceJ "+pairesSequenceJ);
         
         Noeud nFirstSeqI = pairesSequenceI.getFirst(); //3
         Noeud nLastSeqI = pairesSequenceI.getLast(); //4
@@ -358,7 +360,7 @@ public class Chaine extends SchemaEchange {
             Noeud nFirstSeqJ = pairesSequenceJ.getFirst(); //8
             Noeud nLastSeqJ = pairesSequenceJ.getLast(); //10
             //Insertion
-            if(finSequenceI - debutSequenceI == 1){
+            if(Math.abs(finSequenceI - debutSequenceI) == 1){
                 deltaBenefice-= nFirstSeqI.getBeneficeVers((Paire)nLastSeqI);
 
                 benefice = nFirstSeqI.getBeneficeVers((Paire)nFirstSeqJ);

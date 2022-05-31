@@ -39,5 +39,22 @@ public class InterRemplacement extends OperateurInterSequences{
         if(this.autreSequence == null ) return Integer.MIN_VALUE;
         return this.autreSequence.deltaBeneficeRemplacementInter(debutSequenceJ, finSequenceJ, pairesSequenceI);
     }
+
+    @Override
+    public String toString() {
+        return "InterRemplacement{" + 
+                "\n\tdebutSequenceI=" + debutSequenceI + 
+                "\n\tdebutSequenceJ=" + debutSequenceJ + 
+                "\n\tfinSequenceI=" + finSequenceI + 
+                "\n\tfinSequenceJ=" + finSequenceJ + 
+                "\n\tpairesSequenceI=" + pairesSequenceI + 
+                "\n\tpairesSequenceJ=" + pairesSequenceJ + 
+                "\n\tdeltaBeneficeSequence=" + deltaBeneficeSequence + 
+                "\n\tdeltaBeneficeAutreSequence=" + deltaBeneficeAutreSequence + 
+                "\n\tdeltaBenefice=" + deltaBenefice +
+                "\n}";
+    }
+    
+    
     
 }

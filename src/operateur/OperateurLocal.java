@@ -27,6 +27,8 @@ public abstract class OperateurLocal extends Operateur {
         this.finSequenceJ = -1;
     }
     
+    
+    
     public OperateurLocal(SchemaEchange sequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
         super(sequence);
         this.debutSequenceI = debutSequenceI;
@@ -34,8 +36,8 @@ public abstract class OperateurLocal extends Operateur {
         this.finSequenceI = finSequenceI;
         this.finSequenceJ = finSequenceJ;
        
-        this.pairesSequenceI = (LinkedList)this.sequence.getPaires().subList(debutSequenceI, finSequenceI+1);
-        this.pairesSequenceJ = (LinkedList)this.sequence.getPaires().subList(debutSequenceJ, finSequenceJ+1);
+        this.pairesSequenceI = this.convertToLinkedList(this.sequence.getPaires(),debutSequenceI, finSequenceI);
+        this.pairesSequenceJ = this.convertToLinkedList(this.sequence.getPaires(),debutSequenceJ, finSequenceJ);
     }
 
     public int getDebutSequenceI() {
@@ -62,6 +64,21 @@ public abstract class OperateurLocal extends Operateur {
         return pairesSequenceJ;
     }
     
+    public LinkedList<Paire> convertToLinkedList(LinkedList<Paire> listPaires,int debut, int fin){
+        if(debut <= fin){
+            return new LinkedList<Paire>(listPaires.subList(debut, fin+1));
+        }
+        
+        LinkedList<Paire> pairesSubList = new LinkedList<Paire>();
+        
+        int index;
+        for(index=debut; index != fin; index = (index + 1) % listPaires.size()){
+            pairesSubList.add(listPaires.get(index));
+        }
+        pairesSubList.add(listPaires.get(index));
+        
+        return pairesSubList;
+    }
     
     public static OperateurLocal getOperateur(TypeOperateurLocal type){
         switch(type){

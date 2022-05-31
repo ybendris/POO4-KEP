@@ -4,6 +4,7 @@
  */
 package operateur;
 
+import instance.reseau.Paire;
 import java.util.LinkedList;
 import solution.SchemaEchange;
 
@@ -27,9 +28,12 @@ public abstract class OperateurInterSequences extends OperateurLocal {
     public OperateurInterSequences(SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
         super(sequence,debutSequenceI, debutSequenceJ,finSequenceI,finSequenceJ);
         this.autreSequence = autreSequence;
-        this.pairesSequenceJ = (LinkedList)this.autreSequence.getPaires().subList(debutSequenceJ, finSequenceJ);
+        this.pairesSequenceJ = //this.convertToLinkedList(this.autreSequence.getPaires(),debutSequenceJ, finSequenceJ);
+         System.out.println(this);
+        
         this.deltaBenefice = this.evalDeltaBenefice();
     }
+    
     
     
     @Override

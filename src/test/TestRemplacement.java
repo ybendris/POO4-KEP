@@ -11,6 +11,7 @@ import io.InstanceReader;
 import io.exception.ReaderException;
 import java.util.LinkedList;
 import operateur.InsertionPaire;
+import operateur.InterRemplacement;
 import solution.Chaine;
 import solution.Cycle;
 import solution.Solution;
@@ -78,10 +79,13 @@ public class TestRemplacement {
             System.out.println(c1.deltaBeneficeRemplacementInter(1 ,0, PairesJ)); //3
             
                     
-            //System.out.println(c1.toString());
+            
            
+            InterRemplacement operateur = new InterRemplacement(ch1,c1,1,1,1,0);
             
+            System.out.println(operateur);
             
+            System.out.println(operateur);
             //System.out.println(c2.deltaBeneficeRemplacementInter(1, 1, PairesJ));
            
          
