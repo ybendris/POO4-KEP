@@ -417,23 +417,19 @@ public class Cycle extends SchemaEchange{
         Noeud nLastSeqI = pairesSequenceI.getLast(); //4
         int benefice = 0;
         //Suppression
+        System.out.println("Coucou");
+        
         if(pairesSequenceJ.size() == 0){
-            if(finSequenceI >= this.getNbPaires()){ // supprimer la fin
-                Noeud nNextSeqI = this.getNext(finSequenceI); //5
-                
-                benefice = nPrecSeqI.getBeneficeVers((Paire)nNextSeqI);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-                
-                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
-                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
-                deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
-            }
-            else{
-                
-                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
-                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
-            }
+            System.out.println("Suppression");
+            Noeud nNextSeqI = this.getNext(finSequenceI); //5
+            
+            benefice = nPrecSeqI.getBeneficeVers((Paire)nNextSeqI);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+
+            deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
+            deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
+            deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
         }
         else{
             
@@ -485,6 +481,39 @@ public class Cycle extends SchemaEchange{
         }
 
         return deltaBenefice;
+    }
+
+    @Override
+    public int deltaBeneficeSuppression(int debut, int fin) {
+        if(!this.isPositionSuppressionValide(debut) || !this.isPositionSuppressionValide(fin)){
+            return Integer.MIN_VALUE;
+        }
+        LinkedList<Paire> pairesToSupp = this.convertToLinkedList(debut, fin);
+        /**
+         * Permet de garder un cycle correct
+         */
+        if(this.getNbPaires() - pairesToSupp.size()<2){
+            return Integer.MIN_VALUE;
+        }
+
+        int deltaCout = 0;
+        int benefice;
+        
+        Noeud nPrec = this.getPrec(debut);
+        Noeud nNext = this.getNext(fin);
+        
+        benefice = nPrec.getBeneficeVers((Paire)nNext);
+        if(benefice == -1) return Integer.MIN_VALUE;
+        deltaCout += benefice;
+        
+        //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
+        
+        deltaCout -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
+        deltaCout -= this.getBeneficeSequence(pairesToSupp);
+        deltaCout -= pairesToSupp.getLast().getBeneficeVers((Paire)nNext);
+        
+        
+        return deltaCout;
     }
 
     

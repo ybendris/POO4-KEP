@@ -28,8 +28,10 @@ public abstract class OperateurInterSequences extends OperateurLocal {
     public OperateurInterSequences(SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
         super(sequence,debutSequenceI, debutSequenceJ,finSequenceI,finSequenceJ);
         this.autreSequence = autreSequence;
-        this.pairesSequenceJ = //this.convertToLinkedList(this.autreSequence.getPaires(),debutSequenceJ, finSequenceJ);
-         System.out.println(this);
+        System.out.println(this);
+        this.pairesSequenceJ = this.convertToLinkedList(this.autreSequence.getPaires(),debutSequenceJ, finSequenceJ);
+        this.pairesSequenceJ.pollFirst();
+        this.pairesSequenceJ.pollLast();
         
         this.deltaBenefice = this.evalDeltaBenefice();
     }

@@ -44,8 +44,8 @@ public class InterRemplacement extends OperateurInterSequences{
     public String toString() {
         return "InterRemplacement{" + 
                 "\n\tdebutSequenceI=" + debutSequenceI + 
-                "\n\tdebutSequenceJ=" + debutSequenceJ + 
                 "\n\tfinSequenceI=" + finSequenceI + 
+                "\n\tdebutSequenceJ=" + debutSequenceJ + 
                 "\n\tfinSequenceJ=" + finSequenceJ + 
                 "\n\tpairesSequenceI=" + pairesSequenceI + 
                 "\n\tpairesSequenceJ=" + pairesSequenceJ + 

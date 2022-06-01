@@ -152,6 +152,7 @@ public abstract class SchemaEchange {
     public abstract Noeud getCurrent(int position);
     public abstract Noeud getNext(int position);
     public abstract boolean check();
+    public abstract int deltaBeneficeSuppression(int debut, int fin);
     
     
     public boolean doInsertion(InsertionPaire infos){
@@ -179,6 +180,13 @@ public abstract class SchemaEchange {
 
     protected boolean isPositionInsertionValide(int position) {
         if(0 <= position && position <= this.getNbPaires()){
+            return true;
+        }
+        return false;
+    }
+    
+    protected boolean isPositionSuppressionValide(int position) {
+        if(0 <= position && position < this.getNbPaires()){
             return true;
         }
         return false;

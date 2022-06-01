@@ -81,14 +81,44 @@ public class TestRemplacement {
                     
             
            
-            InterRemplacement operateur = new InterRemplacement(ch1,c1,1,1,1,0);
+            InterRemplacement op1 = new InterRemplacement(ch1,c1,1,1,1,0);
+            System.out.println(op1);
+            InterRemplacement op2 = new InterRemplacement(ch1,c1,1,1,1,0);
+            System.out.println(op2);
             
-            System.out.println(operateur);
             
-            System.out.println(operateur);
-            //System.out.println(c2.deltaBeneficeRemplacementInter(1, 1, PairesJ));
-           
-         
+            Cycle c2 = new Cycle(4);
+            c2.ajouterPaireFin(p4);
+            
+            System.out.println(c1);
+            System.out.println(c2);
+            
+            LinkedList<Paire> PairesJ2 = new LinkedList();
+            
+            System.out.println(c1.deltaBeneficeRemplacementInter(1 ,1, PairesJ2));
+            
+            PairesJ2.add(p6);
+            
+            System.out.println(ch1);
+            System.out.println("Suppression du 5 en fin de chaine (-2): "+ch1.deltaBeneficeSuppression(1, 1)); //-2
+            System.out.println("Suppression du 3 et 5 en fin de chaine (-7): "+ch1.deltaBeneficeSuppression(0, 1)); //-7
+            
+            System.out.println("Suppression du 3 en milieu de chaine (-2147483648): "+ch1.deltaBeneficeSuppression(0, 0)); //-2147483648
+            System.out.println("Suppression avec debut et fin inversé dans une chaine (-2147483648): "+ch1.deltaBeneficeSuppression(1, 0)); //-2147483648
+
+            
+            
+            Cycle c3 = new Cycle(3);
+            c3.ajouterPaireFin(p7);
+            c3.ajouterPaireFin(p6);
+            c3.ajouterPaireFin(p5);
+            
+            System.out.println("Suppression de 5 dans le cycle (-3): "+c3.deltaBeneficeSuppression(2, 2)); //-3
+            System.out.println("Suppression de 5 et 6 dans le cycle (-inf)"+c3.deltaBeneficeSuppression(1, 2)); //-inf
+            System.out.println("Suppression de 6 dans le cycle (-inf)"+c3.deltaBeneficeSuppression(1, 1)); //-inf
+            System.out.println("Suppression de 7 dans le cycle (-inf)"+c3.deltaBeneficeSuppression(0, 0)); //-inf
+            
+            System.out.println(c3);
             
         }
         catch(ReaderException ex){

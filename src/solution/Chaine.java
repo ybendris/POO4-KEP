@@ -449,5 +449,43 @@ public class Chaine extends SchemaEchange {
         }
     }
 
+    @Override
+    public int deltaBeneficeSuppression(int debut, int fin) {
+        if(debut > fin){
+            return Integer.MIN_VALUE;
+        }
+        if(!this.isPositionSuppressionValide(debut) || !this.isPositionSuppressionValide(fin)){
+            return Integer.MIN_VALUE;
+        }
+        int deltaBenefice = 0;
+        int benefice;
+        Noeud nPrec = this.getPrec(debut); //0 ,0 Donneur altruiste
+        LinkedList<Paire> pairesToSupp = this.convertToLinkedList(debut, fin);
+        
+        //System.out.println(pairesToSupp);
+        
+        if(fin == this.getNbPaires()-1){ // si on veut supprimer à la fin
+            //System.out.println("Supprimer à la fin");
+            //System.out.println(-nPrec.getBeneficeVers(pairesToSupp.getFirst()));
+            //System.out.println(-this.getBeneficeSequence(pairesToSupp));
+            deltaBenefice -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
+            deltaBenefice -= this.getBeneficeSequence(pairesToSupp);
+        }
+        else{
+            Noeud nNext = this.getNext(fin);
+            
+            benefice = nPrec.getBeneficeVers((Paire)nNext);
+            if(benefice == -1) return Integer.MIN_VALUE;
+            deltaBenefice += benefice;
+            
+            deltaBenefice -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
+            deltaBenefice -= this.getBeneficeSequence(pairesToSupp);
+            deltaBenefice -= pairesToSupp.getLast().getBeneficeVers((Paire)nNext);
+        }
+        
+        
+        return deltaBenefice;
+    }
+
     
 }
