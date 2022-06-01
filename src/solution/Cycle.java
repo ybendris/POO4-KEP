@@ -199,7 +199,7 @@ public class Cycle extends SchemaEchange{
     }
     
     public int deltaBeneficeInsertionFin(Paire paireToAdd){
-        return deltaBeneficeInsertion(paireToAdd, this.getNbPaires());
+        return deltaBeneficeInsertionPaire(paireToAdd, this.getNbPaires());
     }
     
     public boolean ajouterPairePossibleFin(Paire paireToAdd){
@@ -227,7 +227,7 @@ public class Cycle extends SchemaEchange{
      */
     public boolean ajouterPaire(Paire paireToAdd, int position){
         if(ajouterPairePossible(paireToAdd, position)){
-            this.coutBenefice += this.deltaBeneficeInsertion(paireToAdd, position);
+            this.coutBenefice += this.deltaBeneficeInsertionPaire(paireToAdd, position);
             this.paires.add(position, paireToAdd);
             return true;
         }
@@ -237,7 +237,6 @@ public class Cycle extends SchemaEchange{
     }
     
     /**
-     * Vérifie si la paire 'paireToAdd' peut être inséré avant la position 'position'
      * Vérifie la tailleMax de la séquence et les compatibilités
      * @param paireToAdd
      * @param position
@@ -264,8 +263,9 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     @Override
-    public int deltaBeneficeInsertion(Paire paireToAdd, int position) {
+    public int deltaBeneficeInsertionPaire(Paire paireToAdd, int position) {
         if(!this.isPositionInsertionValide(position) || paireToAdd == null){
+            System.out.println("Integer.MIN_VALUE");
             return Integer.MIN_VALUE;
         }
         int deltaBenefice = 0;
@@ -311,8 +311,8 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     @Override
-    public int deltaBeneficeInsertionSeq(LinkedList<Paire> pairesToAdd, int position) {
-        if(!this.isPositionInsertionValide(position) || pairesToAdd == null){
+    public int deltaBeneficeInsertionSequence(LinkedList<Paire> pairesToAdd, int debut, int fin) {
+        /*if(!this.isPositionInsertionValide(position) || pairesToAdd == null){
             return Integer.MIN_VALUE;
         }
         
@@ -326,7 +326,9 @@ public class Cycle extends SchemaEchange{
         deltaCout += getBeneficeSequence(pairesToAdd);
         deltaCout += pairesToAdd.getLast().getBeneficeVers(nCour);
 
-        return deltaCout;
+        return deltaCout;*/
+        
+        return 99;
     }
     
    
@@ -401,7 +403,7 @@ public class Cycle extends SchemaEchange{
         return deltaBeneficeRemplacement(debutSequenceI, finSequenceI, pairesSequenceJ);
     }
 
-    private int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
         int deltaBenefice = 0;
         //Attention ca ou pairesSequenceJ est vide (suppression)
         //Insertion si finI - debutI == 1 (Insertion)
@@ -416,20 +418,9 @@ public class Cycle extends SchemaEchange{
         Noeud nFirstSeqI = pairesSequenceI.getFirst(); //3
         Noeud nLastSeqI = pairesSequenceI.getLast(); //4
         int benefice = 0;
-        //Suppression
-        System.out.println("Coucou");
         
         if(pairesSequenceJ.size() == 0){
-            System.out.println("Suppression");
-            Noeud nNextSeqI = this.getNext(finSequenceI); //5
-            
-            benefice = nPrecSeqI.getBeneficeVers((Paire)nNextSeqI);
-            if(benefice == -1) return Integer.MIN_VALUE;
-            deltaBenefice += benefice;
-
-            deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
-            deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
-            deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
+            return deltaBeneficeSuppression(debutSequenceI, finSequenceI);
         }
         else{
             
@@ -514,6 +505,14 @@ public class Cycle extends SchemaEchange{
         
         
         return deltaCout;
+    }
+
+    @Override
+    protected boolean isPositionInsertionValide(int position) {
+        if(0 <= position && position <= this.getNbPaires()+1){
+            return true;
+        }
+        return false;
     }
 
     

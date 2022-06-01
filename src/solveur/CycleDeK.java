@@ -73,7 +73,7 @@ public class CycleDeK implements Solveur{
           
             paire1 = getNextPaireCycleK(paires, compatibilite, paire1, pairesAjoutCycle, tailleMaxCycle);
 
-            System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
+            //System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
             
             Paire lastPaire = pairesAjoutCycle.getLast();
             Paire beginPaire = pairesAjoutCycle.getFirst();
@@ -85,17 +85,17 @@ public class CycleDeK implements Solveur{
                     valide=true;
                 }
                 else{
-                    System.out.println(" Ah non on peut pas boucler");
+                    //System.out.println(" Ah non on peut pas boucler");
                     if(pairesAjoutCycle.size()>1){
                         paires.add(pairesAjoutCycle.getLast());
                         pairesAjoutCycle.removeLast();
                         pairesValideCycle=nouvelleDernierePaire(paires, pairesAjoutCycle);
-                        System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
+                        //System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
                         if(!pairesAjoutCycle.equals(pairesValideCycle)){
-                            System.out.println("Les 2 listes ne sont pas égales");
+                            //System.out.println("Les 2 listes ne sont pas égales");
                             pairesAjoutCycle=pairesValideCycle;
                             paires.remove(pairesAjoutCycle.getLast());
-                            System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
+                            //System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
                             valide = true;
                         }
                     }
@@ -207,7 +207,7 @@ public class CycleDeK implements Solveur{
         for(Paire p : paires)
         {
                 if(lastPaire.getBeneficeVers(p)>-1){
-                    System.out.println("Paire précedente : " + lastPaire.getId()+ " paire actuelle : " + p.getId() + " benefice " + p.getBeneficeVers(beginPaire));
+                    //System.out.println("Paire précedente : " + lastPaire.getId()+ " paire actuelle : " + p.getId() + " benefice " + p.getBeneficeVers(beginPaire));
                     if(p.getBeneficeVers(beginPaire)>-1){
                      
                         beneficeTotal=p.getBeneficeVers(beginPaire)+lastPaire.getBeneficeVers(p);

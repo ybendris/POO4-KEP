@@ -146,8 +146,8 @@ public abstract class SchemaEchange {
     }
     
     
-    public abstract int deltaBeneficeInsertion(Paire paireToAdd,int position);
-    public abstract int deltaBeneficeInsertionSeq(LinkedList<Paire> pairesToAdd, int positionI);
+    public abstract int deltaBeneficeInsertionPaire(Paire paireToAdd,int position);
+    public abstract int deltaBeneficeInsertionSequence(LinkedList<Paire> pairesToAdd, int debut, int fin);
     public abstract Noeud getPrec(int position);
     public abstract Noeud getCurrent(int position);
     public abstract Noeud getNext(int position);
@@ -178,15 +178,10 @@ public abstract class SchemaEchange {
     }
     
 
-    protected boolean isPositionInsertionValide(int position) {
-        if(0 <= position && position <= this.getNbPaires()){
-            return true;
-        }
-        return false;
-    }
+    protected abstract boolean isPositionInsertionValide(int position);
     
     protected boolean isPositionSuppressionValide(int position) {
-        if(0 <= position && position < this.getNbPaires()){
+        if(0 < position && position < this.getNbPaires()+1){
             return true;
         }
         return false;

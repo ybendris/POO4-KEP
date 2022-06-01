@@ -35,7 +35,7 @@ public class InsertionPaire extends Operateur{
     @Override
     protected int evalDeltaBenefice() {
         if(sequence == null) return Integer.MIN_VALUE;
-        return this.sequence.deltaBeneficeInsertion(paireToInsert, position);
+        return this.sequence.deltaBeneficeInsertionPaire(paireToInsert, position);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class InsertionPaire extends Operateur{
 
     @Override
     public String toString() {
-        return "InsertionPaire{" + 
+        return "InsertionPaire{\n" + 
             "sequence=" + sequence + 
-            ", deltaBenefice=" + deltaBenefice + 
-            ", paireToInsert=" + paireToInsert + 
-            ", position=" + position + 
-        '}';
+            "\n\tdeltaBenefice=" + deltaBenefice + 
+            "\n\tpaireToInsert=" + paireToInsert + 
+            "\n\tposition=" + position + 
+        "\n}";
     }
 
     public Paire getPaireToInsert() {

@@ -50,26 +50,44 @@ public class TestInsertion {
             
             Cycle c1 = new Cycle(3); // taille max 3
             
-            System.out.println("Test Insertion");
+            System.out.println("Test Insertion Cycle\n\n");
            
+            System.out.println(c1.toString());
             c1.ajouterPaireFin(p7);
             System.out.println(c1.toString());
             
-            c1.ajouterPaireFin(p6);
+            c1.ajouterPaire(p6,1);
             System.out.println(c1.toString());
             
-            System.out.println("ICI");
-            System.out.println(c1.deltaBeneficeInsertion(p5, 2)); //3
-            System.out.println(c1.deltaBeneficeInsertion(p5, 1)); //-2147483648
+            System.out.println("\nDelta Bénéfice impossible: "+c1.deltaBeneficeInsertionPaire(p5, 1)); //-2147483648
+            System.out.println("\nDelta Bénéfice: "+c1.deltaBeneficeInsertionPaire(p5, 2)); //3
             
+            //c1.ajouterPaire(p5, 2);
             InsertionPaire op = new InsertionPaire(c1,p5,2);
-            System.out.println(op.toString());
             c1.doInsertion(op);
-            
-            
             System.out.println(c1.toString());
-                          
             
+            
+            System.out.println("\n\nTest Insertion Chaine 1\n\n");
+            Chaine ch1 = new Chaine(d1,4);
+            
+            ch1.ajouterPaireFin(p3);
+            System.out.println(ch1.toString());
+            ch1.ajouterPaireFin(p5);
+            System.out.println(ch1.toString());
+            
+            System.out.println("\n\nTest Insertion Chaine 2\n\n");
+            Chaine ch2 = new Chaine(d2,4);
+            
+            InsertionPaire op2 = new InsertionPaire(ch2,p5,1);
+            System.out.println(op2);
+
+            ch2.doInsertion(op2);
+            System.out.println(ch2);
+            //ch2.ajouterPaireFin(p5);
+            /*
+            ch2.ajouterPaire(p3,1);
+            System.out.println(ch2);*/
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());

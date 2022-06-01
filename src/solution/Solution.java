@@ -297,14 +297,14 @@ public class Solution {
     public InsertionPaire getMeilleureInsertion(Paire paireToInsert){
         InsertionPaire best = new InsertionPaire();
         
-        System.out.println("Cycle");
+        //System.out.println("Cycle");
         for(Cycle cycle : this.cycles){
             InsertionPaire courrant = cycle.getMeilleureInsertion(paireToInsert);
             
             if(courrant.isMeilleur(best)) best = courrant;
         }
         
-         System.out.println("Chaine");
+        //System.out.println("Chaine");
         for(Chaine chaine : this.chaines){
             InsertionPaire courrant = chaine.getMeilleureInsertion(paireToInsert);
             if(courrant.isMeilleur(best)) best = courrant;
@@ -368,8 +368,8 @@ public class Solution {
             System.out.println(c1.toString());
             
             System.out.println("ICI");
-            System.out.println(c1.deltaBeneficeInsertion(p5, 2)); //2
-            System.out.println(c1.deltaBeneficeInsertion(p5, 1)); //-2147483648
+            System.out.println(c1.deltaBeneficeInsertionPaire(p5, 2)); //2
+            System.out.println(c1.deltaBeneficeInsertionPaire(p5, 1)); //-2147483648
             
             InsertionPaire op = new InsertionPaire(c1,p5,2);
             System.out.println(op.toString());

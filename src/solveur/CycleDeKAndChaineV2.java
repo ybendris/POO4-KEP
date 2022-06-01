@@ -26,7 +26,6 @@ public class CycleDeKAndChaineV2 implements Solveur{
     @Override
     public Solution solve(Instance instance) {
         Solution s = new CycleDeKAndChaine().solve(instance);
-        System.out.println("V222222222");
         s.wola();
         
         return s;

@@ -175,7 +175,7 @@ public class TestAllSolveur {
         }
         ecriture.println();
         for(Solveur solveur : solveurs) {
-            ecriture.print(";Bénéfices");
+            ecriture.print(";Benefices");
             ecriture.print(";tps(ms)");
             ecriture.print(";valide ?");
         }
