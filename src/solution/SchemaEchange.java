@@ -183,12 +183,10 @@ public abstract class SchemaEchange {
 
     protected abstract boolean isPositionInsertionValide(int position);
     
-    protected boolean isPositionSuppressionValide(int position) {
-        if(0 < position && position < this.getNbPaires()+1){
-            return true;
-        }
-        return false;
-    }
+    protected abstract boolean isPositionSuppressionValide(int position); 
+    
+
+    
 
     private int getNbPaires() {
         return this.paires.size();

@@ -76,11 +76,12 @@ public class TestDeltaBenefice {
             System.out.println("--------------Test deltaBeneficeSuppression chaine---------------");
             System.out.println(ch1.deltaBeneficeSuppression(1, 1)); //-7
             
-            
+            System.out.println(ch1.deltaBeneficeSuppression(0, 0)); //-inf (on peut pas supprimer le donneur altruiste)
             System.out.println(ch1.deltaBeneficeSuppression(2, 2)); //-inf
             System.out.println(ch1.deltaBeneficeSuppression(3, 3)); //-3
-            System.out.println(ch1.deltaBeneficeSuppression(1, 3)); //-7
-            System.out.println(ch1.deltaBeneficeSuppression(2, 3)); //-12
+            System.out.println(ch1.deltaBeneficeSuppression(2, 3)); //-7
+            System.out.println(ch1.deltaBeneficeSuppression(1, 3)); //-12
+            
             
             /*System.out.println(ch1.deltaBeneficeSuppression(1, 0)); //-7
             System.out.println(ch1.deltaBeneficeSuppression(0, 1)); //-2
