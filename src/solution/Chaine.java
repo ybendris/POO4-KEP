@@ -311,20 +311,66 @@ public class Chaine extends SchemaEchange {
      * @return 
      */
     @Override
-    public int deltaBeneficeInsertionSequence(LinkedList<Paire> pairesToAdd, int debut, int fin) {
+    public int deltaBeneficeInsertionSequence(LinkedList<Noeud> pairesToAdd, int debut, int fin) {
         if(!this.isPositionInsertionValide(debut)){
+            System.out.println("isPositionInsertionValide(debut");
             return Integer.MIN_VALUE;
+            
         }
         if(!this.isPositionInsertionValide(fin)){
+            System.out.println("isPositionInsertionValide(fin");
             return Integer.MIN_VALUE;
         }
         if(pairesToAdd == null){
+            System.out.println("null");
             return Integer.MIN_VALUE;
         }
+        /*if(Math.abs(fin-debut) != 1){ // ce n'est pas une insertion
+            System.out.println("// ce n'est pas une insertion");
+            return Integer.MIN_VALUE;
+        }*/
         
         
-        return 50;
+        
+        int deltaBenefice = 0;
+        int benefice = 0;
+        
+        Noeud firstPaireI = getCurrent(debut);
+        Noeud lastPaireI = getCurrent(fin);
+        Noeud firstPaireJ = pairesToAdd.getFirst();
+        Noeud lastPaireJ = pairesToAdd.getLast();
+        
+        benefice = firstPaireI.getBeneficeVers((Paire) firstPaireJ);
+        if(benefice == -1) {
+            System.out.println(firstPaireI.getId()+"->"+firstPaireJ.getId());
+            return Integer.MIN_VALUE;
+        }
+        deltaBenefice += benefice;
+        
+        benefice = this.getBeneficeSequence(pairesToAdd);
+        if(benefice == -1) {
+            System.out.println("Mauvais paires to add");
+            return Integer.MIN_VALUE;
+        }
+        deltaBenefice += benefice;
+        
+        benefice = lastPaireJ.getBeneficeVers((Paire) lastPaireI);
+        if(benefice == -1) {
+            System.out.println(lastPaireJ.getId()+"->"+lastPaireI.getId());
+            return Integer.MIN_VALUE;
+        }
+        deltaBenefice += benefice;
+        
+        
+        LinkedList<Noeud> toDelete = this.convertToLinkedList(debut, fin);
+        deltaBenefice -= this.getBeneficeSequence(toDelete);
+        
+        return deltaBenefice;
     }
+    
+    
+   
+    
     
     /**
      * Potentiellement ya de la place dans la chaine
@@ -344,7 +390,7 @@ public class Chaine extends SchemaEchange {
      * @param pairesSequenceJ
      * @return 
      */
-    @Override
+    /*@Override
     public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
         if(debutSequenceI > finSequenceI){
             System.out.println("debutSequenceI > finSequenceI");
@@ -374,13 +420,14 @@ public class Chaine extends SchemaEchange {
         
         System.out.println("déplacement valide");
         return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
+        return -99;
     }
+    */
     
     
     
     
-    
-    public int deltaBenefice(int debut, int fin, LinkedList<Paire> pairesSequenceJ) {
+    /*public int deltaBenefice(int debut, int fin, LinkedList<Paire> pairesSequenceJ) {
         if(debut > fin){ //c'est une chaine on accepte pas ces curseurs
             return Integer.MIN_VALUE;
         }
@@ -416,7 +463,7 @@ public class Chaine extends SchemaEchange {
         
         
         return deltaBenefice;
-    }
+    }*/
    
 
     /**
@@ -427,9 +474,9 @@ public class Chaine extends SchemaEchange {
      * @param pairesSequenceJ
      * @return 
      */
-    private int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+    private int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
         int deltaBenefice = 0;
-        LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
+        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
         Noeud nPrecSeqI = this.getPrec(debutSequenceI); //2
         
         System.out.println("debutSequenceI "+debutSequenceI);
@@ -442,10 +489,20 @@ public class Chaine extends SchemaEchange {
         //Suppression
         if(pairesSequenceJ.size() == 0){
             System.out.println("Suppression dans chaine");
-            return deltaBeneficeSuppression(debutSequenceI, finSequenceI);
+            return deltaBeneficeSuppressionSequence(debutSequenceI, finSequenceI);
         }
+        //Insertion
+        else if(Math.abs(finSequenceI - debutSequenceI) == 1){
+            System.out.println("Insertion dans chaine");
+            return deltaBeneficeInsertionSequence(pairesSequenceJ,debutSequenceI,finSequenceI);
+        }
+        //Remplacement
         else{
+            System.out.println("Remplacement dans chaine");
             
+            
+        }
+            /*
             Noeud nFirstSeqJ = pairesSequenceJ.getFirst(); //8
             Noeud nLastSeqJ = pairesSequenceJ.getLast(); //10
             //Insertion
@@ -503,10 +560,12 @@ public class Chaine extends SchemaEchange {
                 if(benefice == -1) return Integer.MIN_VALUE;
                 deltaBenefice += benefice;
             }
-        }
-
+            
+        
+        */
         return deltaBenefice;
     }
+    
 
     /**
      * Ajout une paire à dernière position de liste de paire 
@@ -554,12 +613,13 @@ public class Chaine extends SchemaEchange {
     }
     
     
-    public LinkedList<Paire> convertToLinkedList(int debut, int fin){
+    /*@Override
+    public LinkedList<Noeud> convertToLinkedList(int debut, int fin){
         if(debut <= fin){
-            return new LinkedList<Paire>(this.paires.subList(debut-1, fin));
+            return new LinkedList<Noeud>(this.paires.subList(debut-1, fin));
         }
         
-        LinkedList<Paire> pairesSubList = new LinkedList<Paire>();
+        LinkedList<Noeud> pairesSubList = new LinkedList<Noeud>();
         
         int index;
         for(index=debut; index != fin; index = (index + 1) % this.getNbPaires()){
@@ -568,10 +628,10 @@ public class Chaine extends SchemaEchange {
         pairesSubList.add(this.paires.get(index));
         
         return pairesSubList;
-    }
+    }*/
 
     @Override
-    public int deltaBeneficeSuppression(int debut, int fin) {
+    public int deltaBeneficeSuppressionSequence(int debut, int fin) {
         if(debut > fin){
             return Integer.MIN_VALUE;
         }
@@ -581,7 +641,7 @@ public class Chaine extends SchemaEchange {
         int deltaBenefice = 0;
         int benefice;
         Noeud nPrec = this.getPrec(debut); 
-        LinkedList<Paire> pairesToSupp = this.convertToLinkedList(debut, fin);
+        LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
         
         //System.out.println(pairesToSupp);
         
@@ -589,7 +649,7 @@ public class Chaine extends SchemaEchange {
             //System.out.println("Supprimer à la fin");
             //System.out.println(-nPrec.getBeneficeVers(pairesToSupp.getFirst()));
             //System.out.println(-this.getBeneficeSequence(pairesToSupp));
-            deltaBenefice -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
+            deltaBenefice -= nPrec.getBeneficeVers((Paire)pairesToSupp.getFirst());
             deltaBenefice -= this.getBeneficeSequence(pairesToSupp);
         }
         else{
@@ -603,7 +663,7 @@ public class Chaine extends SchemaEchange {
             if(benefice == -1) return Integer.MIN_VALUE;
             deltaBenefice += benefice;
             
-            deltaBenefice -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
+            deltaBenefice -= nPrec.getBeneficeVers((Paire)pairesToSupp.getFirst());
             deltaBenefice -= this.getBeneficeSequence(pairesToSupp);
             deltaBenefice -= pairesToSupp.getLast().getBeneficeVers((Paire)nNext);
         }
@@ -614,7 +674,7 @@ public class Chaine extends SchemaEchange {
 
     @Override
     protected boolean isPositionInsertionValide(int position) {
-        if(0 < position && position <= this.getNbPaires()+1){
+        if(0 <= position && position <= this.getNbNoeud()){
             return true;
         }
         return false;
@@ -643,6 +703,11 @@ public class Chaine extends SchemaEchange {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int getNbNoeud() {
+        return this.getNbPaires()+1;
     }
     
 }

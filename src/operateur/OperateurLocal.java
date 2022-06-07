@@ -4,6 +4,7 @@
  */
 package operateur;
 
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
 import solution.SchemaEchange;
@@ -17,8 +18,8 @@ public abstract class OperateurLocal extends Operateur {
     protected int debutSequenceJ;
     protected int finSequenceI;
     protected int finSequenceJ;
-    protected LinkedList<Paire> pairesSequenceI;
-    protected LinkedList<Paire> pairesSequenceJ;
+    protected LinkedList<Noeud> noeudsSequenceI;
+    protected LinkedList<Noeud> noeudsSequenceJ;
 
     public OperateurLocal() {
         this.debutSequenceI = -1;
@@ -29,15 +30,15 @@ public abstract class OperateurLocal extends Operateur {
     
     
     
-    public OperateurLocal(SchemaEchange sequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
+    public OperateurLocal(SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
         super(sequence);
         this.debutSequenceI = debutSequenceI;
         this.debutSequenceJ = debutSequenceJ;
         this.finSequenceI = finSequenceI;
         this.finSequenceJ = finSequenceJ;
        
-        this.pairesSequenceI = this.convertToLinkedList(this.sequence.getPaires(),debutSequenceI, finSequenceI);
-        this.pairesSequenceJ = this.convertToLinkedList(this.sequence.getPaires(),debutSequenceJ, finSequenceJ);
+        this.noeudsSequenceI = this.convertToLinkedList(this.sequence,debutSequenceI, finSequenceI);
+        this.noeudsSequenceJ = this.convertToLinkedList(this.sequence,debutSequenceJ, finSequenceJ);
     }
 
     public int getDebutSequenceI() {
@@ -56,28 +57,24 @@ public abstract class OperateurLocal extends Operateur {
         return finSequenceJ;
     }
 
-    public LinkedList<Paire> getPairesSequenceI() {
-        return pairesSequenceI;
+    public LinkedList<Noeud> getPairesSequenceI() {
+        return noeudsSequenceI;
     }
 
-    public LinkedList<Paire> getPairesSequenceJ() {
-        return pairesSequenceJ;
+    public LinkedList<Noeud> getPairesSequenceJ() {
+        return noeudsSequenceJ;
     }
     
-    public LinkedList<Paire> convertToLinkedList(LinkedList<Paire> listPaires,int debut, int fin){
-        if(debut <= fin){
-            return new LinkedList<Paire>(listPaires.subList(debut, fin+1));
-        }
-        
-        LinkedList<Paire> pairesSubList = new LinkedList<Paire>();
-        
+    public LinkedList<Noeud> convertToLinkedList(SchemaEchange sequence,int debut, int fin){
+        LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
         int index;
-        for(index=debut; index != fin; index = (index + 1) % listPaires.size()){
-            pairesSubList.add(listPaires.get(index));
+        for(index=debut; index != fin; index = (index + 1) % sequence.getNbNoeud()){
+            //System.out.println("add");
+            noeudsSubList.add(sequence.getCurrent(index));
         }
-        pairesSubList.add(listPaires.get(index));
+        noeudsSubList.add(sequence.getCurrent(index));
         
-        return pairesSubList;
+        return noeudsSubList;
     }
     
     public static OperateurLocal getOperateur(TypeOperateurLocal type){
@@ -135,7 +132,7 @@ public abstract class OperateurLocal extends Operateur {
     
     @Override
     public String toString() {
-        return "OperateurLocal{" + "debutSequenceI=" + debutSequenceI + ", debutSequenceJ=" + debutSequenceJ + ", finSequenceI=" + finSequenceI + ", finSequenceJ=" + finSequenceJ + ", pairesSequenceI=" + pairesSequenceI + ", pairesSequenceJ=" + pairesSequenceJ + '}';
+        return "OperateurLocal{" + "debutSequenceI=" + debutSequenceI + ", debutSequenceJ=" + debutSequenceJ + ", finSequenceI=" + finSequenceI + ", finSequenceJ=" + finSequenceJ + ", pairesSequenceI=" + noeudsSequenceI + ", pairesSequenceJ=" + noeudsSequenceJ + '}';
     }
 
     

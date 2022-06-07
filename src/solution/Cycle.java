@@ -312,7 +312,7 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     @Override
-    public int deltaBeneficeInsertionSequence(LinkedList<Paire> pairesToAdd, int debut, int fin) {
+    public int deltaBeneficeInsertionSequence(LinkedList<Noeud> pairesToAdd, int debut, int fin) {
         /*if(!this.isPositionInsertionValide(position) || pairesToAdd == null){
             return Integer.MIN_VALUE;
         }
@@ -381,7 +381,7 @@ public class Cycle extends SchemaEchange{
         return true;             
     }
 
-    @Override
+    /*@Override
     public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
         LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI );
         
@@ -402,14 +402,14 @@ public class Cycle extends SchemaEchange{
        
         
         return deltaBeneficeRemplacement(debutSequenceI, finSequenceI, pairesSequenceJ);
-    }
+    }*/
 
-    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
+    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
         int deltaBenefice = 0;
         //Attention ca ou pairesSequenceJ est vide (suppression)
         //Insertion si finI - debutI == 1 (Insertion)
         //Echange
-        LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI );
+        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI );
 
         Noeud nPrecSeqI = this.getPrec(debutSequenceI); //2
         
@@ -421,7 +421,7 @@ public class Cycle extends SchemaEchange{
         int benefice = 0;
         
         if(pairesSequenceJ.size() == 0){
-            return deltaBeneficeSuppression(debutSequenceI, finSequenceI);
+            return deltaBeneficeSuppressionSequence(debutSequenceI, finSequenceI);
         }
         else{
             
@@ -476,13 +476,13 @@ public class Cycle extends SchemaEchange{
     }
 
     @Override
-    public int deltaBeneficeSuppression(int debut, int fin) {
+    public int deltaBeneficeSuppressionSequence(int debut, int fin) {
         if(!this.isPositionSuppressionValide(debut) || !this.isPositionSuppressionValide(fin)){
             System.out.println("position suppression cycle pas valide");
             return Integer.MIN_VALUE;
             
         }
-        LinkedList<Paire> pairesToSupp = this.convertToLinkedList(debut, fin);
+        LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
         /**
          * Permet de garder un cycle correct
          */
@@ -506,7 +506,7 @@ public class Cycle extends SchemaEchange{
         
         //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
         
-        deltaCout -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
+        deltaCout -= nPrec.getBeneficeVers((Paire)pairesToSupp.getFirst());
         deltaCout -= this.getBeneficeSequence(pairesToSupp);
         deltaCout -= pairesToSupp.getLast().getBeneficeVers((Paire)nNext);
         
@@ -528,6 +528,11 @@ public class Cycle extends SchemaEchange{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int getNbNoeud() {
+        return this.getNbPaires();
     }
 
     

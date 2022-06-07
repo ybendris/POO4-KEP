@@ -15,7 +15,7 @@ public class SuppressionIntra extends OperateurIntraSequence{
     @Override
     protected int evalDeltaBenefice() {
         if(sequence == null) return Integer.MIN_VALUE;
-        return this.sequence.deltaBeneficeSuppression(this.debutSequenceI, this.finSequenceI);
+        return this.sequence.deltaBeneficeSuppressionSequence(this.debutSequenceI, this.finSequenceI);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class SuppressionIntra extends OperateurIntraSequence{
         super();
     }
 
-    public SuppressionIntra(SchemaEchange sequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
-        super(sequence, debutSequenceI, debutSequenceJ, finSequenceI, finSequenceJ);
+    public SuppressionIntra(SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
+        super(sequence, debutSequenceI, finSequenceI, debutSequenceJ, finSequenceJ);
     }
     
 }

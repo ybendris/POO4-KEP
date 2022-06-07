@@ -16,12 +16,9 @@ public class InterRemplacement extends OperateurInterSequences{
         super();
     }
 
-    public InterRemplacement(SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
-        super(sequence, autreSequence, debutSequenceI, debutSequenceJ,finSequenceI,finSequenceJ);
+    public InterRemplacement(SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
+        super(sequence, autreSequence, debutSequenceI, finSequenceI, debutSequenceJ, finSequenceJ);
     }
-    
-
-    
 
     @Override
     protected boolean doMouvement() {
@@ -31,13 +28,13 @@ public class InterRemplacement extends OperateurInterSequences{
     @Override
     protected int evalDeltaBeneficeSequence() {
         if(this.sequence == null ) return Integer.MIN_VALUE;
-        return this.sequence.deltaBeneficeRemplacementInter(debutSequenceI, finSequenceI, pairesSequenceJ);
+        return this.sequence.deltaBeneficeSuppressionSequence(debutSequenceI, finSequenceI);
     }
 
     @Override
     protected int evalDeltaBeneficeAutreSequence() {
         if(this.autreSequence == null ) return Integer.MIN_VALUE;
-        return this.autreSequence.deltaBeneficeRemplacementInter(debutSequenceJ, finSequenceJ, pairesSequenceI);
+        return this.autreSequence.deltaBeneficeInsertionSequence(noeudsSequenceI, debutSequenceJ, finSequenceJ);
     }
 
     @Override
@@ -47,8 +44,8 @@ public class InterRemplacement extends OperateurInterSequences{
                 "\n\tfinSequenceI=" + finSequenceI + 
                 "\n\tdebutSequenceJ=" + debutSequenceJ + 
                 "\n\tfinSequenceJ=" + finSequenceJ + 
-                "\n\tpairesSequenceI=" + pairesSequenceI + 
-                "\n\tpairesSequenceJ=" + pairesSequenceJ + 
+                "\n\tpairesSequenceI=" + noeudsSequenceI + 
+                "\n\tpairesSequenceJ=" + noeudsSequenceJ + 
                 "\n\tdeltaBeneficeSequence=" + deltaBeneficeSequence + 
                 "\n\tdeltaBeneficeAutreSequence=" + deltaBeneficeAutreSequence + 
                 "\n\tdeltaBenefice=" + deltaBenefice +

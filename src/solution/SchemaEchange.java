@@ -16,11 +16,9 @@ import operateur.InsertionPaire;
  * @author Valek
  */
 public abstract class SchemaEchange {
- 
     protected int coutBenefice;
     protected int tailleMax;
     protected LinkedList<Paire> paires;
-
 
     public SchemaEchange() {
         this.coutBenefice = 0;
@@ -57,36 +55,27 @@ public abstract class SchemaEchange {
     }
     
     //this.paires.subList(debutSequenceI, finSequenceI +1)
-    public LinkedList<Paire> convertToLinkedList(int debut, int fin){
-        if(debut <= fin){
-            return new LinkedList<Paire>(this.paires.subList(debut, fin+1));
-        }
-        
-        LinkedList<Paire> pairesSubList = new LinkedList<Paire>();
-        
+    public LinkedList<Noeud> convertToLinkedList(int debut, int fin){
+        LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
         int index;
-        for(index=debut; index != fin; index = (index + 1) % this.getNbPaires()){
-            pairesSubList.add(this.paires.get(index));
+        for(index=debut; index != fin; index = (index + 1) % this.getNbNoeud()){
+            //System.out.println("add");
+            noeudsSubList.add(this.getCurrent(index));
         }
-        pairesSubList.add(this.paires.get(index));
+        noeudsSubList.add(this.getCurrent(index));
         
-        return pairesSubList;
+        return noeudsSubList;
     }
     
     
-    public int getBeneficeSequence(LinkedList<Paire> pairesToAdd){
+    public int getBeneficeSequence(LinkedList<Noeud> pairesToAdd){
         int benefice = 0;
-        
-        
-        
         for(int i=0; i < pairesToAdd.size(); i++){
-            Paire current = pairesToAdd.get(i);
-            
+            Noeud current = pairesToAdd.get(i);
             if(!(i == pairesToAdd.size() -1)){
-                Paire next = pairesToAdd.get(i+1);
-                benefice += current.getBeneficeVers(next);
+                Noeud next = pairesToAdd.get(i+1);
+                benefice += current.getBeneficeVers((Paire)next);
             }
-            
         }
         return benefice;
     }
@@ -114,7 +103,7 @@ public abstract class SchemaEchange {
         return this.clients.get(pos);
     }
     */
-    protected abstract int evalCoutBenefice();
+    
     
 
     @Override
@@ -148,16 +137,6 @@ public abstract class SchemaEchange {
         return Objects.equals(this.paires, other.paires);
     }
     
-    
-    public abstract int deltaBeneficeInsertionPaire(Paire paireToAdd,int position);
-    public abstract int deltaBeneficeInsertionSequence(LinkedList<Paire> pairesToAdd, int debut, int fin);
-    public abstract Noeud getPrec(int position);
-    public abstract Noeud getCurrent(int position);
-    public abstract Noeud getNext(int position);
-    public abstract boolean check();
-    public abstract int deltaBeneficeSuppression(int debut, int fin);
-    
-    
     public boolean doInsertion(InsertionPaire infos){
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
@@ -180,14 +159,6 @@ public abstract class SchemaEchange {
         return true;
     }
     
-
-    protected abstract boolean isPositionInsertionValide(int position);
-    
-    protected abstract boolean isPositionSuppressionValide(int position); 
-    
-
-    
-
     private int getNbPaires() {
         return this.paires.size();
     }
@@ -212,14 +183,30 @@ public abstract class SchemaEchange {
         
         return meilleur;
     }
-
+    
+    public abstract boolean check();
+    protected abstract int evalCoutBenefice();
+    
+    
+    
     
     public abstract boolean insertionPairePossible(Paire paireToInsert);
-
-    public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ);
+    protected abstract boolean isPositionInsertionValide(int position);
+    protected abstract boolean isPositionSuppressionValide(int position);
     
     
+    public abstract Noeud getPrec(int position);
+    public abstract Noeud getCurrent(int position);
+    public abstract Noeud getNext(int position);
+    
+    public abstract int deltaBeneficeInsertionPaire(Paire paireToAdd,int position);
+    
+    public abstract int deltaBeneficeSuppressionSequence(int debut, int fin);
+    public abstract int deltaBeneficeInsertionSequence(LinkedList<Noeud> pairesToAdd, int debut, int fin);
+    
+    public abstract int getNbNoeud();
     
     
+    //public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ);
     
 }

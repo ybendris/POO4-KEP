@@ -15,8 +15,8 @@ public abstract class OperateurIntraSequence extends OperateurLocal{
         super();
     }
 
-    public OperateurIntraSequence(SchemaEchange sequence, int debutSequenceI, int debutSequenceJ, int finSequenceI, int finSequenceJ) {
-        super(sequence,debutSequenceI, debutSequenceJ,finSequenceI,finSequenceJ);
+    public OperateurIntraSequence(SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
+        super(sequence,debutSequenceI, finSequenceI,debutSequenceJ,finSequenceJ);
         this.deltaBenefice = this.evalDeltaBenefice();
     }
 }
