@@ -477,13 +477,16 @@ public class Cycle extends SchemaEchange{
     @Override
     public int deltaBeneficeSuppression(int debut, int fin) {
         if(!this.isPositionSuppressionValide(debut) || !this.isPositionSuppressionValide(fin)){
+            System.out.println("position suppression cycle pas valide");
             return Integer.MIN_VALUE;
+            
         }
         LinkedList<Paire> pairesToSupp = this.convertToLinkedList(debut, fin);
         /**
          * Permet de garder un cycle correct
          */
         if(this.getNbPaires() - pairesToSupp.size()<2){
+            System.out.println("cycle taille <2");
             return Integer.MIN_VALUE;
         }
 
@@ -494,7 +497,10 @@ public class Cycle extends SchemaEchange{
         Noeud nNext = this.getNext(fin);
         
         benefice = nPrec.getBeneficeVers((Paire)nNext);
-        if(benefice == -1) return Integer.MIN_VALUE;
+        if(benefice == -1) {
+            System.out.println("-1: " + nPrec.getId()+" "+nNext.getId());
+            return Integer.MIN_VALUE;
+        }
         deltaCout += benefice;
         
         //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
@@ -510,6 +516,14 @@ public class Cycle extends SchemaEchange{
     @Override
     protected boolean isPositionInsertionValide(int position) {
         if(0 <= position && position <= this.getNbPaires()+1){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean isPositionSuppressionValide(int position) {
+        if(0 <= position && position <= this.getNbPaires()){
             return true;
         }
         return false;

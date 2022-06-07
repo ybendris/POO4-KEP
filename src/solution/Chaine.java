@@ -620,5 +620,13 @@ public class Chaine extends SchemaEchange {
         
         return meilleur;
     }
+
+    @Override
+    protected boolean isPositionSuppressionValide(int position) {
+        if(0 < position && position < this.getNbPaires()+1){
+            return true;
+        }
+        return false;
+    }
     
 }
