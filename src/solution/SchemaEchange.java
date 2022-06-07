@@ -77,12 +77,15 @@ public abstract class SchemaEchange {
     public int getBeneficeSequence(LinkedList<Paire> pairesToAdd){
         int benefice = 0;
         
-        for(int i=0; i < pairesToAdd.size()-1; i++){
+        
+        
+        for(int i=0; i < pairesToAdd.size(); i++){
+            Paire current = pairesToAdd.get(i);
             
-            Paire current = pairesToAdd.get(i);   
-            Paire next = pairesToAdd.get(i+1);
-           
-            benefice += current.getBeneficeVers(next);
+            if(!(i == pairesToAdd.size() -1)){
+                Paire next = pairesToAdd.get(i+1);
+                benefice += current.getBeneficeVers(next);
+            }
             
         }
         return benefice;

@@ -237,6 +237,7 @@ public class Cycle extends SchemaEchange{
     }
     
     /**
+     * Vérifie si la paire 'paireToAdd' peut être inséré dans le cycle avant la position 'position'
      * Vérifie la tailleMax de la séquence et les compatibilités
      * @param paireToAdd
      * @param position

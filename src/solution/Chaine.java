@@ -347,25 +347,32 @@ public class Chaine extends SchemaEchange {
     @Override
     public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ) {
         if(debutSequenceI > finSequenceI){
+            System.out.println("debutSequenceI > finSequenceI");
             return Integer.MIN_VALUE;
         }
         
-        LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
+        LinkedList<Paire> pairesSequenceI = this.convertToLinkedList(debutSequenceI+1, finSequenceI-1);
+        
+        
         
         //Attention ca ou pairesSequenceJ est vide (suppression)
         //Insertion si finI - debutI == 1 (Insertion)
         //Echange
         if(pairesSequenceI == null){
+            System.out.println("pairesSequenceI == null");
             return Integer.MIN_VALUE;
         }
         if(pairesSequenceJ == null){
-            return Integer.MIN_VALUE;
-        }
-        if(this.getNbPaires() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
+            System.out.println("pairesSequenceJ == null");
             return Integer.MIN_VALUE;
         }
         
+        if(this.getNbPaires()+1 - pairesSequenceI.size()+2 + pairesSequenceJ.size() > this.tailleMax){
+            System.out.println("> this.tailleMax");
+            return Integer.MIN_VALUE;
+        }
         
+        System.out.println("déplacement valide");
         return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
     }
     
@@ -434,33 +441,42 @@ public class Chaine extends SchemaEchange {
         int benefice =0;
         //Suppression
         if(pairesSequenceJ.size() == 0){
+            System.out.println("Suppression dans chaine");
             return deltaBeneficeSuppression(debutSequenceI, finSequenceI);
         }
         else{
-            return 17;
-            /*
+            
             Noeud nFirstSeqJ = pairesSequenceJ.getFirst(); //8
             Noeud nLastSeqJ = pairesSequenceJ.getLast(); //10
             //Insertion
             if(Math.abs(finSequenceI - debutSequenceI) == 1){
+                
+                System.out.println(nFirstSeqI.getId()+" "+nLastSeqI.getId()+" "+nFirstSeqJ.getId()+" "+nLastSeqJ.getId());
+                
                 deltaBenefice-= nFirstSeqI.getBeneficeVers((Paire)nLastSeqI);
-
+                
                 benefice = nFirstSeqI.getBeneficeVers((Paire)nFirstSeqJ);
+                System.out.println("+benefice1 "+benefice);
                 if(benefice == -1) return Integer.MIN_VALUE;
                 deltaBenefice += benefice;
                 
+                
+                System.out.println(pairesSequenceJ);
                 //2
                 benefice = this.getBeneficeSequence(pairesSequenceJ);
+                System.out.println("+benefice2 "+benefice);
                 if(benefice == -1) return Integer.MIN_VALUE;
                 deltaBenefice += benefice;
                 
                 //3
                 benefice = nLastSeqJ.getBeneficeVers((Paire)nLastSeqI);
+                System.out.println("+benefice3 "+benefice);
                 if(benefice == -1) return Integer.MIN_VALUE;
                 deltaBenefice += benefice;
             }
             //Echange
             else{
+                System.out.println("Echange dans chaine");
                 Noeud nNextSeqI = this.getNext(finSequenceI); //5
                 nPrecSeqI = this.getCurrent(debutSequenceI); //2
                 
@@ -486,10 +502,10 @@ public class Chaine extends SchemaEchange {
                 benefice = nLastSeqJ.getBeneficeVers((Paire)nNextSeqI);
                 if(benefice == -1) return Integer.MIN_VALUE;
                 deltaBenefice += benefice;
-            }*/
+            }
         }
 
-        //return deltaBenefice;
+        return deltaBenefice;
     }
 
     /**
@@ -570,7 +586,7 @@ public class Chaine extends SchemaEchange {
         //System.out.println(pairesToSupp);
         
         if(fin == this.getNbPaires()){ // si on veut supprimer à la fin
-            System.out.println("Supprimer à la fin");
+            //System.out.println("Supprimer à la fin");
             //System.out.println(-nPrec.getBeneficeVers(pairesToSupp.getFirst()));
             //System.out.println(-this.getBeneficeSequence(pairesToSupp));
             deltaBenefice -= nPrec.getBeneficeVers(pairesToSupp.getFirst());
