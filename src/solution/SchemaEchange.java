@@ -60,7 +60,7 @@ public abstract class SchemaEchange {
         LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
         int index;
         for(index=debut; index != fin; index = (index + 1) % this.getNbNoeud()){
-            //System.out.println("add");
+            System.out.println("add");
             noeudsSubList.add(this.getCurrent(index));
         }
         noeudsSubList.add(this.getCurrent(index));

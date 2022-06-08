@@ -39,14 +39,11 @@ public class TestInsertion {
             
             System.out.println(d1.getBeneficeVers(p3)); //5
             System.out.println(d2.getBeneficeVers(p3)); //2
-            
-            
             System.out.println(p5.getBeneficeVers(p7)); //2
             System.out.println(p7.getBeneficeVers(p6)); //6 
             System.out.println(p6.getBeneficeVers(p5)); //4
             System.out.println(p6.getBeneficeVers(p7)); //3 -> cout modifié (j'ai ajouté un cout retour)
             
-            System.out.println();
             
             Cycle c1 = new Cycle(3); // taille max 3
             

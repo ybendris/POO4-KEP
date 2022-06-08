@@ -73,19 +73,52 @@ public class TestRemplacement {
             InterRemplacement op5 = new InterRemplacement(ch2,ch1,0,1,0,1); //-inf
             System.out.println(op5);
             
+            
             System.out.println(op.isMouvementRealisable());//true
             System.out.println(op5.isMouvementRealisable());//false
             
+            
+            System.out.println("On va faire Insertion dans chaine:---------------");
+            System.out.println(op);
+
+            System.out.println("Avant Insertion");
+            System.out.println(ch1);
+            System.out.println(ch2);
+            //op.doMouvementIfRealisable();
+            
+            System.out.println("Après Insertion");
+            System.out.println(ch1);
+            System.out.println(ch2);
+            
+            System.out.println("On va faire Remplacement dans chaine:---------------");
+            System.out.println(op4);
+
             System.out.println("Avant remplacement");
             System.out.println(ch1);
             System.out.println(ch2);
-            op.doMouvementIfRealisable();
+            //op4.doMouvementIfRealisable();
             
             System.out.println("Après remplacement");
             System.out.println(ch1);
             System.out.println(ch2);
             
+            System.out.println("On va faire Insertion dans cycle:---------------");
+            System.out.println(op);
 
+            System.out.println("Avant Insertion");
+            System.out.println(ch1);
+            System.out.println(ch2);
+            //op.doMouvementIfRealisable();
+            
+            System.out.println("Après Insertion");
+            System.out.println(ch1);
+            System.out.println(ch2);
+            
+            System.out.println("\n\n\n\n\n");
+            InterRemplacement op6 = new InterRemplacement(ch1,c3,2,2,3,0);
+            System.out.println(op6);
+            op6.doMouvementIfRealisable();
+            
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());

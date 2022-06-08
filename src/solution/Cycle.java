@@ -314,23 +314,64 @@ public class Cycle extends SchemaEchange{
      */
     @Override
     public int deltaBeneficeInsertionSequence(LinkedList<Noeud> pairesToAdd, int debut, int fin) {
-        /*if(!this.isPositionInsertionValide(position) || pairesToAdd == null){
+        if(!this.isPositionInsertionValide(debut)){
+            System.out.println("isPositionInsertionValide(debut");
+            return Integer.MIN_VALUE;
+        }
+        if(!this.isPositionInsertionValide(fin)){
+            System.out.println("isPositionInsertionValide(fin");
+            return Integer.MIN_VALUE;
+        }
+        if(pairesToAdd == null){
+            System.out.println("null");
+            return Integer.MIN_VALUE;
+        }
+        if(debut == fin){
+            System.out.println("On peut pas faire ça debut == fin");
             return Integer.MIN_VALUE;
         }
         
-        int deltaCout = 0;
+        int deltaBenefice = 0;
+        int benefice = 0;
         
-        Paire nPrec = this.getPrec(position);
-        Paire nCour = this.getCurrent(position);
+        Noeud firstPaireI = getCurrent(debut);
+        Noeud lastPaireI = getCurrent(fin);
+        Noeud firstPaireJ = pairesToAdd.getFirst();
+        Noeud lastPaireJ = pairesToAdd.getLast();
         
-        deltaCout -= nPrec.getBeneficeVers(nCour);
-        deltaCout += nPrec.getBeneficeVers(pairesToAdd.getFirst());
-        deltaCout += getBeneficeSequence(pairesToAdd);
-        deltaCout += pairesToAdd.getLast().getBeneficeVers(nCour);
-
-        return deltaCout;*/
+        System.out.println(firstPaireI.getId());
+        System.out.println(lastPaireI.getId());
+        System.out.println(firstPaireJ.getId());
+        System.out.println(lastPaireJ.getId());
         
-        return 99;
+        
+         benefice = firstPaireI.getBeneficeVers((Paire) firstPaireJ);
+        if(benefice == -1) {
+            System.out.println(firstPaireI.getId()+"->"+firstPaireJ.getId());
+            return Integer.MIN_VALUE;
+        }
+        deltaBenefice += benefice;
+        
+        benefice = this.getBeneficeSequence(pairesToAdd);
+        if(benefice == -1) {
+            System.out.println("Mauvais paires to add");
+            return Integer.MIN_VALUE;
+        }
+        deltaBenefice += benefice;
+        
+        benefice = lastPaireJ.getBeneficeVers((Paire) lastPaireI);
+        if(benefice == -1) {
+            System.out.println(lastPaireJ.getId()+"->"+lastPaireI.getId());
+            return Integer.MIN_VALUE;
+        }
+        deltaBenefice += benefice;
+        
+        
+        LinkedList<Noeud> toDelete = this.convertToLinkedList(debut, fin);
+        deltaBenefice -= this.getBeneficeSequence(toDelete);
+        
+        
+        return deltaBenefice;
     }
     
    
@@ -517,7 +558,7 @@ public class Cycle extends SchemaEchange{
 
     @Override
     protected boolean isPositionInsertionValide(int position) {
-        if(0 <= position && position <= this.getNbPaires()+1){
+        if(0 <= position && position <= this.getNbPaires()){
             return true;
         }
         return false;
@@ -538,7 +579,7 @@ public class Cycle extends SchemaEchange{
 
     @Override
     public boolean doRemplacement(InterRemplacement infos) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return false;
     }
 
     

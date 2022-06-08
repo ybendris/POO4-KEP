@@ -37,8 +37,9 @@ public abstract class OperateurLocal extends Operateur {
         this.finSequenceI = finSequenceI;
         this.finSequenceJ = finSequenceJ;
        
+        System.out.println("ICI");
         this.noeudsSequenceI = this.convertToLinkedList(this.sequence,debutSequenceI, finSequenceI);
-        this.noeudsSequenceJ = this.convertToLinkedList(this.sequence,debutSequenceJ, finSequenceJ);
+        this.noeudsSequenceJ = new LinkedList<Noeud>();
     }
 
     public int getDebutSequenceI() {
@@ -69,7 +70,6 @@ public abstract class OperateurLocal extends Operateur {
         LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
         int index;
         for(index=debut; index != fin; index = (index + 1) % sequence.getNbNoeud()){
-            //System.out.println("add");
             noeudsSubList.add(sequence.getCurrent(index));
         }
         noeudsSubList.add(sequence.getCurrent(index));
