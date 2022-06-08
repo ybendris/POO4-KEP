@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import operateur.InsertionPaire;
+import operateur.InterRemplacement;
 
 /**
  *
@@ -18,7 +19,7 @@ import operateur.InsertionPaire;
 public abstract class SchemaEchange {
     protected int coutBenefice;
     protected int tailleMax;
-    protected LinkedList<Paire> paires;
+    protected LinkedList<Noeud> paires;
 
     public SchemaEchange() {
         this.coutBenefice = 0;
@@ -30,7 +31,7 @@ public abstract class SchemaEchange {
         return coutBenefice;
     }
     
-    public Paire getNextPaire(int index){
+    public Noeud getNextPaire(int index){
         //System.out.println("Paires = " + this.paires);
         //System.out.println("Taille = " + this.paires.size());
         //System.out.println("Index = " + index);
@@ -49,7 +50,7 @@ public abstract class SchemaEchange {
         }
     }
     
-    public Paire getFirstPaire(){
+    public Noeud getFirstPaire(){
         //System.out.println("\nPaires First" + this.paires);
         return this.paires.getFirst();
     }
@@ -80,7 +81,7 @@ public abstract class SchemaEchange {
         return benefice;
     }
 
-    public LinkedList<Paire> getPaires() {
+    public LinkedList<Noeud> getPaires() {
         return paires;
     }
     
@@ -205,6 +206,8 @@ public abstract class SchemaEchange {
     public abstract int deltaBeneficeInsertionSequence(LinkedList<Noeud> pairesToAdd, int debut, int fin);
     
     public abstract int getNbNoeud();
+    public abstract boolean doRemplacement(InterRemplacement infos);
+    
     
     
     //public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ);

@@ -9,9 +9,9 @@ import instance.reseau.DonneurAltruiste;
 import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 import operateur.InsertionPaire;
+import operateur.InterRemplacement;
 
 /**
  *
@@ -26,8 +26,8 @@ public class Chaine extends SchemaEchange {
         int benefice = 0;
         int i=0;
         benefice = donneurAltruiste.getBeneficeVers(this.paires.getFirst());
-        for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(i);
+        for(Noeud p : this.paires){
+            Noeud nextPaire = this.getNextPaire(i);
             if(nextPaire!=null) benefice += p.getBeneficeVers(nextPaire);
             i++;
         }
@@ -105,8 +105,8 @@ public class Chaine extends SchemaEchange {
             return false;
         
         int i=0;
-        for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(i);
+        for(Noeud p : this.paires){
+            Noeud nextPaire = this.getNextPaire(i);
             if(nextPaire != null){
                 if(!p.peutDonnerA(nextPaire))
                     return false;
@@ -148,8 +148,8 @@ public class Chaine extends SchemaEchange {
         else 
             return false;
         
-        for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(i);
+        for(Noeud p : this.paires){
+            Noeud nextPaire = this.getNextPaire(i);
             if(nextPaire != null){
                 if(p.getBeneficeVers(nextPaire) != -1)
                     beneficeReel += p.getBeneficeVers(nextPaire);
@@ -325,6 +325,13 @@ public class Chaine extends SchemaEchange {
             System.out.println("null");
             return Integer.MIN_VALUE;
         }
+        if(debut == fin){
+            System.out.println("On peut pas faire ça debut == fin");
+            return Integer.MIN_VALUE;
+        }
+        
+       
+        
         /*if(Math.abs(fin-debut) != 1){ // ce n'est pas une insertion
             System.out.println("// ce n'est pas une insertion");
             return Integer.MIN_VALUE;
@@ -339,6 +346,11 @@ public class Chaine extends SchemaEchange {
         Noeud lastPaireI = getCurrent(fin);
         Noeud firstPaireJ = pairesToAdd.getFirst();
         Noeud lastPaireJ = pairesToAdd.getLast();
+        
+        if(firstPaireJ instanceof DonneurAltruiste){
+            System.out.println("On peut pas faire ça Déplacement de donneur altruiste");
+            return Integer.MIN_VALUE;
+        }
         
         benefice = firstPaireI.getBeneficeVers((Paire) firstPaireJ);
         if(benefice == -1) {
@@ -709,5 +721,62 @@ public class Chaine extends SchemaEchange {
     public int getNbNoeud() {
         return this.getNbPaires()+1;
     }
-    
+
+    /**
+     * Remplace les paires patient-donneur entre debutJ et finJ par les clientsI
+     * Si il n'y a rien entre debutJ et finJ, c'est une insertion
+     * Sinon on remplace
+     * @param infos
+     * @return 
+     */
+    @Override
+    public boolean doRemplacement(InterRemplacement infos) {
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+        
+        int debutI = infos.getDebutSequenceI();
+        int finI = infos.getFinSequenceI();
+        int debutJ = infos.getDebutSequenceJ();
+        int finJ = infos.getFinSequenceJ();
+        LinkedList<Noeud> clientsI = infos.getPairesSequenceI();
+        SchemaEchange autreSequence = infos.getAutreSequence();
+        
+        /**
+         * Suppression de la chaine
+         */
+        this.paires.removeAll(clientsI); //On inclus finI
+        
+        LinkedList<Noeud> clientsJ = infos.getPairesSequenceJ();
+        LinkedList<Paire> pairesToAdd = new LinkedList<>();
+        
+        
+        //LinkedList<Paire> pairesToAdd = new LinkedList<>();
+        
+        
+        //maj cout
+        this.coutBenefice += infos.getDeltaBeneficeSequence();
+        //autreSequence.coutBenefice += infos.getDeltaBeneficeAutreSequence();
+        /*
+        TODO:
+        Vérifier la liste des paires de la sequence courante 
+        Modifier la liste des paires de l’autre sequence 
+        
+        Modifier bénéfice des deux sequences.
+        Appeler check pour les deux sequence
+        */
+        if (!this.check()){
+            System.out.println("Mauvais remplacement inter-sequence, (courante)"+this.toString()+"\n"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        /*if (!infos.check()){
+            System.out.println("Mauvais déplacement inter-tournee, (autre)"+autreTournee.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }*/
+        
+        
+        return true;
+    }
 }

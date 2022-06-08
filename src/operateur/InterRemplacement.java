@@ -22,7 +22,7 @@ public class InterRemplacement extends OperateurInterSequences{
 
     @Override
     protected boolean doMouvement() {
-        return false;
+        return this.sequence.doRemplacement(this);
     }
 
     @Override

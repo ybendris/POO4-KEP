@@ -36,12 +36,31 @@ public abstract class OperateurInterSequences extends OperateurLocal {
     @Override
     protected int evalDeltaBenefice() {
         this.deltaBeneficeSequence = this.evalDeltaBeneficeSequence();
+        if(this.deltaBeneficeSequence == Integer.MIN_VALUE){
+            return Integer.MIN_VALUE;
+        }
+        //System.out.println(this);
         this.deltaBeneficeAutreSequence = this.evalDeltaBeneficeAutreSequence();
-        
-        if(this.deltaBeneficeSequence == Integer.MIN_VALUE || this.deltaBeneficeAutreSequence == Integer.MIN_VALUE){
+        if(this.deltaBeneficeAutreSequence == Integer.MIN_VALUE){
             return Integer.MIN_VALUE;
         }
         return this.deltaBeneficeSequence + this.deltaBeneficeAutreSequence;
+    }
+
+    public SchemaEchange getAutreSequence() {
+        return autreSequence;
+    }
+
+    public SchemaEchange getSequence() {
+        return sequence;
+    }
+
+    public int getDeltaBeneficeSequence() {
+        return deltaBeneficeSequence;
+    }
+
+    public int getDeltaBeneficeAutreSequence() {
+        return deltaBeneficeAutreSequence;
     }
     
     protected abstract int evalDeltaBeneficeSequence();

@@ -6,6 +6,7 @@ package solution;
 
 import instance.Instance;
 import instance.reseau.DonneurAltruiste;
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 
 import io.InstanceReader;
@@ -142,7 +143,7 @@ public class Solution {
         Set pairesToCheck = new HashSet();
         
         for(Cycle cycle : this.cycles){
-            for(Paire p : cycle.paires){
+            for(Noeud p : cycle.paires){
                 if(!pairesToCheck.add(p)){
                     System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
                     return false;
@@ -151,7 +152,7 @@ public class Solution {
         }
         
         for(Chaine chaine : this.chaines){
-            for(Paire p : chaine.paires){
+            for(Noeud p : chaine.paires){
                 if(!pairesToCheck.add(p)){
                     System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
                     return false;

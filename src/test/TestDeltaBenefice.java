@@ -43,7 +43,7 @@ public class TestDeltaBenefice {
             System.out.println(d1.getBeneficeVers(p3)); //5
             System.out.println(p3.getBeneficeVers(p4)); //4
             System.out.println(p4.getBeneficeVers(p5)); //3
-            System.out.println(d2.getBeneficeVers(p6)); //2
+            System.out.println(d2.getBeneficeVers(p6)); //4
             System.out.println(p6.getBeneficeVers(p7)); //4
             System.out.println(p7.getBeneficeVers(p8)); //3
             System.out.println(p8.getBeneficeVers(p9)); //1
@@ -68,7 +68,7 @@ public class TestDeltaBenefice {
             c1.ajouterPaireFin(p9);
             
             System.out.println(ch1); //Bénéfice 12
-            System.out.println(ch2); //Bénéfice 10
+            System.out.println(ch2); //Bénéfice 12
             System.out.println(c1); //Bénéfice 9
             
             LinkedList<Paire> pairesSequenceJ = new LinkedList<Paire>();

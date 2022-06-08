@@ -68,7 +68,23 @@ public class TestRemplacement {
             System.out.println(op2);
             InterRemplacement op3 = new InterRemplacement(c3,ch1,0,1,0,2); //-13 +2 =-15
             System.out.println(op3);
-           
+            InterRemplacement op4 = new InterRemplacement(ch2,ch1,1,2,0,2); //-13 +1 = -12
+            System.out.println(op4);
+            InterRemplacement op5 = new InterRemplacement(ch2,ch1,0,1,0,1); //-inf
+            System.out.println(op5);
+            
+            System.out.println(op.isMouvementRealisable());//true
+            System.out.println(op5.isMouvementRealisable());//false
+            
+            System.out.println("Avant remplacement");
+            System.out.println(ch1);
+            System.out.println(ch2);
+            op.doMouvementIfRealisable();
+            
+            System.out.println("Après remplacement");
+            System.out.println(ch1);
+            System.out.println(ch2);
+            
 
         }
         catch(ReaderException ex){

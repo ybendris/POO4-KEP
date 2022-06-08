@@ -12,6 +12,7 @@ import io.exception.ReaderException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import operateur.InsertionPaire;
+import operateur.InterRemplacement;
 import solveur.CycleDe2;
 
 /**
@@ -24,9 +25,9 @@ public class Cycle extends SchemaEchange{
     protected int evalCoutBenefice() {
         int benefice = 0;
         int i=0;
-        for(Paire p : this.paires){
+        for(Noeud p : this.paires){
             //System.out.println("GET NEXT PAIRE ");
-            Paire nextPaire = this.getNextPaire(i);
+            Noeud nextPaire = this.getNextPaire(i);
             //System.out.println("\nAprès nextPaire");
             if(nextPaire!=null) benefice += p.getBeneficeVers(nextPaire);
             else{
@@ -94,8 +95,8 @@ public class Cycle extends SchemaEchange{
         var beneficeReel = 0;
         
         int i=0;
-        for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(i);
+        for(Noeud p : this.paires){
+            Noeud nextPaire = this.getNextPaire(i);
             int beneficeToAdd;
             if(nextPaire != null){
                 beneficeToAdd = p.getBeneficeVers(nextPaire);
@@ -124,8 +125,8 @@ public class Cycle extends SchemaEchange{
     
     private boolean verifTransplantation() {
         int i=0;
-        for(Paire p : this.paires){
-            Paire nextPaire = this.getNextPaire(i);
+        for(Noeud p : this.paires){
+            Noeud nextPaire = this.getNextPaire(i);
             if(nextPaire == null)
                 nextPaire = this.paires.getFirst();
             
@@ -251,8 +252,8 @@ public class Cycle extends SchemaEchange{
             return true;
         }
         else{
-            Paire nPrec = this.getPrec(position);
-            Paire nCour = this.getCurrent(position);
+            Noeud nPrec = this.getPrec(position);
+            Noeud nCour = this.getCurrent(position);
             return nPrec.peutDonnerA(paireToAdd) && paireToAdd.peutDonnerA(nCour);
         }
     }
@@ -275,7 +276,7 @@ public class Cycle extends SchemaEchange{
             return 0;
         }
         else if(this.getNbPaires() == 1){
-            Paire nPrec = this.getPrec(position);
+            Noeud nPrec = this.getPrec(position);
             
             benefice = nPrec.getBeneficeVers(paireToAdd);
             if(benefice == -1) return Integer.MIN_VALUE;
@@ -287,8 +288,8 @@ public class Cycle extends SchemaEchange{
             deltaBenefice += benefice;
         }
         else{
-            Paire nPrec = this.getPrec(position);
-            Paire nCour = this.getCurrent(position);
+            Noeud nPrec = this.getPrec(position);
+            Noeud nCour = this.getCurrent(position);
             deltaBenefice -= nPrec.getBeneficeVers(nCour);
             
             benefice = nPrec.getBeneficeVers(paireToAdd);
@@ -341,7 +342,7 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     @Override
-    public Paire getPrec(int position) {
+    public Noeud getPrec(int position) {
         if(position == 0) return this.paires.getLast();
         return this.paires.get(position-1);
     }
@@ -353,7 +354,7 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     @Override
-    public Paire getCurrent(int position) {
+    public Noeud getCurrent(int position) {
         if(position == this.getNbPaires()) return this.paires.getFirst();
         return this.paires.get(position);
     }
@@ -365,7 +366,7 @@ public class Cycle extends SchemaEchange{
      * @return 
      */
     @Override
-    public Paire getNext(int position) {
+    public Noeud getNext(int position) {
         if(position >= this.getNbPaires()-1) return this.paires.getFirst();
         return this.paires.get(position+1);
     }
@@ -533,6 +534,11 @@ public class Cycle extends SchemaEchange{
     @Override
     public int getNbNoeud() {
         return this.getNbPaires();
+    }
+
+    @Override
+    public boolean doRemplacement(InterRemplacement infos) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     
