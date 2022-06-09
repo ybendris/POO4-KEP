@@ -36,8 +36,6 @@ public abstract class OperateurLocal extends Operateur {
         this.debutSequenceJ = debutSequenceJ;
         this.finSequenceI = finSequenceI;
         this.finSequenceJ = finSequenceJ;
-       
-        System.out.println("ICI");
         this.noeudsSequenceI = this.convertToLinkedList(this.sequence,debutSequenceI, finSequenceI);
         this.noeudsSequenceJ = new LinkedList<Noeud>();
     }
@@ -69,7 +67,7 @@ public abstract class OperateurLocal extends Operateur {
     public LinkedList<Noeud> convertToLinkedList(SchemaEchange sequence,int debut, int fin){
         LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
         int index;
-        for(index=debut; index != fin; index = (index + 1) % sequence.getNbNoeud()){
+        for(index=debut; index != fin%sequence.getNbNoeud(); index = (index + 1) % sequence.getNbNoeud()){
             noeudsSubList.add(sequence.getCurrent(index));
         }
         noeudsSubList.add(sequence.getCurrent(index));
@@ -79,7 +77,7 @@ public abstract class OperateurLocal extends Operateur {
     
     public static OperateurLocal getOperateur(TypeOperateurLocal type){
         switch(type){
-            case INTER_DEPLACEMENT:
+            case INTER_REMPLACEMENT:
                 return new InterRemplacement();
             
             default:
@@ -87,48 +85,32 @@ public abstract class OperateurLocal extends Operateur {
         }
     }
      
-    /*
-    public static OperateurLocal getOperateur(TypeOperateurLocal type){
-        switch(type){
-            case INTER_DEPLACEMENT:
-                return new InterRemplacement();
-            case INTER_ECHANGE:
-                return new InterEchange();
-            case INTRA_DEPLACEMENT:
-                return new IntraDeplacement();
-            case INTRA_ECHANGE:
-                return new IntraEchange();
-            default:
-                return null;
-        }
-    }
-    */
     
-    /*
-    public static OperateurIntraTournee getOperateurIntra(TypeOperateurLocal type, Tournee tournee, int positionI, int positionJ) {
-        switch(type) {
-            case INTRA_DEPLACEMENT:
-                return new IntraDeplacement(tournee, positionI, positionJ);
-            case INTRA_ECHANGE:
-                return new IntraEchange(tournee, positionI, positionJ);
-            default:
-                return null;
-        }
-    }
-    */
     
-    /*
-    public static OperateurInterTournees getOperateurInter(TypeOperateurLocal type, Tournee tournee, Tournee autreTournee, int positionI, int positionJ) {
+    
+    
+    public static OperateurIntraSequence getOperateurIntra(TypeOperateurLocal type, SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
         switch(type) {
-            case INTER_DEPLACEMENT:
-                return new InterRemplacement(tournee, autreTournee, positionI, positionJ);
-            case INTER_ECHANGE:
-                return new InterEchange(tournee, autreTournee, positionI, positionJ);
+            /*case INTRA_SUPPRESSION:
+                return new IntraSuppression(sequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);*/
+           
             default:
                 return null;
         }
     }
-    */
+    
+    
+    
+    public static OperateurInterSequences getOperateurInter(TypeOperateurLocal type, SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
+        switch(type) {
+            case INTER_REMPLACEMENT:
+                return new InterRemplacement(sequence, autreSequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);
+            
+            default:
+                return null;
+        }
+    }
+    
     
     @Override
     public String toString() {

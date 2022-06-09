@@ -386,7 +386,7 @@ public class CycleDeKAndChaine implements Solveur{
            
             System.out.println("Amélioration");
             
-            s.wola();
+            s.insererPaireRestantes();
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

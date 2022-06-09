@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Objects;
 import operateur.InsertionPaire;
 import operateur.InterRemplacement;
+import operateur.OperateurInterSequences;
+import operateur.OperateurLocal;
+import operateur.TypeOperateurLocal;
 
 /**
  *
@@ -26,6 +29,8 @@ public abstract class SchemaEchange {
         this.tailleMax = 0;
         this.paires = new LinkedList<>();
     }
+    
+    
 
     public int getCoutBenefice() {
         return coutBenefice;
@@ -59,8 +64,7 @@ public abstract class SchemaEchange {
     public LinkedList<Noeud> convertToLinkedList(int debut, int fin){
         LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
         int index;
-        for(index=debut; index != fin; index = (index + 1) % this.getNbNoeud()){
-            System.out.println("add");
+        for(index=debut; index != fin%this.getNbNoeud(); index = (index + 1) % this.getNbNoeud()){
             noeudsSubList.add(this.getCurrent(index));
         }
         noeudsSubList.add(this.getCurrent(index));
@@ -75,7 +79,7 @@ public abstract class SchemaEchange {
             Noeud current = pairesToAdd.get(i);
             if(!(i == pairesToAdd.size() -1)){
                 Noeud next = pairesToAdd.get(i+1);
-                benefice += current.getBeneficeVers((Paire)next);
+                benefice += current.getBeneficeVers(next);
             }
         }
         return benefice;
@@ -208,8 +212,31 @@ public abstract class SchemaEchange {
     public abstract int getNbNoeud();
     public abstract boolean doRemplacement(InterRemplacement infos);
     
+    public abstract boolean insertSequenceAtPos(LinkedList<Noeud> pairesToAdd, int position);
+    
     
     
     //public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ);
+
+    OperateurLocal getMeilleurOperateurInter(SchemaEchange autreSequence, TypeOperateurLocal type) {
+        OperateurLocal best = OperateurLocal.getOperateur(type);
+        
+        if(!this.equals(autreSequence)) {
+            for(int debutI=0; debutI<this.getNbPaires(); debutI++) {
+                for(int finI=0; finI<this.getNbPaires(); finI++) {
+                    for(int debutJ=0; debutJ<autreSequence.getNbPaires(); debutJ++) {
+                        for(int finJ=0; finJ<autreSequence.getNbPaires(); finJ++) {
+                            OperateurInterSequences op = OperateurLocal.getOperateurInter(type, this, autreSequence, debutI, finI , debutJ, finJ);
+                            if(op.isMeilleur(best)) {
+                                best = op;
+                            } 
+                        } 
+                    }
+                }
+            }
+        }
+        
+        return best;
+    }
     
 }

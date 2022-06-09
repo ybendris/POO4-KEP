@@ -178,7 +178,7 @@ public class CycleDe2AndChaine implements Solveur{
             System.out.println("Solution = " + s);
             System.out.println("sc2CH check: " + s.check());
             
-            System.out.println(s.wola());
+            System.out.println(s.insererPaireRestantes());
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

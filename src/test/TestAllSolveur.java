@@ -22,6 +22,7 @@ import solveur.CycleDe2AndChaine;
 import solveur.CycleDeK;
 import solveur.CycleDeKAndChaine;
 import solveur.CycleDeKAndChaineV2;
+import solveur.RechercheLocale;
 import solveur.Solveur;
 
 /**
@@ -78,6 +79,7 @@ public class TestAllSolveur {
         solveurs.add(new CycleDeK());
         solveurs.add(new CycleDeKAndChaine());
         solveurs.add(new CycleDeKAndChaineV2());
+        solveurs.add(new RechercheLocale(new CycleDeKAndChaineV2()));
     }
     
     /**

@@ -10,7 +10,7 @@ import solution.SchemaEchange;
  *
  * @author yanni
  */
-public class SuppressionIntra extends OperateurIntraSequence{
+public class IntraSuppression extends OperateurIntraSequence{
 
     @Override
     protected int evalDeltaBenefice() {
@@ -23,11 +23,11 @@ public class SuppressionIntra extends OperateurIntraSequence{
         return false;
     }
     
-    public SuppressionIntra() {
+    public IntraSuppression() {
         super();
     }
 
-    public SuppressionIntra(SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
+    public IntraSuppression(SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
         super(sequence, debutSequenceI, finSequenceI, debutSequenceJ, finSequenceJ);
     }
     

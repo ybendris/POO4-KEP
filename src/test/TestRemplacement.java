@@ -115,7 +115,7 @@ public class TestRemplacement {
             System.out.println(ch2);
             
             System.out.println("\n\n\n\n\n");
-            InterRemplacement op6 = new InterRemplacement(ch1,c3,2,2,3,0);
+            InterRemplacement op6 = new InterRemplacement(ch1,c3,2,2,3,4);
             System.out.println(op6);
             op6.doMouvementIfRealisable();
             

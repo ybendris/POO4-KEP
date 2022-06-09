@@ -124,7 +124,7 @@ public class CycleDe2 implements Solveur{
             System.out.println("\nsC2 check: " + s.check());
             System.out.println("Solution = " + s);
             
-            System.out.println(s.wola());
+            System.out.println(s.insererPaireRestantes());
             
 
             System.out.println("sC2 check: " +s.check());

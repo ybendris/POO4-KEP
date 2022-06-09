@@ -285,7 +285,7 @@ public class CycleDeK implements Solveur{
             
             System.out.println("Solution = " + s);
             
-            System.out.println(s.wola());
+            System.out.println(s.insererPaireRestantes());
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

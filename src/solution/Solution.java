@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import operateur.InsertionPaire;
+import operateur.OperateurInterSequences;
+import operateur.OperateurIntraSequence;
+import operateur.OperateurLocal;
+import operateur.TypeOperateurLocal;
 
 
 /**
@@ -269,7 +273,7 @@ public class Solution {
         return false;
     }
     
-    public InsertionPaire wola(){
+    public InsertionPaire insererPaireRestantes(){
         InsertionPaire best = new InsertionPaire();
         InsertionPaire current = new InsertionPaire();
        
@@ -327,6 +331,44 @@ public class Solution {
     }
     
     
+    
+    private OperateurLocal getMeilleurOperateurInter(TypeOperateurLocal type){
+        OperateurLocal best = OperateurLocal.getOperateur(type);
+        LinkedList<SchemaEchange> cycleEtChaine = new LinkedList<SchemaEchange>();
+        cycleEtChaine.addAll(cycles);
+        cycleEtChaine.addAll(chaines);
+        
+        
+        
+        for(SchemaEchange seq1 : cycleEtChaine){
+            for(SchemaEchange seq2 : cycleEtChaine){
+                OperateurLocal op = seq1.getMeilleurOperateurInter(seq2,type);
+                if(op.isMeilleur(best)) {
+                    best = op;
+                }
+            }
+        }
+        return best;
+    }
+    
+    private OperateurLocal getMeilleurOperateurIntra(TypeOperateurLocal type) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+    public OperateurLocal getMeilleurOperateurLocal(TypeOperateurLocal type) {
+        if(OperateurLocal.getOperateur(type) instanceof OperateurIntraSequence){
+            //System.out.println("Intra");
+            return this.getMeilleurOperateurIntra(type);
+        }
+        else if(OperateurLocal.getOperateur(type) instanceof OperateurInterSequences){
+            //System.out.println("Inter");
+            return this.getMeilleurOperateurInter(type);
+        }
+        else{
+            return null;
+        }
+    }
     
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
@@ -402,14 +444,36 @@ public class Solution {
             
             System.out.println(s.toString());
             
-            InsertionPaire operateur2 = s.getMeilleureInsertion(p5);
+            //InsertionPaire operateur2 = s.getMeilleureInsertion(p5);
             
+            
+            System.out.println("Solution"+s);
+            
+            System.out.println(s.getMeilleurOperateurInter(TypeOperateurLocal.INTER_REMPLACEMENT));
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
         }
         
     }
+
+    public boolean doMouvementRechercheLocale(OperateurLocal infos) {
+        if(infos == null) return false;
+        if(!infos.doMouvementIfRealisable())return false;
+        
+        System.out.println("On gagne"+infos.getDeltaBenefice());
+        this.benefice += infos.getDeltaBenefice();
+        
+        if (!this.check()){
+            System.out.println("Mauvais mouvement recherche locale, "+this.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        return true;
+    }
+
+    
 
     
     
