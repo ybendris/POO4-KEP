@@ -330,6 +330,10 @@ public class Cycle extends SchemaEchange{
             System.out.println("On peut pas faire ça debut == fin");
             return Integer.MIN_VALUE;
         }
+        if(this.getNbNoeud()+pairesToAdd.size()>this.tailleMax){
+            System.out.println("La taille MAX va être dépassée");
+            return Integer.MIN_VALUE;
+        }
         
         int deltaBenefice = 0;
         int benefice = 0;
@@ -522,7 +526,6 @@ public class Cycle extends SchemaEchange{
         if(!this.isPositionSuppressionValide(debut) || !this.isPositionSuppressionValide(fin)){
             System.out.println("position suppression cycle pas valide");
             return Integer.MIN_VALUE;
-            
         }
         LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
         /**
@@ -579,7 +582,65 @@ public class Cycle extends SchemaEchange{
 
     @Override
     public boolean doRemplacement(InterRemplacement infos) {
-        return false;
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+        
+        int debutI = infos.getDebutSequenceI();
+        int finI = infos.getFinSequenceI();
+        int debutJ = infos.getDebutSequenceJ();
+        int finJ = infos.getFinSequenceJ();
+        LinkedList<Noeud> pairesI = infos.getPairesSequenceI();
+        LinkedList<Noeud> pairesJ = infos.getPairesSequenceJ();
+        
+        SchemaEchange autreSequence = infos.getAutreSequence();
+        
+        /**
+         * Suppression du cycle
+         */
+        this.paires.removeAll(pairesI); //On inclus finI
+        
+        //Insertion
+        if(Math.abs(finJ-debutJ) == 1){
+            System.out.println("insertion");
+            autreSequence.paires.addAll(debutJ, pairesI);
+        }
+        //Remplacement
+        else{
+            System.out.println("Remplacement");
+            //Supprimer les trucs au milieux
+            LinkedList<Noeud> pairesToRemove = new LinkedList<Noeud>(pairesJ);
+            pairesToRemove.removeFirst();
+            pairesToRemove.removeLast();
+            System.out.println("1"+autreSequence.paires);
+            autreSequence.paires.removeAll(pairesToRemove);
+            System.out.println("2"+autreSequence.paires);
+            autreSequence.paires.addAll(debutJ, pairesI);
+            System.out.println("3"+autreSequence.paires);
+        }
+        
+        
+        //LinkedList<Paire> pairesToAdd = new LinkedList<>();
+        
+        
+        //maj cout
+        this.coutBenefice += infos.getDeltaBeneficeSequence();
+        autreSequence.coutBenefice += infos.getDeltaBeneficeAutreSequence();
+        
+        
+        if (!this.check()){
+            System.out.println("Mauvais remplacement inter-sequence, (courante)"+this.toString()+"\n"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        if (!autreSequence.check()){
+            System.out.println("Mauvais remplacement inter-sequence, (autre)"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        
+        return true;
     }
 
     

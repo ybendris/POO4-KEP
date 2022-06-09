@@ -13,12 +13,14 @@
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/operateur/OperateurLocal.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/test/TestInsertion.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/test/TestAllSolveur.java</file>
+            <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/test/TestDeltaBenefice.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/solution/Cycle.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/solveur/CycleDeKAndChaine.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/operateur/OperateurIntraSequence.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/test/TestRemplacement.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/operateur/OperateurInterSequences.java</file>
             <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/operateur/InsertionPaire.java</file>
+            <file>file:/C:/Users/yanni/Documents/NetBeansProjects/KEP/src/io/SolutionWriter.java</file>
         </group>
     </open-files>
 </project-private>

@@ -328,6 +328,10 @@ public class Chaine extends SchemaEchange {
             System.out.println("On peut pas faire ça debut == fin");
             return Integer.MIN_VALUE;
         }
+        if(this.getNbNoeud()+pairesToAdd.size()>this.tailleMax){
+            System.out.println("La taille MAX va être dépassée");
+            return Integer.MIN_VALUE;
+        }
         
         int deltaBenefice = 0;
         int benefice = 0;
@@ -640,10 +644,16 @@ public class Chaine extends SchemaEchange {
         if(!this.isPositionSuppressionValide(debut) || !this.isPositionSuppressionValide(fin)){
             return Integer.MIN_VALUE;
         }
+        LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
+        if(this.getNbNoeud()-pairesToSupp.size()<2){
+            return Integer.MIN_VALUE;
+        }
+        
+        
         int deltaBenefice = 0;
         int benefice;
         Noeud nPrec = this.getPrec(debut); 
-        LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
+        
         
         //System.out.println(pairesToSupp);
         
@@ -750,8 +760,13 @@ public class Chaine extends SchemaEchange {
             LinkedList<Noeud> pairesToRemove = new LinkedList<Noeud>(pairesJ);
             pairesToRemove.removeFirst();
             pairesToRemove.removeLast();
+            
+            
+            System.out.println("1 avant"+autreSequence.paires+ " "+pairesToRemove);
             autreSequence.paires.removeAll(pairesToRemove);
+            System.out.println("2 removeALL"+autreSequence.paires+ " "+pairesToRemove);
             autreSequence.paires.addAll(debutJ, pairesI);
+            System.out.println("3"+autreSequence.paires);
         }
         
         

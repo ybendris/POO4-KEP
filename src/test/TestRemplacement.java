@@ -50,7 +50,7 @@ public class TestRemplacement {
             ch2.ajouterPaireFin(p7);
             ch2.ajouterPaireFin(p8);
             
-            Cycle c3 =new Cycle(4);
+            Cycle c3 =new Cycle(5);
             c3.ajouterPaireFin(p4);
             c3.ajouterPaireFin(p6);
             c3.ajouterPaireFin(p7);
