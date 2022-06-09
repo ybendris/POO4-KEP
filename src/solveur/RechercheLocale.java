@@ -45,6 +45,7 @@ public class RechercheLocale implements Solveur{
                 //System.out.println(bestOperateur);
                 if(bestOperateur.isMouvementAmeliorant()){
                     s.doMouvementRechercheLocale(bestOperateur);
+                    
                     improve = true;
                 } 
             }

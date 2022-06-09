@@ -222,8 +222,8 @@ public abstract class SchemaEchange {
         OperateurLocal best = OperateurLocal.getOperateur(type);
         
         if(!this.equals(autreSequence)) {
-            for(int debutI=0; debutI<this.getNbPaires(); debutI++) {
-                for(int finI=0; finI<this.getNbPaires(); finI++) {
+            for(int debutI=0; debutI<this.getNbNoeud(); debutI++) {
+                for(int finI=0; finI<this.getNbNoeud(); finI++) {
                     for(int debutJ=0; debutJ<autreSequence.getNbPaires(); debutJ++) {
                         for(int finJ=0; finJ<autreSequence.getNbPaires(); finJ++) {
                             OperateurInterSequences op = OperateurLocal.getOperateurInter(type, this, autreSequence, debutI, finI , debutJ, finJ);

@@ -749,6 +749,7 @@ public class Chaine extends SchemaEchange {
         
         SchemaEchange autreSequence = infos.getAutreSequence();
         
+        
         /**
          * Suppression de la chaine
          */
@@ -756,13 +757,13 @@ public class Chaine extends SchemaEchange {
         
         //Insertion
         if(autreSequence.getCurrent(debutJ).equals(autreSequence.getPrec(finJ))){
-            //System.out.println("insertion");
-            System.out.println("Insertion");
+            //System.out.println("Insertion (Chaine)");
+            //System.out.println("Insertion dans une chaine");
             autreSequence.insertSequenceAtPos(pairesI, debutJ);
         }
         //Remplacement
         else{
-            System.out.println("Remplacement");
+            //System.out.println("Remplacement (Chaine)");
             //Supprimer les trucs au milieux
             LinkedList<Noeud> pairesToRemove = new LinkedList<Noeud>(pairesJ);
             pairesToRemove.removeFirst();

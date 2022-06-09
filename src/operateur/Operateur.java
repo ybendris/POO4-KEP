@@ -59,7 +59,7 @@ public abstract class Operateur {
         if(op == null){
             return true;
         }
-        if(this.getDeltaBenefice() <=  op.getDeltaBenefice()){
+        if(this.getDeltaBenefice() <  op.getDeltaBenefice()){
             return false;
         }
         return true;

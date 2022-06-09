@@ -44,7 +44,8 @@ public abstract class OperateurInterSequences extends OperateurLocal {
         if(this.deltaBeneficeAutreSequence == Integer.MIN_VALUE){
             return Integer.MIN_VALUE;
         }
-        return this.deltaBeneficeSequence + this.deltaBeneficeAutreSequence;
+        
+        return this.deltaBeneficeSequence+ this.deltaBeneficeAutreSequence;
     }
 
     public SchemaEchange getAutreSequence() {

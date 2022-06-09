@@ -337,9 +337,7 @@ public class Solution {
         LinkedList<SchemaEchange> cycleEtChaine = new LinkedList<SchemaEchange>();
         cycleEtChaine.addAll(cycles);
         cycleEtChaine.addAll(chaines);
-        
-        
-        
+            
         for(SchemaEchange seq1 : cycleEtChaine){
             for(SchemaEchange seq2 : cycleEtChaine){
                 OperateurLocal op = seq1.getMeilleurOperateurInter(seq2,type);
@@ -461,8 +459,9 @@ public class Solution {
         if(infos == null) return false;
         if(!infos.doMouvementIfRealisable())return false;
         
-        System.out.println("On gagne"+infos.getDeltaBenefice());
+        //System.out.println("On gagne (meilleur)"+infos.getDeltaBenefice());
         this.benefice += infos.getDeltaBenefice();
+        
         
         if (!this.check()){
             System.out.println("Mauvais mouvement recherche locale, "+this.toString());
@@ -473,6 +472,8 @@ public class Solution {
         return true;
     }
 
+    
+    
     
 
     

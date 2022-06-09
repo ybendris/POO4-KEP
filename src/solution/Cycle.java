@@ -594,7 +594,7 @@ public class Cycle extends SchemaEchange{
         
         SchemaEchange autreSequence = infos.getAutreSequence();
         
-        System.out.println("autreSequence AVANT"+autreSequence);
+        
         /**
          * Suppression du cycle
          */
@@ -604,12 +604,12 @@ public class Cycle extends SchemaEchange{
         
         //Insertion
         if(autreSequence.getCurrent(debutJ).equals(autreSequence.getPrec(finJ))){
-            System.out.println("Insertion");
+            //System.out.println("Insertion (Cycle)");
             autreSequence.insertSequenceAtPos(pairesI, debutJ);
         }
         //Remplacement
         else{
-            System.out.println("Remplacement");
+            //System.out.println("Remplacement (Cycle)");
             //Supprimer les trucs au milieux
             LinkedList<Noeud> pairesToRemove = new LinkedList<Noeud>(pairesJ);
             pairesToRemove.removeFirst();
