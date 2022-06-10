@@ -215,9 +215,6 @@ public abstract class SchemaEchange {
     public abstract boolean insertSequenceAtPos(LinkedList<Noeud> pairesToAdd, int position);
     
     
-    
-    //public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Paire> pairesSequenceJ);
-
     OperateurLocal getMeilleurOperateurInter(SchemaEchange autreSequence, TypeOperateurLocal type) {
         OperateurLocal best = OperateurLocal.getOperateur(type);
         
@@ -238,5 +235,10 @@ public abstract class SchemaEchange {
         
         return best;
     }
+    
+    public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ);
+    public abstract int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ);
+
+    
     
 }

@@ -455,71 +455,7 @@ public class Cycle extends SchemaEchange{
         return deltaBeneficeRemplacement(debutSequenceI, finSequenceI, pairesSequenceJ);
     }*/
 
-    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
-        int deltaBenefice = 0;
-        //Attention ca ou pairesSequenceJ est vide (suppression)
-        //Insertion si finI - debutI == 1 (Insertion)
-        //Echange
-        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI );
-
-        Noeud nPrecSeqI = this.getPrec(debutSequenceI); //2
-        
-        Noeud nFirstSeqI = pairesSequenceI.getFirst(); //3
-        Noeud nLastSeqI = pairesSequenceI.getLast(); //4
-        int benefice = 0;
-        
-        if(pairesSequenceJ.size() == 0){
-            return deltaBeneficeSuppressionSequence(debutSequenceI, finSequenceI);
-        }
-        else{
-            
-            Noeud nFirstSeqJ = pairesSequenceJ.getFirst(); //8
-            Noeud nLastSeqJ = pairesSequenceJ.getLast(); //10
-            //Insertion
-            if(Math.abs(finSequenceI - debutSequenceI) == 1){
-                
-                deltaBenefice-= nFirstSeqI.getBeneficeVers((Paire)nLastSeqI);
-
-                benefice = nFirstSeqI.getBeneficeVers((Paire)nFirstSeqJ);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-                
-                benefice = this.getBeneficeSequence(pairesSequenceJ);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-                
-                benefice = nLastSeqJ.getBeneficeVers((Paire)nLastSeqI);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-            }
-            //Echange
-            else{
-                Noeud nNextSeqI = this.getNext(finSequenceI); //5
-                nPrecSeqI = this.getCurrent(debutSequenceI); //2
-                nNextSeqI = this.getCurrent(finSequenceI); //5
-
-                pairesSequenceI = (LinkedList)this.paires.subList(debutSequenceI+1, finSequenceI); //3-4
-
-                deltaBenefice-= nPrecSeqI.getBeneficeVers((Paire)nFirstSeqI);
-                deltaBenefice-= this.getBeneficeSequence(pairesSequenceI);
-                deltaBenefice-= nLastSeqI.getBeneficeVers((Paire)nNextSeqI);
-
-                benefice = nPrecSeqI.getBeneficeVers((Paire)nFirstSeqJ);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-                
-                benefice = this.getBeneficeSequence(pairesSequenceJ);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-                
-                benefice = nLastSeqJ.getBeneficeVers((Paire)nNextSeqI);
-                if(benefice == -1) return Integer.MIN_VALUE;
-                deltaBenefice += benefice;
-            }
-        }
-
-        return deltaBenefice;
-    }
+    
 
     @Override
     public int deltaBeneficeSuppressionSequence(int debut, int fin) {
@@ -656,6 +592,44 @@ public class Cycle extends SchemaEchange{
         return this.paires.addAll(position+1, pairesToAdd);
     }
 
+    
+    /**
+    * Vérifie les paramètres pour le remplacement inter-sequences, 
+    * renvoie Integer.MIN_VALUE s'il y a un problème, on calcule sinon
+    * @param debutSequenceI
+    * @param finSequenceI
+    * @param pairesSequenceJ
+    * @return 
+    */
+    @Override
+    public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
+        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
+        if(pairesSequenceI == null){
+            return Integer.MIN_VALUE;
+        }
+        if(pairesSequenceJ == null){
+            return Integer.MAX_VALUE;
+        }
+        if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
+            return Integer.MAX_VALUE;
+        }
+        
+        return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
+    }
+
+    
+    /**
+     * Renvoie le benefice engendré par le remplacement de la chaine entre debutSequenceI et finSequenceI
+     * par la sequence pairesSequenceJ
+     * @param debutSequenceI
+     * @param finSequenceI
+     * @param pairesSequenceJ
+     * @return 
+     */
+    @Override
+    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 
     
