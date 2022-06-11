@@ -11,6 +11,7 @@ import instance.reseau.Paire;
 import java.util.LinkedList;
 import java.util.Objects;
 import operateur.InsertionPaire;
+import operateur.InterEchange;
 import operateur.InterRemplacement;
 
 /**
@@ -204,13 +205,14 @@ public class Chaine extends SchemaEchange {
     /**
      * Donne le bénéfice si on veut ajouter une Paire Patient-Donneur à une position donnée dans la liste des paires de la chaine
      * Donne aussi le deltaBenefice dans le cas ou on veut ajouter à la fin de la chaine
+     * position ne peut pas être 0 dans le cas d'une chaine
      * @param position
      * @param clientToAdd
      * @return 
      */
     @Override
     public int deltaBeneficeInsertionPaire(Paire paireToAdd, int position){
-        if(!this.isPositionInsertionValide(position) || paireToAdd == null){
+        if(!this.isPositionInsertionValide(position) || paireToAdd == null || position == 0){
             //System.out.println("return min");
             return Integer.MIN_VALUE;
         }
@@ -218,7 +220,9 @@ public class Chaine extends SchemaEchange {
         int benefice;
         Noeud nPrec = this.getPrec(position);
         
+        
         if(position > this.getNbPaires()){ //Si on veut insérer à la fin de la chaine
+            //System.out.println("LA");
             benefice = nPrec.getBeneficeVers(paireToAdd);
             if(nPrec.getBeneficeVers(paireToAdd) == -1) return Integer.MIN_VALUE;
             deltaBenefice += benefice;
@@ -332,18 +336,29 @@ public class Chaine extends SchemaEchange {
             //System.out.println("La taille MAX va être dépassée");
             return Integer.MIN_VALUE;
         }
+        if(Math.abs(fin-debut) != 1){
+            return Integer.MIN_VALUE;
+        }
+        if(fin<debut){
+            //System.out.println("fin>debut");
+            return Integer.MIN_VALUE;
+        }
         
         int deltaBenefice = 0;
         int benefice = 0;
         
         Noeud firstPaireI = getCurrent(debut);
-        Noeud lastPaireI = getCurrent(fin);
+        
         Noeud firstPaireJ = pairesToAdd.getFirst();
         Noeud lastPaireJ = pairesToAdd.getLast();
         
         if(firstPaireJ instanceof DonneurAltruiste){
             //System.out.println("On peut pas faire ça Déplacement de donneur altruiste");
             return Integer.MIN_VALUE;
+        }
+        
+        if(pairesToAdd.size() ==1){
+            return this.deltaBeneficeInsertionPaire((Paire)pairesToAdd.getFirst(), fin);
         }
         
         benefice = firstPaireI.getBeneficeVers( firstPaireJ);
@@ -360,6 +375,9 @@ public class Chaine extends SchemaEchange {
         }
         deltaBenefice += benefice;
         
+        
+        
+        Noeud lastPaireI = getCurrent(fin);
         benefice = lastPaireJ.getBeneficeVers( lastPaireI);
         if(benefice == -1) {
             //System.out.println(lastPaireJ.getId()+"->"+lastPaireI.getId());
@@ -529,6 +547,109 @@ public class Chaine extends SchemaEchange {
         return this.getNbPaires()+1;
     }
 
+    
+
+    @Override
+    public boolean insertSequenceAtPos(LinkedList<Noeud> pairesToAdd, int position) {
+        if(position > this.paires.size())
+            return this.paires.addAll(this.paires.size(), pairesToAdd);
+        return this.paires.addAll(position, pairesToAdd);
+    }
+
+    
+    
+    /**
+    * Vérifie les paramètres pour le remplacement inter-sequences, 
+    * renvoie Integer.MIN_VALUE s'il y a un problème, on calcule sinon
+    * @param debutSequenceI
+    * @param finSequenceI
+    * @param pairesSequenceJ
+    * @return 
+    */
+    @Override
+    public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
+        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
+        if(pairesSequenceI == null){
+            //System.out.println("pairesSequenceI == null");
+            return Integer.MIN_VALUE;
+        }
+        if(pairesSequenceJ == null){
+            //System.out.println("pairesSequenceJ == null");
+            return Integer.MIN_VALUE;
+        }
+        if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
+            //System.out.println("La chaine va dépasser la taille max");
+            return Integer.MIN_VALUE;
+        }
+        if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() < 2){
+            //System.out.println("La chaine va dépasser la taille min");
+            return Integer.MIN_VALUE;
+        }
+        if(debutSequenceI == 0){
+            //System.out.println("non");
+            return Integer.MIN_VALUE;
+        }
+        
+        return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
+    }
+
+    
+    /**
+     * Renvoie le benefice engendré par le remplacement de la chaine entre debutSequenceI et finSequenceI
+     * par la sequence pairesSequenceJ
+     * @param debutSequenceI
+     * @param finSequenceI
+     * @param pairesSequenceJ
+     * @return 
+     */
+    @Override
+    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
+        int deltaBenefice = 0;
+        int benefice;
+        
+        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
+        Noeud avantSeqI = this.getPrec(debutSequenceI);
+        
+        //System.out.println("avantSeqI"+avantSeqI.getId());
+        
+        deltaBenefice -= avantSeqI.getBeneficeVers(pairesSequenceI.getFirst());
+        deltaBenefice -= this.getBeneficeSequence(pairesSequenceI);
+
+        benefice = avantSeqI.getBeneficeVers(pairesSequenceJ.getFirst());
+        if(benefice == -1) {
+            //System.out.println(avantSeqI.getId()+"->"+pairesSequenceJ.getFirst().getId());
+            return Integer.MIN_VALUE;
+        }
+        //System.out.println("+benefice: "+benefice);
+        deltaBenefice += benefice;
+
+        benefice = this.getBeneficeSequence(pairesSequenceJ);
+        if(benefice == -1) {
+            //System.out.println("this.getBeneficeSequence(pairesSequenceJ)");
+            return Integer.MIN_VALUE;
+        }
+        //System.out.println("+benefice: "+benefice);
+        deltaBenefice += benefice;
+        
+        
+        if(finSequenceI != this.getNbPaires()){
+            Noeud apresSeqI = this.getNext(finSequenceI);
+            deltaBenefice -= pairesSequenceI.getLast().getBeneficeVers(apresSeqI);
+
+            benefice = pairesSequenceJ.getLast().getBeneficeVers(apresSeqI);
+            if(benefice == -1) {
+                //System.out.println(pairesSequenceJ.getLast().getId()+"-->"+apresSeqI.getId());
+                return Integer.MIN_VALUE;
+            }
+            //System.out.println("+benefice: "+benefice);
+            deltaBenefice += benefice;
+        }        
+        
+        
+        return deltaBenefice;
+    }
+    
+    
     /**
      * Remplace les paires patient-donneur entre debutJ et finJ par les clientsI
      * Si il n'y a rien entre debutJ et finJ, c'est une insertion
@@ -574,7 +695,7 @@ public class Chaine extends SchemaEchange {
             //System.out.println("1 avant"+autreSequence.paires+ " "+pairesToRemove);
             autreSequence.paires.removeAll(pairesToRemove);
             //System.out.println("2 removeALL"+autreSequence.paires+ " "+pairesToRemove);
-            autreSequence.paires.addAll(debutJ, pairesI);
+            autreSequence.insertSequenceAtPos(pairesI, debutJ);
             //System.out.println("3"+autreSequence.paires);
         }
         
@@ -602,99 +723,63 @@ public class Chaine extends SchemaEchange {
         
         return true;
     }
+    
+    
 
     @Override
-    public boolean insertSequenceAtPos(LinkedList<Noeud> pairesToAdd, int position) {
-        return this.paires.addAll(position, pairesToAdd);
+    public boolean doEchange(InterEchange infos) {
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false; 
+        
+        int debutI = infos.getDebutSequenceI();
+        int finI = infos.getFinSequenceI();
+        int debutJ = infos.getDebutSequenceJ();
+        int finJ = infos.getFinSequenceJ();
+        LinkedList<Noeud> pairesI = infos.getPairesSequenceI();
+        LinkedList<Noeud> pairesJ = infos.getPairesSequenceJ();
+        
+        SchemaEchange autreSequence = infos.getAutreSequence();
+        
+        System.out.println("Avant----------");
+        System.out.println(this);
+        System.out.println(autreSequence);
+        
+        
+        //Remplacer les paires de 'this' [debutI ; finI] par les pairesJ
+        this.replacePaires(debutI,finI,pairesJ);
+        //Remplacer les paires de 'autreSequence' [debutJ ; finJ] par les pairesI
+        autreSequence.replacePaires(debutJ,finJ,pairesI);
+        
+        System.out.println("Après");
+        System.out.println(this);
+        System.out.println(autreSequence);
+        
+        //maj cout
+        this.coutBenefice += infos.getDeltaBeneficeSequence();
+        autreSequence.coutBenefice += infos.getDeltaBeneficeAutreSequence();
+        
+        if (!this.check()){
+            System.out.println("Mauvais échange inter-sequence, (courante)"+this.toString()+"\n"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        if (!autreSequence.check()){
+            System.out.println("Mauvais échange inter-sequence, (autre)"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        return true;
     }
 
-    
-    
-    /**
-    * Vérifie les paramètres pour le remplacement inter-sequences, 
-    * renvoie Integer.MIN_VALUE s'il y a un problème, on calcule sinon
-    * @param debutSequenceI
-    * @param finSequenceI
-    * @param pairesSequenceJ
-    * @return 
-    */
     @Override
-    public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
-        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
-        if(pairesSequenceI == null){
-            System.out.println("pairesSequenceI == null");
-            return Integer.MIN_VALUE;
-        }
-        if(pairesSequenceJ == null){
-            System.out.println("pairesSequenceJ == null");
-            return Integer.MAX_VALUE;
-        }
-        if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
-            System.out.println("La chaine va dépasser la taille max");
-            return Integer.MAX_VALUE;
-        }
-        if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() < 2){
-            System.out.println("La chaine va dépasser la taille min");
-            return Integer.MAX_VALUE;
-        }
-        
-        return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
-    }
-
-    
-    /**
-     * Renvoie le benefice engendré par le remplacement de la chaine entre debutSequenceI et finSequenceI
-     * par la sequence pairesSequenceJ
-     * @param debutSequenceI
-     * @param finSequenceI
-     * @param pairesSequenceJ
-     * @return 
-     */
-    @Override
-    public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
-        int deltaBenefice = 0;
-        int benefice;
-        
-        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
-        Noeud avantSeqI = this.getPrec(debutSequenceI);
-        
-        System.out.println("avantSeqI"+avantSeqI.getId());
-        
-        deltaBenefice -= avantSeqI.getBeneficeVers(pairesSequenceI.getFirst());
-        deltaBenefice -= this.getBeneficeSequence(pairesSequenceI);
-
-        benefice = avantSeqI.getBeneficeVers(pairesSequenceJ.getFirst());
-        if(benefice == -1) {
-            System.out.println(avantSeqI.getId()+"->"+pairesSequenceJ.getFirst().getId());
-            return Integer.MIN_VALUE;
-        }
-        System.out.println("+benefice: "+benefice);
-        deltaBenefice += benefice;
-
-        benefice = this.getBeneficeSequence(pairesSequenceJ);
-        if(benefice == -1) {
-            System.out.println("this.getBeneficeSequence(pairesSequenceJ)");
-            return Integer.MIN_VALUE;
-        }
-        System.out.println("+benefice: "+benefice);
-        deltaBenefice += benefice;
-        
-        
-        if(finSequenceI != this.getNbPaires()){
-            Noeud apresSeqI = this.getNext(finSequenceI);
-            deltaBenefice -= pairesSequenceI.getLast().getBeneficeVers(apresSeqI);
-
-            benefice = pairesSequenceJ.getLast().getBeneficeVers(apresSeqI);
-            if(benefice == -1) {
-                System.out.println(pairesSequenceJ.getLast().getId()+"-->"+apresSeqI.getId());
-                return Integer.MIN_VALUE;
-            }
-            System.out.println("+benefice: "+benefice);
-            deltaBenefice += benefice;
-        }        
-        
-        
-        return deltaBenefice;
+    public boolean replacePaires(int debut, int fin, LinkedList<Noeud> pairesToAdd) {
+        //Suppression des paires entre debut et fin (compris)
+        this.paires.removeAll(this.convertToLinkedList(debut, fin));
+        if(this.paires.isEmpty())
+            return this.paires.addAll(pairesToAdd);
+        return this.paires.addAll(debut-1, pairesToAdd);
     }
     
 }

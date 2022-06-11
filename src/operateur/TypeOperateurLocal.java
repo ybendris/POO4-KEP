@@ -10,5 +10,6 @@ package operateur;
  */
 public enum TypeOperateurLocal {
     INTER_REMPLACEMENT,
+    INTER_ECHANGE
     //INTRA_SUPPRESSION
 }

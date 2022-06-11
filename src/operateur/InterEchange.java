@@ -22,7 +22,7 @@ public class InterEchange extends OperateurInterSequences{
 
     @Override
     protected boolean doMouvement() {
-        return false;
+        return this.sequence.doEchange(this);
     }
 
     @Override

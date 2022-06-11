@@ -80,7 +80,36 @@ public class TestEchange {
             System.out.println(op3);
             System.out.println(op4);
             System.out.println(op5);
-           
+            System.out.println(op6);
+            
+            System.out.println("TESTS avce les cycles");
+            
+            Cycle c1 = new Cycle(4);
+            Cycle c2 = new Cycle(4);
+            
+            c1.ajouterPaireFin(p3);
+            c1.ajouterPaireFin(p4);
+            c1.ajouterPaireFin(p5);
+            
+            c2.ajouterPaireFin(p6);
+            c2.ajouterPaireFin(p7);
+            c2.ajouterPaireFin(p8);
+            
+            System.out.println(c1);
+            System.out.println(c2);
+            
+            InterEchange op8 = new InterEchange(c1,c2,1,1,1,1);//3+3=6
+            System.out.println(op8);
+            InterEchange op9 = new InterEchange(c1,c2,2,2,2,2);//-inf 8->3 impossible
+            System.out.println(op9);
+            
+            
+            InterEchange op10 = new InterEchange(ch1,c2,2,2,1,1);//3+3=6
+            System.out.println(op10);
+            
+            InterEchange op11 = new InterEchange(c1,c2,0,2,0,2);//?
+            System.out.println(op11);
+
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());

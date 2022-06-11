@@ -12,6 +12,7 @@ import io.exception.ReaderException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import operateur.InsertionPaire;
+import operateur.InterEchange;
 import operateur.InterRemplacement;
 import solveur.CycleDe2;
 
@@ -110,10 +111,10 @@ public class Cycle extends SchemaEchange{
             else{
                 System.out.println("Erreur Cycle : y a un -1");
                 if(nextPaire != null){
-                    System.out.println(p.getId()+ "->"  +nextPaire.getId() );
+                    //System.out.println(p.getId()+ "->"  +nextPaire.getId() );
                 }
                 else{
-                    System.out.println(p.getId()+"->"+this.paires.getFirst().getId() );
+                    //System.out.println(p.getId()+"->"+this.paires.getFirst().getId() );
                 }
                 return false;
             }
@@ -335,6 +336,13 @@ public class Cycle extends SchemaEchange{
             //System.out.println("On peut pas faire ça debut == fin");
             return Integer.MIN_VALUE;
         }
+        if(Math.abs(fin-debut) != 1){
+            return Integer.MIN_VALUE;
+        }
+        if(fin<debut){
+            //System.out.println("fin>debut");
+            return Integer.MIN_VALUE;
+        }
         if(this.getNbNoeud()+pairesToAdd.size()>this.tailleMax){
             //System.out.println("La taille MAX va être dépassée");
             return Integer.MIN_VALUE;
@@ -530,6 +538,9 @@ public class Cycle extends SchemaEchange{
         
         SchemaEchange autreSequence = infos.getAutreSequence();
         
+        //System.out.println("DEBUG");
+        //System.out.println(this);
+        //System.out.println(autreSequence);
         
         /**
          * Suppression du cycle
@@ -547,13 +558,17 @@ public class Cycle extends SchemaEchange{
         else{
             //System.out.println("Remplacement (Cycle)");
             //Supprimer les trucs au milieux
-            LinkedList<Noeud> pairesToRemove = new LinkedList<Noeud>(pairesJ);
+            LinkedList<Noeud> pairesToRemove = new LinkedList<>(pairesJ);
             pairesToRemove.removeFirst();
             pairesToRemove.removeLast();
             //System.out.println("1"+autreSequence.paires);
             autreSequence.paires.removeAll(pairesToRemove);
             //System.out.println("2"+autreSequence.paires);
-            autreSequence.paires.addAll(debutJ, pairesI);
+            autreSequence.insertSequenceAtPos(pairesI, debutJ);
+
+                
+            
+
             //System.out.println("3"+autreSequence.paires);
         }
         
@@ -578,7 +593,6 @@ public class Cycle extends SchemaEchange{
             System.out.println(infos);
             
             
-            System.out.println("copie");
             
             System.exit(-1); //Termine le programme
         }
@@ -605,21 +619,33 @@ public class Cycle extends SchemaEchange{
     public int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
         LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
         if(pairesSequenceI == null){
+            //System.out.println("pairesSequenceI == null");
             return Integer.MIN_VALUE;
         }
         if(pairesSequenceJ == null){
-            return Integer.MAX_VALUE;
+            //System.out.println("pairesSequenceJ == null");
+            return Integer.MIN_VALUE;
         }
         if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() > this.tailleMax){
-            return Integer.MAX_VALUE;
+            //System.out.println("Le cycle va dépasser la taille max");
+            return Integer.MIN_VALUE;
         }
+        if(this.getNbNoeud() - pairesSequenceI.size() + pairesSequenceJ.size() < 2){
+            //System.out.println("Le cycle va dépasser la taille min");
+            return Integer.MIN_VALUE;
+        }
+        if(this.getNbNoeud() == pairesSequenceI.size()){
+            //System.out.println("On veut supprimer un cycle complètement");
+            return Integer.MIN_VALUE;
+        }
+            
         
         return deltaBeneficeRemplacement(debutSequenceI,finSequenceI,pairesSequenceJ);
     }
 
     
     /**
-     * Renvoie le benefice engendré par le remplacement de la chaine entre debutSequenceI et finSequenceI
+     * Renvoie le benefice engendré par le remplacement de la sequence du cycle entre debutSequenceI et finSequenceI
      * par la sequence pairesSequenceJ
      * @param debutSequenceI
      * @param finSequenceI
@@ -628,7 +654,106 @@ public class Cycle extends SchemaEchange{
      */
     @Override
     public int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int deltaBenefice = 0;
+        int benefice;
+        
+        LinkedList<Noeud> pairesSequenceI = this.convertToLinkedList(debutSequenceI, finSequenceI);
+        Noeud avantSeqI = this.getPrec(debutSequenceI);
+        
+        //System.out.println("avantSeqI"+avantSeqI.getId());
+        
+        deltaBenefice -= avantSeqI.getBeneficeVers(pairesSequenceI.getFirst());
+        deltaBenefice -= this.getBeneficeSequence(pairesSequenceI);
+
+        benefice = avantSeqI.getBeneficeVers(pairesSequenceJ.getFirst());
+        if(benefice == -1) {
+            //System.out.println(avantSeqI.getId()+"->"+pairesSequenceJ.getFirst().getId());
+            return Integer.MIN_VALUE;
+        }
+        //System.out.println("+benefice: "+benefice);
+        deltaBenefice += benefice;
+
+        benefice = this.getBeneficeSequence(pairesSequenceJ);
+        if(benefice == -1) {
+            //System.out.println("this.getBeneficeSequence(pairesSequenceJ)");
+            return Integer.MIN_VALUE;
+        }
+        //System.out.println("+benefice: "+benefice);
+        deltaBenefice += benefice;
+        
+        
+        if(finSequenceI != this.getNbPaires()){
+            Noeud apresSeqI = this.getNext(finSequenceI);
+            deltaBenefice -= pairesSequenceI.getLast().getBeneficeVers(apresSeqI);
+
+            benefice = pairesSequenceJ.getLast().getBeneficeVers(apresSeqI);
+            if(benefice == -1) {
+                //System.out.println(pairesSequenceJ.getLast().getId()+"-->"+apresSeqI.getId());
+                return Integer.MIN_VALUE;
+            }
+            //System.out.println("+benefice: "+benefice);
+            deltaBenefice += benefice;
+        }        
+        
+        
+        return deltaBenefice;
+    }
+
+    @Override
+    public boolean doEchange(InterEchange infos) {
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false; 
+        
+        int debutI = infos.getDebutSequenceI();
+        int finI = infos.getFinSequenceI();
+        int debutJ = infos.getDebutSequenceJ();
+        int finJ = infos.getFinSequenceJ();
+        LinkedList<Noeud> pairesI = infos.getPairesSequenceI();
+        LinkedList<Noeud> pairesJ = infos.getPairesSequenceJ();
+        
+        
+        SchemaEchange autreSequence = infos.getAutreSequence();
+        
+        System.out.println("Avant----------");
+        System.out.println(this);
+        System.out.println(autreSequence);
+        
+        
+        //Remplacer les paires de 'this' [debutI ; finI] par les pairesJ
+        this.replacePaires(debutI,finI,pairesJ);
+        //Remplacer les paires de 'autreSequence' [debutJ ; finJ] par les pairesI
+        autreSequence.replacePaires(debutJ,finJ,pairesI);
+        
+        System.out.println("Après");
+        System.out.println(this);
+        System.out.println(autreSequence);
+        
+        //maj cout
+        this.coutBenefice += infos.getDeltaBeneficeSequence();
+        autreSequence.coutBenefice += infos.getDeltaBeneficeAutreSequence();
+        
+        if (!this.check()){
+            System.out.println("Mauvais échange inter-sequence, (courante)"+this.toString()+"\n"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        if (!autreSequence.check()){
+            System.out.println("Mauvais échange inter-sequence, (autre)"+autreSequence.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        return true;
+    }
+
+    @Override
+    public boolean replacePaires(int debut, int fin, LinkedList<Noeud> pairesToAdd) {
+         //Suppression des paires entre debut et fin (compris)
+        this.paires.removeAll(this.convertToLinkedList(debut, fin));
+        if(this.paires.isEmpty())
+            return this.paires.addAll(pairesToAdd);
+        return this.paires.addAll(debut, pairesToAdd);
     }
     
 

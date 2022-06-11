@@ -265,6 +265,8 @@ public class CycleDeKAndChaine implements Solveur{
             
             pairesAjoutCycle=bestBeneficePaires(paires);
 
+            //System.out.println(pairesAjoutCycle);
+            
             if(pairesAjoutCycle.get(1)!=null) paire1=pairesAjoutCycle.get(1);
             else{
                 paire1=null;
@@ -275,6 +277,7 @@ public class CycleDeKAndChaine implements Solveur{
           
             paire1 = getNextPaireCycleK(paires, compatibilite, paire1, pairesAjoutCycle, tailleMaxCycle);
 
+            //System.out.println(paire1);
             //System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
             
             Paire lastPaire = pairesAjoutCycle.getLast();
@@ -371,7 +374,7 @@ public class CycleDeKAndChaine implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesTest/KEP_p250_n13_k5_l17.txt");
+            InstanceReader read = new InstanceReader("instancesTest/testInstance.txt");
             Instance i = read.readInstance();
             
             CycleDeKAndChaine CycleKCH = new CycleDeKAndChaine();
@@ -391,7 +394,7 @@ public class CycleDeKAndChaine implements Solveur{
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);
             
-            Paire p64 = s.getInstance().getPaireById(64);
+            /*Paire p64 = s.getInstance().getPaireById(64);
             Paire p68 = s.getInstance().getPaireById(68);
             Paire p161 = s.getInstance().getPaireById(161);
             
@@ -409,7 +412,7 @@ public class CycleDeKAndChaine implements Solveur{
             
             System.out.println(p73.getBeneficeVers(p157));
             System.out.println(p157.getBeneficeVers(p140));
-            System.out.println(p73.getBeneficeVers(p140));
+            System.out.println(p73.getBeneficeVers(p140));*/
 
         }
         catch(ReaderException ex){

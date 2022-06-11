@@ -66,9 +66,9 @@ public class TestRemplacement {
             System.out.println(op);
             InterRemplacement op2 = new InterRemplacement(c3,ch1,0,1,0,1); //-13 +6 =-7
             System.out.println(op2);
-            InterRemplacement op3 = new InterRemplacement(c3,ch1,0,1,0,2); //-13 +1 =-12
+            InterRemplacement op3 = new InterRemplacement(c3,ch1,0,1,0,2); //-13 +1 =-12 // -inf
             System.out.println(op3);
-            InterRemplacement op4 = new InterRemplacement(ch2,ch1,1,2,0,2); //-13 +1 = -12
+            InterRemplacement op4 = new InterRemplacement(ch2,ch1,1,2,0,2); //-13 +1 = -12 // -inf
             System.out.println(op4);
             InterRemplacement op5 = new InterRemplacement(ch2,ch1,0,1,0,1); //-inf
             System.out.println(op5);
@@ -128,12 +128,15 @@ public class TestRemplacement {
             System.out.println(c3);
             
             
-           
-            
+            System.out.println("On va faire Insertion de chaine à chaine en fin:---------------");
+            System.out.println(ch1);
+            System.out.println(ch2);
             
             InterRemplacement op7 = new InterRemplacement(ch2,ch1,4,4,2,3);
-            //System.out.println(op7);
-            
+            op7.doMouvementIfRealisable();
+            System.out.println(op7);
+            System.out.println(ch1);
+            System.out.println(ch2);
             
         }
         catch(ReaderException ex){

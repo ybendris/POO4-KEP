@@ -80,6 +80,9 @@ public abstract class OperateurLocal extends Operateur {
             case INTER_REMPLACEMENT:
                 return new InterRemplacement();
             
+            case INTER_ECHANGE:
+                return new InterEchange();
+            
             default:
                 return null;
         }
@@ -105,6 +108,9 @@ public abstract class OperateurLocal extends Operateur {
         switch(type) {
             case INTER_REMPLACEMENT:
                 return new InterRemplacement(sequence, autreSequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);
+                
+            case INTER_ECHANGE:
+                return new InterEchange(sequence, autreSequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);
             
             default:
                 return null;

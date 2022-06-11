@@ -367,6 +367,12 @@ public class Solution {
             return null;
         }
     }
+
+    public LinkedList<Paire> getPairesRestantes() {
+        return pairesRestantes;
+    }
+    
+    
     
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
@@ -457,10 +463,14 @@ public class Solution {
 
     public boolean doMouvementRechercheLocale(OperateurLocal infos) {
         if(infos == null) return false;
+        
         if(!infos.doMouvementIfRealisable())return false;
         
         //System.out.println("On gagne (meilleur)"+infos.getDeltaBenefice());
         this.benefice += infos.getDeltaBenefice();
+        
+        
+        
         
         
         if (!this.check()){
