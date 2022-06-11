@@ -21,6 +21,8 @@ import solveur.CycleDe2;
 import solveur.CycleDe2AndChaine;
 import solveur.CycleDeK;
 import solveur.CycleDeKAndChaine;
+import solveur.CycleDeKAndChaineV2;
+import solveur.RechercheLocale;
 import solveur.Solveur;
 
 /**
@@ -76,6 +78,12 @@ public class TestAllSolveur {
         solveurs.add(new CycleDe2AndChaine());
         solveurs.add(new CycleDeK());
         solveurs.add(new CycleDeKAndChaine());
+        solveurs.add(new CycleDeKAndChaineV2());
+        solveurs.add(new RechercheLocale(new CycleDeKAndChaineV2()));
+        solveurs.add(new RechercheLocale(new CycleDe2()));
+        solveurs.add(new RechercheLocale(new CycleDe2AndChaine()));
+        solveurs.add(new RechercheLocale(new CycleDeKAndChaine()));
+        solveurs.add(new RechercheLocale(new CycleDeK()));
     }
     
     /**
@@ -173,7 +181,7 @@ public class TestAllSolveur {
         }
         ecriture.println();
         for(Solveur solveur : solveurs) {
-            ecriture.print(";Bénéfices");
+            ecriture.print(";Benefices");
             ecriture.print(";tps(ms)");
             ecriture.print(";valide ?");
         }

@@ -3,17 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/instance/reseau/Paire.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solution/Chaine.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solveur/CycleDe2.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solution/SchemaEchange.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solution/Cycle.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solveur/CycleDeKAndChaine.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solveur/CycleDeK.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solution/Solution.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/test/TestAllSolveur.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/solveur/CycleDe2AndChaine.java</file>
-            <file>file:/D:/POO_LE4/POO4-KEP/src/instance/reseau/Noeud.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/OperateurLocal.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solution/SchemaEchange.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/test/TestEchange.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solution/Chaine.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/test/TestDeltaBenefice.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/instance/Instance.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/OperateurInterSequences.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/test/TestRemplacement.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/TypeOperateurLocal.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solution/Solution.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solveur/CycleDe2.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/OperateurIntraSequence.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solution/Cycle.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/Operateur.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/instance/reseau/Noeud.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/test/TestAllSolveur.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solveur/CycleDeK.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/IntraSuppression.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/test/TestInsertion.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/InsertionPaire.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solveur/CycleDeKAndChaine.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/InterRemplacement.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solveur/CycleDeKAndChaineV2.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/solveur/RechercheLocale.java</file>
+            <file>file:/C:/Users/yanni/OneDrive/Documents/NetBeansProjects/LE4/KEP/src/operateur/InterEchange.java</file>
         </group>
     </open-files>
 </project-private>

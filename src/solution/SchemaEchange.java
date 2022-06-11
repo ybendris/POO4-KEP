@@ -4,32 +4,40 @@
  */
 package solution;
 
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+import operateur.InsertionPaire;
+import operateur.InterEchange;
+import operateur.InterRemplacement;
+import operateur.OperateurInterSequences;
+import operateur.OperateurLocal;
+import operateur.TypeOperateurLocal;
 
 /**
  *
  * @author Valek
  */
 public abstract class SchemaEchange {
- 
     protected int coutBenefice;
     protected int tailleMax;
-    protected LinkedList<Paire> paires;
-
+    protected LinkedList<Noeud> paires;
 
     public SchemaEchange() {
         this.coutBenefice = 0;
         this.tailleMax = 0;
         this.paires = new LinkedList<>();
     }
+    
+    
 
     public int getCoutBenefice() {
         return coutBenefice;
     }
     
-    public Paire getNextPaire(int index){
+    public Noeud getNextPaire(int index){
         //System.out.println("Paires = " + this.paires);
         //System.out.println("Taille = " + this.paires.size());
         //System.out.println("Index = " + index);
@@ -48,12 +56,37 @@ public abstract class SchemaEchange {
         }
     }
     
-    public Paire getFirstPaire(){
+    public Noeud getFirstPaire(){
         //System.out.println("\nPaires First" + this.paires);
         return this.paires.getFirst();
     }
+    
+    //this.paires.subList(debutSequenceI, finSequenceI +1)
+    public LinkedList<Noeud> convertToLinkedList(int debut, int fin){
+        LinkedList<Noeud> noeudsSubList = new LinkedList<Noeud>();
+        int index;
+        for(index=debut; index != fin%this.getNbNoeud(); index = (index + 1) % this.getNbNoeud()){
+            noeudsSubList.add(this.getCurrent(index));
+        }
+        noeudsSubList.add(this.getCurrent(index));
+        
+        return noeudsSubList;
+    }
+    
+    
+    public int getBeneficeSequence(LinkedList<Noeud> pairesToAdd){
+        int benefice = 0;
+        for(int i=0; i < pairesToAdd.size(); i++){
+            Noeud current = pairesToAdd.get(i);
+            if(!(i == pairesToAdd.size() -1)){
+                Noeud next = pairesToAdd.get(i+1);
+                benefice += current.getBeneficeVers(next);
+            }
+        }
+        return benefice;
+    }
 
-    public LinkedList<Paire> getPaires() {
+    public LinkedList<Noeud> getPaires() {
         return paires;
     }
     
@@ -76,7 +109,8 @@ public abstract class SchemaEchange {
         return this.clients.get(pos);
     }
     */
-    protected abstract int evalCoutBenefice();
+    
+    
 
     @Override
     public String toString() {
@@ -109,7 +143,112 @@ public abstract class SchemaEchange {
         return Objects.equals(this.paires, other.paires);
     }
     
+    public boolean doInsertion(InsertionPaire infos){
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+        
+        Paire paireToAdd = infos.getPaireToInsert();
+        int position = infos.getPosition();
+        /**
+         * Ajoute le client à la position indiqué par l'opérateur d'insertion
+         */
+        this.paires.add(position, paireToAdd);
+        this.coutBenefice += infos.getDeltaBenefice(); //MAJ cout total
+       
+        
+        if (!this.check()){
+            System.out.println("Mauvaise insertion du client, "+paireToAdd);
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        return true;
+    }
     
+    private int getNbPaires() {
+        return this.paires.size();
+    }
+    
+    /**
+     * Retourne le meilleur opérateur d'insertion d'une paire
+     * @param paireToInsert
+     * @return 
+     */
+    InsertionPaire getMeilleureInsertion(Paire paireToInsert) {
+        InsertionPaire meilleur = new InsertionPaire();
+        if(!this.insertionPairePossible(paireToInsert)) 
+            return meilleur;//return d'une valeur par défaut
+        
+        
+        
+        for(int pos = 0; pos<=this.paires.size(); pos++){
+            InsertionPaire courrant = new InsertionPaire(this, paireToInsert, pos);
+            if(courrant.isMeilleur(meilleur))
+                meilleur = courrant;
+        }
+        
+        return meilleur;
+    }
+    
+    public abstract boolean check();
+    protected abstract int evalCoutBenefice();
+    
+    public abstract boolean replacePaires(int debut, int fin, LinkedList<Noeud> pairesToAdd);
+    
+    
+    public abstract boolean insertionPairePossible(Paire paireToInsert);
+    protected abstract boolean isPositionInsertionValide(int position);
+    protected abstract boolean isPositionSuppressionValide(int position);
+    public abstract boolean doRemplacement(InterRemplacement infos);
+    public abstract boolean doEchange(InterEchange infos);
+
+    
+    public abstract Noeud getPrec(int position);
+    public abstract Noeud getCurrent(int position);
+    public abstract Noeud getNext(int position);
+    
+    public abstract int deltaBeneficeInsertionPaire(Paire paireToAdd,int position);
+    
+    public abstract int deltaBeneficeSuppressionSequence(int debut, int fin);
+    public abstract int deltaBeneficeInsertionSequence(LinkedList<Noeud> pairesToAdd, int debut, int fin);
+    
+    public abstract int getNbNoeud();
+    
+    public abstract boolean insertSequenceAtPos(LinkedList<Noeud> pairesToAdd, int position);
+    
+    
+    OperateurLocal getMeilleurOperateurInter(SchemaEchange autreSequence, TypeOperateurLocal type) {
+        OperateurLocal best = OperateurLocal.getOperateur(type);
+        
+        if(!this.equals(autreSequence)) {
+            
+            
+            for(int debutI=0; debutI<this.getNbNoeud(); debutI++) {
+                for(int finI=debutI; finI<this.getNbNoeud() && finI-debutI<4; finI++) {
+                    
+                    
+                    
+                    for(int debutJ=0; debutJ<autreSequence.getNbPaires(); debutJ++) {
+                        for(int finJ=debutJ; finJ<autreSequence.getNbPaires()&& finJ-debutJ<4; finJ++) {
+                            OperateurInterSequences op = OperateurLocal.getOperateurInter(type, this, autreSequence, debutI, finI , debutJ, finJ);
+                            if(op.isMeilleur(best)) {
+                                best = op;
+                            } 
+                        } 
+                    }
+                    
+                    
+                    
+                }
+            }
+        }
+        
+        return best;
+    }
+    
+    public abstract int deltaBeneficeRemplacementInter(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ);
+    public abstract int deltaBeneficeRemplacement(int debutSequenceI, int finSequenceI, LinkedList<Noeud> pairesSequenceJ);
+
     
     
 }

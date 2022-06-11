@@ -38,7 +38,7 @@ public abstract class Noeud {
      * @param receveur
      * @return boolean
      */
-    public boolean peutDonnerA(Paire receveur){
+    public boolean peutDonnerA(Noeud receveur){
         Transplantation t = this.transplantations.get(receveur);
         if(t!=null){
             return true;
@@ -54,7 +54,7 @@ public abstract class Noeud {
      * @param receveur
      * @return boolean
      */
-    public int getBeneficeVers(Paire receveur){
+    public int getBeneficeVers(Noeud receveur){
         Transplantation t = this.transplantations.get(receveur);
         if(t!=null){
             return t.getBenefice();
@@ -107,6 +107,9 @@ public abstract class Noeud {
         System.out.println(p2.getBeneficeVers(p3)); //3
         
         System.out.println(p1.getBeneficeVers(p1)); //-1: se donne à lui même
+        
+        System.out.println(d1.peutDonnerA(p1)); //true
+        System.out.println(d1.peutDonnerA(p2)); //false
         
         System.out.println(d1);
         System.out.println(p1);

@@ -6,6 +6,7 @@
 package io;
 
 import instance.Instance;
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 import io.exception.ReaderException;
 import java.io.File;
@@ -64,7 +65,7 @@ public class SolutionWriter {
             
             f.append("// Description de la solution\n// Cycles\n");
             for(Cycle cl: cycles){
-                for(Paire p :cl.getPaires()){
+                for(Noeud p :cl.getPaires()){
                     f.append(p.getId() + "\t");
                 }
                 f.append("\n");
@@ -74,7 +75,7 @@ public class SolutionWriter {
             f.append("// Chaines\n");
             for(Chaine c: chaines){
                 f.append(c.getDonneurAlt().getId() + "\t");
-                for(Paire p : c.getPaires()){
+                for(Noeud p : c.getPaires()){
                     f.append(p.getId() + "\t");
                 }
                 f.append("\n");

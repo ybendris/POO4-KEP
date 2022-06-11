@@ -6,6 +6,7 @@ package solution;
 
 import instance.Instance;
 import instance.reseau.DonneurAltruiste;
+import instance.reseau.Noeud;
 import instance.reseau.Paire;
 
 import io.InstanceReader;
@@ -16,6 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import operateur.InsertionPaire;
+import operateur.OperateurInterSequences;
+import operateur.OperateurIntraSequence;
+import operateur.OperateurLocal;
+import operateur.TypeOperateurLocal;
 
 
 /**
@@ -24,9 +30,10 @@ import java.util.Set;
  */
 public class Solution {
     private Instance instance;
-    private int benefice;
+    private int benefice; 
     private LinkedList<Chaine> chaines;
     private LinkedList<Cycle> cycles;
+    private LinkedList<Paire> pairesRestantes;
 
     /*
         TODO: ajouter un constructeur par copie de chaine et Cycle
@@ -36,6 +43,7 @@ public class Solution {
         this.instance = s.instance;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
+        this.pairesRestantes = new LinkedList<>();
         for(Chaine chaineToAdd : s.chaines){
             this.chaines.add(new Chaine(chaineToAdd));
         }
@@ -49,6 +57,7 @@ public class Solution {
         this.instance = i;
         this.chaines = new LinkedList<>();
         this.cycles = new LinkedList<>();
+        this.pairesRestantes = new LinkedList<>();
     }
 
     public int getBenefice() {
@@ -138,7 +147,7 @@ public class Solution {
         Set pairesToCheck = new HashSet();
         
         for(Cycle cycle : this.cycles){
-            for(Paire p : cycle.paires){
+            for(Noeud p : cycle.paires){
                 if(!pairesToCheck.add(p)){
                     System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
                     return false;
@@ -147,7 +156,7 @@ public class Solution {
         }
         
         for(Chaine chaine : this.chaines){
-            for(Paire p : chaine.paires){
+            for(Noeud p : chaine.paires){
                 if(!pairesToCheck.add(p)){
                     System.out.println("Une paire n’apparait pas que dans une seule chaîne ou un seul cycle au maximum.");
                     return false;
@@ -205,6 +214,7 @@ public class Solution {
                 ", benefice=" + benefice + 
                 ", chaines=" + chaines + 
                 ", cycles=" + cycles + 
+                ", nbPairesRestant=" + this.pairesRestantes.size()+ 
             '}';
     }
     
@@ -226,6 +236,8 @@ public class Solution {
         return false;
     }
 
+    
+    
     
     public boolean ajouterPaireNouvelleChaine(DonneurAltruiste DAToAdd, Paire paireToAdd){
         
@@ -260,26 +272,219 @@ public class Solution {
         }
         return false;
     }
+    
+    public InsertionPaire insererPaireRestantes(){
+        InsertionPaire best = new InsertionPaire();
+        InsertionPaire current = new InsertionPaire();
+       
+        boolean improve = true;
+        while(improve == true){
+            best = new InsertionPaire();
+            improve = false;
+            for(Paire p : this.pairesRestantes){
+                current = this.getMeilleureInsertion(p);
+                if(current.isMeilleur(best)){
+                    best = current;
+                }
+            }
+            
+            if(best.isMouvementAmeliorant()){
+                this.doInsertion(best);
+                improve = true;
+                this.pairesRestantes.remove(best.getPaireToInsert());
+            }
+        }
+        
+        return best;
+    }
+    
       
+    public InsertionPaire getMeilleureInsertion(Paire paireToInsert){
+        InsertionPaire best = new InsertionPaire();
+        
+        //System.out.println("Cycle");
+        for(Cycle cycle : this.cycles){
+            InsertionPaire courrant = cycle.getMeilleureInsertion(paireToInsert);
+            
+            if(courrant.isMeilleur(best)) best = courrant;
+        }
+        
+        //System.out.println("Chaine");
+        for(Chaine chaine : this.chaines){
+            InsertionPaire courrant = chaine.getMeilleureInsertion(paireToInsert);
+            if(courrant.isMeilleur(best)) best = courrant;
+        }
+        
+        return best;
+    }
+    
+    public boolean doInsertion(InsertionPaire infos){
+        if(infos == null) return false;
+        if(!infos.doMouvementIfRealisable())return false;
+        
+        this.benefice += infos.getDeltaBenefice();
+        return true;
+    }
+
+    public void setPairesRestantes(LinkedList<Paire> pairesRestantes) {
+        this.pairesRestantes = pairesRestantes;
+    }
+    
+    
+    
+    private OperateurLocal getMeilleurOperateurInter(TypeOperateurLocal type){
+        OperateurLocal best = OperateurLocal.getOperateur(type);
+        LinkedList<SchemaEchange> cycleEtChaine = new LinkedList<SchemaEchange>();
+        cycleEtChaine.addAll(cycles);
+        cycleEtChaine.addAll(chaines);
+            
+        for(SchemaEchange seq1 : cycleEtChaine){
+            for(SchemaEchange seq2 : cycleEtChaine){
+                OperateurLocal op = seq1.getMeilleurOperateurInter(seq2,type);
+                if(op.isMeilleur(best)) {
+                    best = op;
+                }
+            }
+        }
+        return best;
+    }
+    
+    private OperateurLocal getMeilleurOperateurIntra(TypeOperateurLocal type) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+    public OperateurLocal getMeilleurOperateurLocal(TypeOperateurLocal type) {
+        if(OperateurLocal.getOperateur(type) instanceof OperateurIntraSequence){
+            //System.out.println("Intra");
+            return this.getMeilleurOperateurIntra(type);
+        }
+        else if(OperateurLocal.getOperateur(type) instanceof OperateurInterSequences){
+            //System.out.println("Inter");
+            return this.getMeilleurOperateurInter(type);
+        }
+        else{
+            return null;
+        }
+    }
+
+    public LinkedList<Paire> getPairesRestantes() {
+        return pairesRestantes;
+    }
+    
     
     
     public static void main(String[] args) {
         System.out.println("Test de la classe Solution:");
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+            InstanceReader read = new InstanceReader("instancesInitiales/yannistest.txt");
             Instance i = read.readInstance();
             
             Solution s = new Solution(i);
             
             System.out.println(s.toString());
-            System.out.println(s.check());//true;
+            System.out.println(s.check());//true
             
+            DonneurAltruiste d1 = i.getDonneurById(1);
+            DonneurAltruiste d2 = i.getDonneurById(2);
+            Paire p3 = i.getPaireById(3);
+            Paire p4 = i.getPaireById(4);
+            Paire p5 = i.getPaireById(5);
+            Paire p6 = i.getPaireById(6);
+            Paire p7 = i.getPaireById(7);
+            
+            System.out.println(d1.getBeneficeVers(p3)); //5
+            System.out.println(d2.getBeneficeVers(p3)); //2
+            
+            
+            System.out.println(p5.getBeneficeVers(p7)); //2
+            System.out.println(p7.getBeneficeVers(p6)); //6 
+            System.out.println(p6.getBeneficeVers(p5)); //4
+            System.out.println(p6.getBeneficeVers(p7)); //4 -> cout modifié (j'ai ajouté un cout retour)
+            
+            System.out.println();
+            
+            Cycle c1 = new Cycle(3); // taille max 3
+            
+            System.out.println("Test Insertion");
+           
+            c1.ajouterPaireFin(p7);
+            System.out.println(c1.toString());
+            
+            c1.ajouterPaireFin(p6);
+            System.out.println(c1.toString());
+            
+            System.out.println("ICI");
+            System.out.println(c1.deltaBeneficeInsertionPaire(p5, 2)); //2
+            System.out.println(c1.deltaBeneficeInsertionPaire(p5, 1)); //-2147483648
+            
+            InsertionPaire op = new InsertionPaire(c1,p5,2);
+            System.out.println(op.toString());
+            c1.doInsertion(op);
+            
+            System.out.println("\n\n");
+            //c1.ajouterPaire(p5, 2);
+            System.out.println("---------------");
+            System.out.println(c1.toString());
+            
+            
+            System.out.println("---------------");
+            
+           
+            
+            s.cycles.add(c1);
+            
+            Chaine chaine1 = new Chaine(d1,3); 
+            s.chaines.add(chaine1);
+            
+            
+            System.out.println(s.toString());
+            
+            
+            InsertionPaire operateur = s.getMeilleureInsertion(p3);
+            System.out.println(operateur);
+            
+            s.doInsertion(operateur);
+            
+            System.out.println(s.toString());
+            
+            //InsertionPaire operateur2 = s.getMeilleureInsertion(p5);
+            
+            
+            System.out.println("Solution"+s);
+            
+            System.out.println(s.getMeilleurOperateurInter(TypeOperateurLocal.INTER_REMPLACEMENT));
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
         }
         
     }
+
+    public boolean doMouvementRechercheLocale(OperateurLocal infos) {
+        if(infos == null) return false;
+        
+        if(!infos.doMouvementIfRealisable())return false;
+        
+        //System.out.println("On gagne (meilleur)"+infos.getDeltaBenefice());
+        this.benefice += infos.getDeltaBenefice();
+        
+        
+        
+        
+        
+        if (!this.check()){
+            System.out.println("Mauvais mouvement recherche locale, "+this.toString());
+            System.out.println(infos);
+            System.exit(-1); //Termine le programme
+        }
+        
+        return true;
+    }
+
+    
+    
+    
 
     
     

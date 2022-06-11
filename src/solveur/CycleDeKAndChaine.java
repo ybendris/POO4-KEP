@@ -60,7 +60,10 @@ public class CycleDeKAndChaine implements Solveur{
         
         getChaineCycleDeK(paires, compatibiliteDAP, donneurAltruiste, s, compatibilitePP, tailleMaxChaine);
         
+        s.setPairesRestantes(paires);
         s.evalBenefice();
+        
+        
         return s;
     }
 
@@ -163,7 +166,7 @@ public class CycleDeKAndChaine implements Solveur{
         for(Paire p : paires)
         {
                 if(lastPaire.getBeneficeVers(p)>-1){
-                    System.out.println("Paire précedente : " + lastPaire.getId()+ " paire actuelle : " + p.getId() + " benefice " + p.getBeneficeVers(beginPaire));
+                    //System.out.println("Paire précedente : " + lastPaire.getId()+ " paire actuelle : " + p.getId() + " benefice " + p.getBeneficeVers(beginPaire));
                     if(p.getBeneficeVers(beginPaire)>-1){
                      
                         beneficeTotal=p.getBeneficeVers(beginPaire)+lastPaire.getBeneficeVers(p);
@@ -262,6 +265,8 @@ public class CycleDeKAndChaine implements Solveur{
             
             pairesAjoutCycle=bestBeneficePaires(paires);
 
+            //System.out.println(pairesAjoutCycle);
+            
             if(pairesAjoutCycle.get(1)!=null) paire1=pairesAjoutCycle.get(1);
             else{
                 paire1=null;
@@ -272,7 +277,8 @@ public class CycleDeKAndChaine implements Solveur{
           
             paire1 = getNextPaireCycleK(paires, compatibilite, paire1, pairesAjoutCycle, tailleMaxCycle);
 
-            System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
+            //System.out.println(paire1);
+            //System.out.println("n°1 Paires ajout cycle => " + pairesAjoutCycle);
             
             Paire lastPaire = pairesAjoutCycle.getLast();
             Paire beginPaire = pairesAjoutCycle.getFirst();
@@ -284,17 +290,17 @@ public class CycleDeKAndChaine implements Solveur{
                     valide=true;
                 }
                 else{
-                    System.out.println(" Ah non on peut pas boucler");
+                    //System.out.println(" Ah non on peut pas boucler");
                     if(pairesAjoutCycle.size()>1){
                         paires.add(pairesAjoutCycle.getLast());
                         pairesAjoutCycle.removeLast();
                         pairesValideCycle=nouvelleDernierePaire(paires, pairesAjoutCycle);
-                        System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
+                        //System.out.println("Ajout = " + pairesAjoutCycle + " Valide = " + pairesValideCycle);
                         if(!pairesAjoutCycle.equals(pairesValideCycle)){
-                            System.out.println("Les 2 listes ne sont pas égales");
+                            //System.out.println("Les 2 listes ne sont pas égales");
                             pairesAjoutCycle=pairesValideCycle;
                             paires.remove(pairesAjoutCycle.getLast());
-                            System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
+                            //System.out.println("n°2 Paires ajout cycle => " + pairesAjoutCycle);
                             valide = true;
                         }
                     }
@@ -368,20 +374,45 @@ public class CycleDeKAndChaine implements Solveur{
     
     public static void main(String[] args) throws IOException {
         try{
-            InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n1_k3_l3.txt");
+            InstanceReader read = new InstanceReader("instancesTest/testInstance.txt");
             Instance i = read.readInstance();
             
             CycleDeKAndChaine CycleKCH = new CycleDeKAndChaine();
             Solution s = CycleKCH.solve(i);
             
+           
+            
             System.out.println("\nsCKCH check: " + s.check());
             
             System.out.println("Solution = " + s);
             
+           
+            System.out.println("Amélioration");
+            
+            s.insererPaireRestantes();
+            
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);
             
+            /*Paire p64 = s.getInstance().getPaireById(64);
+            Paire p68 = s.getInstance().getPaireById(68);
+            Paire p161 = s.getInstance().getPaireById(161);
             
+            Paire p88 = s.getInstance().getPaireById(88);
+            Paire p205 = s.getInstance().getPaireById(205);
+            Paire p111 = s.getInstance().getPaireById(111);
+            Paire p173 = s.getInstance().getPaireById(173);
+            Paire p142 = s.getInstance().getPaireById(142);
+            
+            
+            Paire p73 = s.getInstance().getPaireById(73);
+            Paire p140 = s.getInstance().getPaireById(140);
+            Paire p242 = s.getInstance().getPaireById(242);
+            Paire p157 = s.getInstance().getPaireById(157);
+            
+            System.out.println(p73.getBeneficeVers(p157));
+            System.out.println(p157.getBeneficeVers(p140));
+            System.out.println(p73.getBeneficeVers(p140));*/
 
         }
         catch(ReaderException ex){
