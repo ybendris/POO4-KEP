@@ -7,6 +7,7 @@ package test;
 
 import instance.Instance;
 import io.InstanceReader;
+import io.SolutionWriter;
 import io.exception.ReaderException;
 import java.io.File;
 import java.io.IOException;
@@ -152,7 +153,7 @@ public class TestAllSolveur {
      * @param ecriture le writer sur lequel on fait l'ecriture
      * @param inst l'instane pour laquelle on ecrit les resultats
      */
-    private void printResultatsInstance(PrintWriter ecriture, Instance inst) {
+    private void printResultatsInstance(PrintWriter ecriture, Instance inst) throws IOException {
         // TO CHECK : recuperer le nom de l'instance
         ecriture.print(inst.getName());
         for(Solveur solveur : solveurs) {
@@ -166,6 +167,8 @@ public class TestAllSolveur {
             resultats.put(new InstanceSolveur(inst, solveur), result);
             ecriture.print(";"+result.formatCsv());
             totalStats.get(solveur).add(result);
+            SolutionWriter sw = new SolutionWriter(sol.getInstance().getName());
+            sw.writeSolution(sol);
         }
         ecriture.println();
     }

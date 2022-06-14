@@ -10,7 +10,7 @@ import instance.reseau.Paire;
 import io.InstanceReader;
 import io.exception.ReaderException;
 import java.util.LinkedList;
-import operateur.InterRemplacement;
+import operateur.InterDeplacement;
 import solution.Chaine;
 import solution.Cycle;
 import solution.Solution;

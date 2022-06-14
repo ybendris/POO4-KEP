@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 import operateur.InsertionPaire;
 import operateur.InterEchange;
-import operateur.InterRemplacement;
+import operateur.InterDeplacement;
 
 /**
  *
@@ -658,7 +658,7 @@ public class Chaine extends SchemaEchange {
      * @return 
      */
     @Override
-    public boolean doRemplacement(InterRemplacement infos) {
+    public boolean doRemplacement(InterDeplacement infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
         
@@ -740,9 +740,9 @@ public class Chaine extends SchemaEchange {
         
         SchemaEchange autreSequence = infos.getAutreSequence();
         
-        System.out.println("Avant----------");
-        System.out.println(this);
-        System.out.println(autreSequence);
+        //System.out.println("Avant----------");
+        //System.out.println(this);
+        //System.out.println(autreSequence);
         
         
         //Remplacer les paires de 'this' [debutI ; finI] par les pairesJ
@@ -750,9 +750,9 @@ public class Chaine extends SchemaEchange {
         //Remplacer les paires de 'autreSequence' [debutJ ; finJ] par les pairesI
         autreSequence.replacePaires(debutJ,finJ,pairesI);
         
-        System.out.println("Après");
-        System.out.println(this);
-        System.out.println(autreSequence);
+        //System.out.println("Après");
+        //System.out.println(this);
+        //System.out.println(autreSequence);
         
         //maj cout
         this.coutBenefice += infos.getDeltaBeneficeSequence();

@@ -10,7 +10,9 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import operateur.OperateurLocal;
 import operateur.TypeOperateurLocal;
 import solution.Solution;
@@ -30,17 +32,45 @@ public class RechercheLocale implements Solveur{
     public String getNom() {
         return "RechercheLocale("+this.solveurInitial.getNom()+')';
     }
+   
     
-    /*private LinkedList<Paire> getNextPaireCycleK(LinkedList<Paire> paires, Paire paire1, LinkedList<Paire> pairesAjoutCycle, int tailleMaxCycle) {
+    private LinkedList<Paire> bestBeneficePaires(LinkedList<Paire> paires){
+        int beneficeP1P2 = 0;
+        int bestBenefice = 0;
+        Paire paire1 = null;
+        Paire paire2 = null;
+        for(Paire P1 : paires){
+                for(Paire P2 : paires){
+                    if(P1.getBeneficeVers(P2) > -1){
+
+                            beneficeP1P2 = P1.getBeneficeVers(P2);
+                            if(beneficeP1P2 > bestBenefice){
+                                bestBenefice = beneficeP1P2;
+                                paire2 = P2;
+                                paire1 = P1;
+                            }  
+                    }
+                }
+            }
+        LinkedList<Paire> best =  new LinkedList<Paire>();
+        best.add(paire1);
+        best.add(paire2);
+        return best;
+}
+
+
+private Paire getNextPaireCycleK(LinkedList<Paire> paires, LinkedList<Paire> pairesAjoutCycle, int tailleMaxCycle) {
+        Paire paire1 = paires.getLast();
         Paire paire2;
-        int compatibilite =1;
+        int compatibilite = 1;
         while(!paires.isEmpty() && paires.size()>=2 && compatibilite==1 && paire1!=null){
             
             paire2=null;
             int bestBenefice = 0;
             int beneficeP1P = 0;
-            for(Paire p : paires){
-                if(pairesAjoutCycle.size()<tailleMaxCycle){
+            if(pairesAjoutCycle.size()<tailleMaxCycle){
+                for(Paire p : paires){
+                
                     if(paire1.getBeneficeVers(p) > -1){
                         beneficeP1P=paire1.getBeneficeVers(p);
                         if(beneficeP1P>bestBenefice){
@@ -48,9 +78,6 @@ public class RechercheLocale implements Solveur{
                             bestBenefice=beneficeP1P;
                         }
                     }
-                }
-                else{
-                    break;
                 }
             }
             if(paire2==null){
@@ -62,39 +89,157 @@ public class RechercheLocale implements Solveur{
                 paire1=paire2;
             }
         }
-        return pairesAjoutCycle;
-    }*/
+        return paire1;
+    }
 
-    /*private LinkedList<Paire> bestBeneficePaires(LinkedList<Paire> paires){
-        int beneficeP1P2 = 0;
-        int beneficeP2P1 = 0;
+
+private LinkedList<Paire> nouvelleDernierePaire(LinkedList<Paire> paires,LinkedList<Paire> pairesCycle){
+        
+        LinkedList<Paire> temp =  new LinkedList<Paire>(pairesCycle);
+        
+        int tailleCycle=temp.size();
+        
+        Paire precPaire = null;
+        Paire pTemp = null;
+         
+        if(tailleCycle>2){
+            precPaire = temp.get(tailleCycle-1);   
+        }
+        else{
+            precPaire = temp.getFirst();
+        }
+        
+        Paire lastPaire = temp.getLast();
+        Paire beginPaire = temp.getFirst();
         int beneficeTotal = 0;
         int bestBenefice = 0;
-        Paire paire1 = null;
-        Paire paire2 = null;
-        for(Paire P1 : paires){
-                for(Paire P2 : paires){
-                    if(P1.getBeneficeVers(P2) > -1){
-
-                        //if(P2.getBeneficeVers(P1) > -1){
-
-                            beneficeP1P2 = P1.getBeneficeVers(P2);
-                            //beneficeP2P1 = P2.getBeneficeVers(P1);
-                            //beneficeTotal = beneficeP1P2 + beneficeP2P1;
-                            if(beneficeP1P2 > bestBenefice){
-                                bestBenefice = beneficeP1P2;
-                                paire2 = P2;
-                                paire1 = P1;
-                            }
-                        //}   
+        
+        for(Paire p : paires)
+        {
+                if(lastPaire.getBeneficeVers(p)>-1){
+                    if(p.getBeneficeVers(beginPaire)>-1){
+                        beneficeTotal=p.getBeneficeVers(beginPaire)+lastPaire.getBeneficeVers(p);
+                        if(beneficeTotal>bestBenefice){
+                            pTemp=p;
+                        }
                     }
                 }
+        }
+        if(pTemp!=null){
+            temp.add(pTemp);    
+        }
+        
+        return temp;
+    }
+    
+
+private boolean verifDernierePaireCycle(Paire lastPaire, Paire beginPaire){
+        
+        if(lastPaire.getBeneficeVers(beginPaire)>-1){
+                return true;
             }
-        LinkedList<Paire> best =  new LinkedList<Paire>();
-        best.add(paire1);
-        best.add(paire2);
-        return best;
-    }*/
+        return false;
+    }   
+
+private void insererPairesCycleSolution(LinkedList<Paire> pairesAjoutCycle, Solution s) {
+        boolean nouveau=true;
+        for(Paire p : pairesAjoutCycle){
+            if(nouveau==true){
+                s.ajouterPaireNouveauCycle(p);
+                nouveau = false;
+            }
+            else{
+                s.ajouterPaireDernierCycle(p);
+            }
+        }
+    }
+
+private void getCycleDeK(LinkedList<Paire> pairesRestantes, Solution s, int tailleMaxCycle) {
+        LinkedList<Paire> pairesValideCycle = new LinkedList<Paire>();
+        Set<Paire> pairesProblemes = new HashSet<Paire>();
+        Paire paire1 = null;
+        Paire paire2 =null;
+        boolean chercher = true;
+        int cpt=0;
+        
+        while(!pairesRestantes.isEmpty() && pairesRestantes.size()>=2 && chercher==true){
+            
+            int compatibilite=1;
+            boolean valide = false;
+            boolean continu = true;
+            
+            LinkedList<Paire> pairesAjoutCycle = null;
+            
+            pairesAjoutCycle=bestBeneficePaires(pairesRestantes);
+
+            //System.out.println("pairesAjoutCycle"+pairesAjoutCycle);
+            if(pairesAjoutCycle.get(1)!=null) paire1=pairesAjoutCycle.get(1);
+            else{
+                paire1=null;
+            }
+            
+            pairesRestantes.remove(paire1);
+            pairesRestantes.remove(pairesAjoutCycle.get(0));
+          
+            paire1 = getNextPaireCycleK(pairesRestantes, pairesAjoutCycle, tailleMaxCycle);
+            
+            Paire lastPaire = pairesAjoutCycle.getLast();
+            Paire beginPaire = pairesAjoutCycle.getFirst();
+            
+            while(valide==false && continu==true && paire1!=null && lastPaire!=null){
+                
+                
+                if(verifDernierePaireCycle(lastPaire,beginPaire)){
+                    valide=true;
+                }
+                else{
+                    if(pairesAjoutCycle.size()>1){
+                        pairesRestantes.add(pairesAjoutCycle.getLast());
+                        pairesAjoutCycle.removeLast();
+                        pairesValideCycle=nouvelleDernierePaire(pairesRestantes, pairesAjoutCycle);
+                        if(!pairesAjoutCycle.equals(pairesValideCycle)){
+                            pairesAjoutCycle=pairesValideCycle;
+                            pairesRestantes.remove(pairesAjoutCycle.getLast());
+                            valide = true;
+                        }
+                    }
+                    else{                    
+                        continu=false;
+                        pairesProblemes.add(pairesAjoutCycle.getFirst());
+                    }
+                }
+                
+            }
+            
+            if(valide==true){
+                insererPairesCycleSolution(pairesAjoutCycle, s);
+                if(cpt<1){
+                    for(Paire p : pairesProblemes){
+                    pairesRestantes.add(p);
+                    }
+                    pairesProblemes.clear();
+                }
+            }
+            
+            if(paire1==null)
+            {
+                cpt++;
+                if(cpt>1){
+                    chercher=false;
+                }
+                else{
+                    for(Paire p : pairesProblemes){
+                    pairesRestantes.add(p);
+                    }
+                    pairesProblemes.clear();
+                
+                }
+            }
+        }
+    }
+
+
+    
     
     
     @Override
@@ -102,6 +247,8 @@ public class RechercheLocale implements Solveur{
         
         Solution s = this.solveurInitial.solve(instance);
 
+        
+        
         boolean improve = true;
         
         while(improve == true){
@@ -109,13 +256,12 @@ public class RechercheLocale implements Solveur{
             
             for(TypeOperateurLocal type :TypeOperateurLocal.values()){
                 OperateurLocal bestOperateur = s.getMeilleurOperateurLocal(type);
-                System.out.println(bestOperateur);
+                //System.out.println(bestOperateur);
                 if(bestOperateur.isMouvementAmeliorant()){
                     s.doMouvementRechercheLocale(bestOperateur);
-                    
                     s.insererPaireRestantes();
-
-                    System.out.println("ça improve");
+                    //this.getCycleDeK(new LinkedList<Paire>(s.getPairesRestantes()), s, instance.getTailleMaxCycle());
+                    
                     improve = true;
                 } 
             }
