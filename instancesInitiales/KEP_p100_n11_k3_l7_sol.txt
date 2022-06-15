@@ -1,13 +1,14 @@
 // Cout total de la solution
-782
+793
 
 // Description de la solution
 // Cycles
 66	71	
-44	102	60	
+44	60	
 23	95	
-19	51	30	
-106	94	65	
+102	106	
+19	51	
+65	94	
 22	36	
 
 

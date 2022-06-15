@@ -1,9 +1,10 @@
 // Cout total de la solution
-58
+210
 
 // Description de la solution
 // Cycles
-3	14	5	
+3	14	
+5	38	
 
 
 // Chaines

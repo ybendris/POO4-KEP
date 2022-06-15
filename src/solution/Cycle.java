@@ -80,8 +80,10 @@ public class Cycle extends SchemaEchange{
             return false;
         }
         if(!(this.paires.size() >= 2)){
-            System.out.println("Erreur: Le cycle doit etre au minimum de taille 2 "+ this);
-            return false;
+            if(this.getCoutBenefice()!=0){
+                System.out.println("Erreur: Le cycle doit etre au minimum de taille 2 "+ this);
+                return false;
+            }
         }
         return true;
 
@@ -96,30 +98,33 @@ public class Cycle extends SchemaEchange{
         var beneficeReel = 0;
         
         int i=0;
-        for(Noeud p : this.paires){
-            Noeud nextPaire = this.getNextPaire(i);
-            int beneficeToAdd;
-            if(nextPaire != null){
-                beneficeToAdd = p.getBeneficeVers(nextPaire);
-            }
-            else{
-                beneficeToAdd = p.getBeneficeVers(this.paires.getFirst());
-            }
-            if(beneficeToAdd != -1){
-                beneficeReel += beneficeToAdd;
-            }
-            else{
-                System.out.println("Erreur Cycle : y a un -1");
+        if(this.getCoutBenefice() != 0){
+            for(Noeud p : this.paires){
+                Noeud nextPaire = this.getNextPaire(i);
+                int beneficeToAdd;
                 if(nextPaire != null){
-                    //System.out.println(p.getId()+ "->"  +nextPaire.getId() );
+                    beneficeToAdd = p.getBeneficeVers(nextPaire);
                 }
                 else{
-                    //System.out.println(p.getId()+"->"+this.paires.getFirst().getId() );
+                    beneficeToAdd = p.getBeneficeVers(this.paires.getFirst());
                 }
-                return false;
+                if(beneficeToAdd != -1){
+                    beneficeReel += beneficeToAdd;
+                }
+                else{
+                    System.out.println("Erreur Cycle : y a un -1");
+                    if(nextPaire != null){
+                        //System.out.println(p.getId()+ "->"  +nextPaire.getId() );
+                    }
+                    else{
+                        //System.out.println(p.getId()+"->"+this.paires.getFirst().getId() );
+                    }
+                    return false;
+                }
+                i++;
             }
-            i++;
         }
+        
         
         if(beneficeAverif == beneficeReel){
             return true;
@@ -472,13 +477,14 @@ public class Cycle extends SchemaEchange{
             return Integer.MIN_VALUE;
         }
         LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
+        
         /**
          * Permet de garder un cycle correct
          */
-        if(this.getNbPaires() - pairesToSupp.size()<2){
+        /*if(this.getNbPaires() - pairesToSupp.size()<2){
             //System.out.println("cycle taille <2");
             return Integer.MIN_VALUE;
-        }
+        }*/
 
         int deltaCout = 0;
         int benefice;
@@ -486,18 +492,25 @@ public class Cycle extends SchemaEchange{
         Noeud nPrec = this.getPrec(debut);
         Noeud nNext = this.getNext(fin);
         
-        benefice = nPrec.getBeneficeVers((Paire)nNext);
-        if(benefice == -1) {
-            //System.out.println("-1: " + nPrec.getId()+" "+nNext.getId());
-            return Integer.MIN_VALUE;
-        }
-        deltaCout += benefice;
-        
-        //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
         
         deltaCout -= nPrec.getBeneficeVers((Paire)pairesToSupp.getFirst());
         deltaCout -= this.getBeneficeSequence(pairesToSupp);
         deltaCout -= pairesToSupp.getLast().getBeneficeVers((Paire)nNext);
+        
+        if(!nPrec.equals(nNext)){
+            benefice = nPrec.getBeneficeVers((Paire)nNext);
+            if(benefice == -1) {
+                //System.out.println("-1: " + nPrec.getId()+" "+nNext.getId());
+                return Integer.MIN_VALUE;
+            }
+            deltaCout += benefice;
+        }
+        
+       
+        
+        //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
+        
+        
         
         
         return deltaCout;
@@ -573,6 +586,7 @@ public class Cycle extends SchemaEchange{
         }
         
         
+        
         //LinkedList<Paire> pairesToAdd = new LinkedList<>();
         
         
@@ -586,14 +600,10 @@ public class Cycle extends SchemaEchange{
             System.out.println(infos);
             System.exit(-1); //Termine le programme
         }
-        
         if (!autreSequence.check()){
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.out.println("Mauvais remplacement inter-sequence, (autre)"+autreSequence.toString());
             System.out.println(infos);
-            
-            
-            
             System.exit(-1); //Termine le programme
         }
         

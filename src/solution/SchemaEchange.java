@@ -226,22 +226,18 @@ public abstract class SchemaEchange {
         ListeTabou liste = ListeTabou.getInstance(); 
         if(!this.equals(autreSequence)) {
             
-            
             for(int debutI=0; debutI<this.getNbNoeud(); debutI++) {
-                for(int finI=debutI; finI<this.getNbNoeud() && finI-debutI<4; finI++) {
-                    
-                    
+                for(int finI=debutI; finI<this.getNbNoeud() ; finI++) {
                     
                     for(int debutJ=0; debutJ<autreSequence.getNbPaires(); debutJ++) {
-                        for(int finJ=debutJ; finJ<autreSequence.getNbPaires()&& finJ-debutJ<4; finJ++) {
+                        for(int finJ=debutJ; finJ<autreSequence.getNbPaires(); finJ++) {
                             OperateurInterSequences op = OperateurLocal.getOperateurInter(type, this, autreSequence, debutI, finI , debutJ, finJ);
+                            //System.out.println(op);
                             if(op.isMeilleur(best) && !liste.isTabou(op)) {
                                 best = op;
                             } 
                         } 
                     }
-                    
-                    
                     
                 }
             }

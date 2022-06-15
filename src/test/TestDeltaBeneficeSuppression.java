@@ -8,20 +8,25 @@ import instance.Instance;
 import instance.reseau.DonneurAltruiste;
 import instance.reseau.Paire;
 import io.InstanceReader;
+import io.SolutionWriter;
 import io.exception.ReaderException;
 import java.util.LinkedList;
 import operateur.InterDeplacement;
+import operateur.TypeOperateurLocal;
 import solution.Chaine;
 import solution.Cycle;
 import solution.Solution;
+import solveur.CycleDe2;
+import solveur.RechercheLocale;
+import solveur.Solveur;
 
 /**
  *
  * @author yanni
  */
-public class TestDeltaBenefice {
+public class TestDeltaBeneficeSuppression {
     public static void main(String[] args) {
-        try{
+        /*try{
             InstanceReader read = new InstanceReader("instancesInitiales/yannis.txt");
             Instance i = read.readInstance();
             
@@ -52,6 +57,7 @@ public class TestDeltaBenefice {
             Chaine ch1 = new Chaine(d1,5);
             Chaine ch2 = new Chaine(d2,5);
             Cycle c1 = new Cycle(4);
+            Cycle c2 = new Cycle(4);
             
             ch1.ajouterPaireFin(p3);
             ch1.ajouterPaireFin(p4);
@@ -67,9 +73,13 @@ public class TestDeltaBenefice {
             c1.ajouterPaireFin(p8);
             c1.ajouterPaireFin(p9);
             
+            c2.ajouterPaireFin(p6);
+            c2.ajouterPaireFin(p7);
+            
             System.out.println(ch1); //Bénéfice 12
             System.out.println(ch2); //Bénéfice 12
             System.out.println(c1); //Bénéfice 9
+            System.out.println(c2); //Bénéfice 5
             
             LinkedList<Paire> pairesSequenceJ = new LinkedList<Paire>();
             
@@ -80,12 +90,12 @@ public class TestDeltaBenefice {
             System.out.println(ch1.deltaBeneficeSuppressionSequence(2, 2)); //-inf
             System.out.println(ch1.deltaBeneficeSuppressionSequence(3, 3)); //-3
             System.out.println(ch1.deltaBeneficeSuppressionSequence(2, 3)); //-7
-            System.out.println(ch1.deltaBeneficeSuppressionSequence(1, 3)); //-12
+            System.out.println(ch1.deltaBeneficeSuppressionSequence(1, 3)); //-inf (TODO: on accepte pas un seul donneur altruist solo)
             
             
-            /*System.out.println(ch1.deltaBeneficeSuppression(1, 0)); //-7
+            System.out.println(ch1.deltaBeneficeSuppression(1, 0)); //-7
             System.out.println(ch1.deltaBeneficeSuppression(0, 1)); //-2
-            System.out.println(ch1.deltaBeneficeSuppression(0, 2)); //-12*/
+            System.out.println(ch1.deltaBeneficeSuppression(0, 2)); //-12
             
             System.out.println("--------------Test deltaBeneficeSuppression cycle---------------");
             System.out.println(c1.deltaBeneficeSuppressionSequence(3, 3));//0
@@ -93,15 +103,36 @@ public class TestDeltaBenefice {
             System.out.println(c1.deltaBeneficeSuppressionSequence(2, 3));//-4
             System.out.println(c1.deltaBeneficeSuppressionSequence(3, 0));//-5
             
-            System.out.println("--------------Test deltaBeneficeRemplacementInter cycle---------------");
+           
+            System.out.println("--------------Test deltaBeneficeSuppression cycle (cycle non valide) ---------------");
+            System.out.println(c2.deltaBeneficeSuppressionSequence(0, 1));
             
             pairesSequenceJ.add(p5);
+        }
+        catch(ReaderException ex){
+            System.out.println(ex.getMessage());
+        }*/
+        
+        try{
+            InstanceReader read = new InstanceReader("instancesInitiales/suppression.txt");
+            Instance i = read.readInstance();
             
-            //System.out.println(ch2.deltaBeneficeRemplacementInter(1, 2, pairesSequenceJ)); //9
-            //System.out.println(ch2.deltaBeneficeRemplacementInter(1, 3, pairesSequenceJ)); //4
+            Solveur solveurInitial = new CycleDe2();
+            RechercheLocale algo = new RechercheLocale(solveurInitial);
+            Solution s = algo.solve(i);
+            
+            
+            System.out.println(s.getMeilleurOperateurLocal(TypeOperateurLocal.INTER_DEPLACEMENT));
+            
+            System.out.println(s);
+            
+            
+          
+
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());
         }
+        
     }
 }

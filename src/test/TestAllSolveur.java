@@ -75,16 +75,16 @@ public class TestAllSolveur {
      */
     private void addSolveurs() {
         // TO CHECK : constructeur par defaut de la classe InsertionSimple
-        solveurs.add(new CycleDe2());
-        solveurs.add(new CycleDe2AndChaine());
-        solveurs.add(new CycleDeK());
-        solveurs.add(new CycleDeKAndChaine());
-        solveurs.add(new CycleDeKAndChaineV2());
+        //solveurs.add(new CycleDe2());
+        //solveurs.add(new CycleDe2AndChaine());
+        //solveurs.add(new CycleDeK());
+        //solveurs.add(new CycleDeKAndChaine());
+        //solveurs.add(new CycleDeKAndChaineV2());
         solveurs.add(new RechercheLocale(new CycleDeKAndChaineV2()));
         solveurs.add(new RechercheLocale(new CycleDe2()));
-        solveurs.add(new RechercheLocale(new CycleDe2AndChaine()));
-        solveurs.add(new RechercheLocale(new CycleDeKAndChaine()));
-        solveurs.add(new RechercheLocale(new CycleDeK()));
+        //solveurs.add(new RechercheLocale(new CycleDe2AndChaine()));
+        //solveurs.add(new RechercheLocale(new CycleDeKAndChaine()));
+        //solveurs.add(new RechercheLocale(new CycleDeK()));
     }
     
     /**
@@ -142,6 +142,7 @@ public class TestAllSolveur {
     private void printSommeResultats(PrintWriter ecriture) {
         ecriture.print("SOMME");
         for(Solveur solveur : solveurs) {
+            System.out.println(totalStats.get(solveur).formatCsv());
             ecriture.print(";"+totalStats.get(solveur).formatCsv());
         }
     }
@@ -328,6 +329,12 @@ public class TestAllSolveur {
             return s;
         }
     }
+
+    public Map<Solveur, Resultat> getTotalStats() {
+        return totalStats;
+    }
+    
+    
     
     /**
      * Test de perforances de tous les solveurs sur les instances du repertoire 

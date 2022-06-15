@@ -99,7 +99,7 @@ public class CycleDe2 implements Solveur{
         try{
                         
             
-           InstanceReader read = new InstanceReader("instancesInitiales/KEP_p50_n0_k3_l0.txt");
+           InstanceReader read = new InstanceReader("instancesInitiales/suppression.txt");
 
             /*
                 InstanceReader read = new InstanceReader("instancesInitiales/KEP_p9_n0_k3_l0.txt");

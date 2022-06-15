@@ -39,7 +39,7 @@ public class InterDeplacement extends OperateurInterSequences{
 
     @Override
     public String toString() {
-        return "InterRemplacement{" + 
+        return "InterDeplacement{" + 
                 "\n\tdebutSequenceI=" + debutSequenceI + 
                 "\n\tfinSequenceI=" + finSequenceI + 
                 "\n\tdebutSequenceJ=" + debutSequenceJ + 
