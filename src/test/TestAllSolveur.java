@@ -81,8 +81,10 @@ public class TestAllSolveur {
         //solveurs.add(new CycleDeKAndChaine());
         //solveurs.add(new CycleDeKAndChaineV2());
         solveurs.add(new RechercheLocale(new CycleDeKAndChaineV2()));
-        solveurs.add(new RechercheLocale(new CycleDe2()));
-        //solveurs.add(new RechercheLocale(new CycleDe2AndChaine()));
+        //solveurs.add(new RechercheLocale(new CycleDe2()));
+        
+        //solveurs.add(new RechercheTabou(new CycleDeKAndChaineV2()));
+
         //solveurs.add(new RechercheLocale(new CycleDeKAndChaine()));
         //solveurs.add(new RechercheLocale(new CycleDeK()));
     }

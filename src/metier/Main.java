@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import solution.Solution;
 import solveur.CycleDe2;
+import solveur.CycleDeKAndChaineV2;
+import solveur.RechercheLocale;
 
 /**
  *
@@ -64,8 +66,8 @@ public class Main {
             InstanceReader read = new InstanceReader(nomFichierInstance);
             Instance inst = read.readInstance();
             
-            CycleDe2 Cycle2 = new CycleDe2();
-            Solution s = Cycle2.solve(inst);
+            RechercheLocale algo = new RechercheLocale(new CycleDeKAndChaineV2());
+            Solution s = algo.solve(inst);
             
             System.out.println("Solution = " + s);
             System.out.println("checker: " +s.check());

@@ -334,7 +334,7 @@ public class Cycle extends SchemaEchange{
             return Integer.MIN_VALUE;
         }
         if(pairesToAdd == null){
-            //System.out.println("null");
+            System.out.println("null");
             return Integer.MIN_VALUE;
         }
         if(debut == fin){
@@ -348,7 +348,9 @@ public class Cycle extends SchemaEchange{
             //System.out.println("fin>debut");
             return Integer.MIN_VALUE;
         }
+        
         if(this.getNbNoeud()+pairesToAdd.size()>this.tailleMax){
+            //System.out.println(pairesToAdd.size()+this.getNbNoeud());
             //System.out.println("La taille MAX va être dépassée");
             return Integer.MIN_VALUE;
         }
@@ -485,6 +487,14 @@ public class Cycle extends SchemaEchange{
             //System.out.println("cycle taille <2");
             return Integer.MIN_VALUE;
         }*/
+        
+        /**
+         * Permet de supprimer complètement un cycle
+         */
+        if(this.getNbPaires() == pairesToSupp.size()){
+            //System.out.println("cycle taille <2");
+            return -this.coutBenefice;
+        }
 
         int deltaCout = 0;
         int benefice;

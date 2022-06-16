@@ -52,6 +52,7 @@ public class InterDeplacement extends OperateurInterSequences{
                 "\n}";
     }
 
+    
     @Override
     public boolean isTabou(OperateurLocal operateur) {
         if(operateur == null) return false;

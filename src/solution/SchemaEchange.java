@@ -227,7 +227,7 @@ public abstract class SchemaEchange {
         if(!this.equals(autreSequence)) {
             
             for(int debutI=0; debutI<this.getNbNoeud(); debutI++) {
-                for(int finI=debutI; finI<this.getNbNoeud() ; finI++) {
+                for(int finI=debutI; finI<this.getNbNoeud(); finI++) {
                     
                     for(int debutJ=0; debutJ<autreSequence.getNbPaires(); debutJ++) {
                         for(int finJ=debutJ; finJ<autreSequence.getNbPaires(); finJ++) {
