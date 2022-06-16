@@ -16,4 +16,5 @@ import solution.Solution;
 public interface Solveur {
     public String getNom();
     public Solution solve(Instance instance);
+    
 }

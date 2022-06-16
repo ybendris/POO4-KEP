@@ -1,5 +1,5 @@
 // Cout total de la solution
-2375
+2451
 
 // Description de la solution
 // Cycles
@@ -11,7 +11,7 @@
 50	111	146	
 113	161	238	
 96	114	8	
-86	140	
+86	140	84	
 85	37	109	
 197	135	153	
 156	191	

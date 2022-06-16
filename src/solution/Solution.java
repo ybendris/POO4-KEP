@@ -298,6 +298,22 @@ public class Solution {
         return best;
     }
     
+    public void verifPairesRestantes(){
+        LinkedList<Cycle> CycleToDelete = new LinkedList<>();
+        for(Cycle c : this.cycles){
+            if(c.getNbNoeud() <2){ // cycle invalid accepté (benefice 0 et taille <2)
+                for(Noeud p :c.getPaires()){
+                    this.pairesRestantes.add((Paire)p);
+                }
+                CycleToDelete.add(c);
+            }
+        }
+        
+        //On delete
+        this.cycles.removeAll(CycleToDelete);
+        
+    }
+    
       
     public InsertionPaire getMeilleureInsertion(Paire paireToInsert){
         InsertionPaire best = new InsertionPaire();
@@ -340,7 +356,9 @@ public class Solution {
             
         for(SchemaEchange seq1 : cycleEtChaine){
             for(SchemaEchange seq2 : cycleEtChaine){
+                
                 OperateurLocal op = seq1.getMeilleurOperateurInter(seq2,type);
+                //System.out.println(op);
                 if(op.isMeilleur(best)) {
                     best = op;
                 }
@@ -453,7 +471,7 @@ public class Solution {
             
             System.out.println("Solution"+s);
             
-            System.out.println(s.getMeilleurOperateurInter(TypeOperateurLocal.INTER_REMPLACEMENT));
+            System.out.println(s.getMeilleurOperateurInter(TypeOperateurLocal.INTER_DEPLACEMENT));
         }
         catch(ReaderException ex){
             System.out.println(ex.getMessage());

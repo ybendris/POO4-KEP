@@ -51,4 +51,16 @@ public class InterEchange extends OperateurInterSequences{
                 "\n\tdeltaBenefice=" + deltaBenefice +
                 "\n}";
     }
+
+    @Override
+    public boolean isTabou(OperateurLocal operateur) {
+        if(operateur == null) return false;
+        if(!(operateur instanceof InterEchange)) return false;
+        if(operateur.sequence == null || operateur.noeudsSequenceI == null || operateur.noeudsSequenceJ == null) return false;
+        
+        if(this.noeudsSequenceI.equals(operateur.noeudsSequenceI) || this.noeudsSequenceJ.equals(operateur.noeudsSequenceJ))
+            return true;
+        
+        return false;
+    }
 }

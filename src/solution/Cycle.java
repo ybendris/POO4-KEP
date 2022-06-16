@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import operateur.InsertionPaire;
 import operateur.InterEchange;
-import operateur.InterRemplacement;
+import operateur.InterDeplacement;
 import solveur.CycleDe2;
 
 /**
@@ -80,8 +80,10 @@ public class Cycle extends SchemaEchange{
             return false;
         }
         if(!(this.paires.size() >= 2)){
-            System.out.println("Erreur: Le cycle doit etre au minimum de taille 2 "+ this);
-            return false;
+            if(this.getCoutBenefice()!=0){
+                System.out.println("Erreur: Le cycle doit etre au minimum de taille 2 "+ this);
+                return false;
+            }
         }
         return true;
 
@@ -96,30 +98,33 @@ public class Cycle extends SchemaEchange{
         var beneficeReel = 0;
         
         int i=0;
-        for(Noeud p : this.paires){
-            Noeud nextPaire = this.getNextPaire(i);
-            int beneficeToAdd;
-            if(nextPaire != null){
-                beneficeToAdd = p.getBeneficeVers(nextPaire);
-            }
-            else{
-                beneficeToAdd = p.getBeneficeVers(this.paires.getFirst());
-            }
-            if(beneficeToAdd != -1){
-                beneficeReel += beneficeToAdd;
-            }
-            else{
-                System.out.println("Erreur Cycle : y a un -1");
+        if(this.getCoutBenefice() != 0){
+            for(Noeud p : this.paires){
+                Noeud nextPaire = this.getNextPaire(i);
+                int beneficeToAdd;
                 if(nextPaire != null){
-                    //System.out.println(p.getId()+ "->"  +nextPaire.getId() );
+                    beneficeToAdd = p.getBeneficeVers(nextPaire);
                 }
                 else{
-                    //System.out.println(p.getId()+"->"+this.paires.getFirst().getId() );
+                    beneficeToAdd = p.getBeneficeVers(this.paires.getFirst());
                 }
-                return false;
+                if(beneficeToAdd != -1){
+                    beneficeReel += beneficeToAdd;
+                }
+                else{
+                    System.out.println("Erreur Cycle : y a un -1");
+                    if(nextPaire != null){
+                        //System.out.println(p.getId()+ "->"  +nextPaire.getId() );
+                    }
+                    else{
+                        //System.out.println(p.getId()+"->"+this.paires.getFirst().getId() );
+                    }
+                    return false;
+                }
+                i++;
             }
-            i++;
         }
+        
         
         if(beneficeAverif == beneficeReel){
             return true;
@@ -329,7 +334,7 @@ public class Cycle extends SchemaEchange{
             return Integer.MIN_VALUE;
         }
         if(pairesToAdd == null){
-            //System.out.println("null");
+            System.out.println("null");
             return Integer.MIN_VALUE;
         }
         if(debut == fin){
@@ -343,7 +348,9 @@ public class Cycle extends SchemaEchange{
             //System.out.println("fin>debut");
             return Integer.MIN_VALUE;
         }
+        
         if(this.getNbNoeud()+pairesToAdd.size()>this.tailleMax){
+            //System.out.println(pairesToAdd.size()+this.getNbNoeud());
             //System.out.println("La taille MAX va être dépassée");
             return Integer.MIN_VALUE;
         }
@@ -472,12 +479,21 @@ public class Cycle extends SchemaEchange{
             return Integer.MIN_VALUE;
         }
         LinkedList<Noeud> pairesToSupp = this.convertToLinkedList(debut, fin);
+        
         /**
          * Permet de garder un cycle correct
          */
-        if(this.getNbPaires() - pairesToSupp.size()<2){
+        /*if(this.getNbPaires() - pairesToSupp.size()<2){
             //System.out.println("cycle taille <2");
             return Integer.MIN_VALUE;
+        }*/
+        
+        /**
+         * Permet de supprimer complètement un cycle
+         */
+        if(this.getNbPaires() == pairesToSupp.size()){
+            //System.out.println("cycle taille <2");
+            return -this.coutBenefice;
         }
 
         int deltaCout = 0;
@@ -486,18 +502,25 @@ public class Cycle extends SchemaEchange{
         Noeud nPrec = this.getPrec(debut);
         Noeud nNext = this.getNext(fin);
         
-        benefice = nPrec.getBeneficeVers((Paire)nNext);
-        if(benefice == -1) {
-            //System.out.println("-1: " + nPrec.getId()+" "+nNext.getId());
-            return Integer.MIN_VALUE;
-        }
-        deltaCout += benefice;
-        
-        //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
         
         deltaCout -= nPrec.getBeneficeVers((Paire)pairesToSupp.getFirst());
         deltaCout -= this.getBeneficeSequence(pairesToSupp);
         deltaCout -= pairesToSupp.getLast().getBeneficeVers((Paire)nNext);
+        
+        if(!nPrec.equals(nNext)){
+            benefice = nPrec.getBeneficeVers((Paire)nNext);
+            if(benefice == -1) {
+                //System.out.println("-1: " + nPrec.getId()+" "+nNext.getId());
+                return Integer.MIN_VALUE;
+            }
+            deltaCout += benefice;
+        }
+        
+       
+        
+        //deltaCout += nPrec.getBeneficeVers((Paire)nNext);
+        
+        
         
         
         return deltaCout;
@@ -525,7 +548,7 @@ public class Cycle extends SchemaEchange{
     }
 
     @Override
-    public boolean doRemplacement(InterRemplacement infos) {
+    public boolean doRemplacement(InterDeplacement infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
         
@@ -573,6 +596,7 @@ public class Cycle extends SchemaEchange{
         }
         
         
+        
         //LinkedList<Paire> pairesToAdd = new LinkedList<>();
         
         
@@ -586,14 +610,10 @@ public class Cycle extends SchemaEchange{
             System.out.println(infos);
             System.exit(-1); //Termine le programme
         }
-        
         if (!autreSequence.check()){
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.out.println("Mauvais remplacement inter-sequence, (autre)"+autreSequence.toString());
             System.out.println(infos);
-            
-            
-            
             System.exit(-1); //Termine le programme
         }
         
@@ -714,9 +734,9 @@ public class Cycle extends SchemaEchange{
         
         SchemaEchange autreSequence = infos.getAutreSequence();
         
-        System.out.println("Avant----------");
-        System.out.println(this);
-        System.out.println(autreSequence);
+        //System.out.println("Avant----------");
+        //System.out.println(this);
+        //System.out.println(autreSequence);
         
         
         //Remplacer les paires de 'this' [debutI ; finI] par les pairesJ
@@ -724,9 +744,9 @@ public class Cycle extends SchemaEchange{
         //Remplacer les paires de 'autreSequence' [debutJ ; finJ] par les pairesI
         autreSequence.replacePaires(debutJ,finJ,pairesI);
         
-        System.out.println("Après");
-        System.out.println(this);
-        System.out.println(autreSequence);
+        //System.out.println("Après");
+        //System.out.println(this);
+        //System.out.println(autreSequence);
         
         //maj cout
         this.coutBenefice += infos.getDeltaBeneficeSequence();

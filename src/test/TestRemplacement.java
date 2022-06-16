@@ -11,7 +11,7 @@ import io.InstanceReader;
 import io.exception.ReaderException;
 import java.util.LinkedList;
 import operateur.InsertionPaire;
-import operateur.InterRemplacement;
+import operateur.InterDeplacement;
 import solution.Chaine;
 import solution.Cycle;
 import solution.Solution;
@@ -62,15 +62,15 @@ public class TestRemplacement {
             
             System.out.println(ch2.deltaBeneficeSuppressionSequence(1, 2)); //-13
             
-            InterRemplacement op = new InterRemplacement(ch2,ch1,1,2,0,1); //-13 +6 =-7
+            InterDeplacement op = new InterDeplacement(ch2,ch1,1,2,0,1); //-13 +6 =-7
             System.out.println(op);
-            InterRemplacement op2 = new InterRemplacement(c3,ch1,0,1,0,1); //-13 +6 =-7
+            InterDeplacement op2 = new InterDeplacement(c3,ch1,0,1,0,1); //-13 +6 =-7
             System.out.println(op2);
-            InterRemplacement op3 = new InterRemplacement(c3,ch1,0,1,0,2); //-13 +1 =-12 // -inf
+            InterDeplacement op3 = new InterDeplacement(c3,ch1,0,1,0,2); //-13 +1 =-12 // -inf
             System.out.println(op3);
-            InterRemplacement op4 = new InterRemplacement(ch2,ch1,1,2,0,2); //-13 +1 = -12 // -inf
+            InterDeplacement op4 = new InterDeplacement(ch2,ch1,1,2,0,2); //-13 +1 = -12 // -inf
             System.out.println(op4);
-            InterRemplacement op5 = new InterRemplacement(ch2,ch1,0,1,0,1); //-inf
+            InterDeplacement op5 = new InterDeplacement(ch2,ch1,0,1,0,1); //-inf
             System.out.println(op5);
             
             
@@ -116,7 +116,7 @@ public class TestRemplacement {
             
             System.out.println("On va faire Insertion de chaine à cycle:---------------");
             System.out.println("\n\n\n\n\n");
-            InterRemplacement op6 = new InterRemplacement(ch1,c3,2,2,3,4);
+            InterDeplacement op6 = new InterDeplacement(ch1,c3,2,2,3,4);
             
             System.out.println("Avant Insertion");
             System.out.println(ch1);
@@ -132,7 +132,7 @@ public class TestRemplacement {
             System.out.println(ch1);
             System.out.println(ch2);
             
-            InterRemplacement op7 = new InterRemplacement(ch2,ch1,4,4,2,3);
+            InterDeplacement op7 = new InterDeplacement(ch2,ch1,4,4,2,3);
             op7.doMouvementIfRealisable();
             System.out.println(op7);
             System.out.println(ch1);

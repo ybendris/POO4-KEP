@@ -77,8 +77,8 @@ public abstract class OperateurLocal extends Operateur {
     
     public static OperateurLocal getOperateur(TypeOperateurLocal type){
         switch(type){
-            case INTER_REMPLACEMENT:
-                return new InterRemplacement();
+            case INTER_DEPLACEMENT:
+                return new InterDeplacement();
             
             case INTER_ECHANGE:
                 return new InterEchange();
@@ -106,8 +106,8 @@ public abstract class OperateurLocal extends Operateur {
     
     public static OperateurInterSequences getOperateurInter(TypeOperateurLocal type, SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
         switch(type) {
-            case INTER_REMPLACEMENT:
-                return new InterRemplacement(sequence, autreSequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);
+            case INTER_DEPLACEMENT:
+                return new InterDeplacement(sequence, autreSequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);
                 
             case INTER_ECHANGE:
                 return new InterEchange(sequence, autreSequence, debutSequenceI, finSequenceI,  debutSequenceJ, finSequenceJ);
@@ -117,6 +117,7 @@ public abstract class OperateurLocal extends Operateur {
         }
     }
     
+    public abstract boolean isTabou(OperateurLocal operateur);
     
     @Override
     public String toString() {

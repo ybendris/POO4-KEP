@@ -30,5 +30,10 @@ public class IntraSuppression extends OperateurIntraSequence{
     public IntraSuppression(SchemaEchange sequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
         super(sequence, debutSequenceI, finSequenceI, debutSequenceJ, finSequenceJ);
     }
+
+    @Override
+    public boolean isTabou(OperateurLocal operateur) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

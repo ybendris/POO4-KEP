@@ -9,7 +9,7 @@ package operateur;
  * @author yanni
  */
 public enum TypeOperateurLocal {
-    INTER_REMPLACEMENT,
+    INTER_DEPLACEMENT,
     INTER_ECHANGE
     //INTRA_SUPPRESSION
 }

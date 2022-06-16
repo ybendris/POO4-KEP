@@ -44,7 +44,7 @@ public class CycleDeKAndChaineV2 implements Solveur{
             Solution s = CycleKCH.solve(i);
             
            
-            System.out.println(s.getMeilleurOperateurLocal(TypeOperateurLocal.INTER_REMPLACEMENT));
+            System.out.println(s.getMeilleurOperateurLocal(TypeOperateurLocal.INTER_DEPLACEMENT));
             
             SolutionWriter sw = new SolutionWriter(s.getInstance().getName());
             sw.writeSolution(s);

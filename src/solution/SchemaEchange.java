@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import operateur.InsertionPaire;
 import operateur.InterEchange;
-import operateur.InterRemplacement;
+import operateur.InterDeplacement;
+import operateur.ListeTabou;
 import operateur.OperateurInterSequences;
 import operateur.OperateurLocal;
 import operateur.TypeOperateurLocal;
@@ -199,7 +200,7 @@ public abstract class SchemaEchange {
     public abstract boolean insertionPairePossible(Paire paireToInsert);
     protected abstract boolean isPositionInsertionValide(int position);
     protected abstract boolean isPositionSuppressionValide(int position);
-    public abstract boolean doRemplacement(InterRemplacement infos);
+    public abstract boolean doRemplacement(InterDeplacement infos);
     public abstract boolean doEchange(InterEchange infos);
 
     
@@ -217,27 +218,26 @@ public abstract class SchemaEchange {
     public abstract boolean insertSequenceAtPos(LinkedList<Noeud> pairesToAdd, int position);
     
     
+    
+        
+    
     OperateurLocal getMeilleurOperateurInter(SchemaEchange autreSequence, TypeOperateurLocal type) {
         OperateurLocal best = OperateurLocal.getOperateur(type);
-        
+        ListeTabou liste = ListeTabou.getInstance(); 
         if(!this.equals(autreSequence)) {
             
-            
             for(int debutI=0; debutI<this.getNbNoeud(); debutI++) {
-                for(int finI=debutI; finI<this.getNbNoeud() && finI-debutI<4; finI++) {
-                    
-                    
+                for(int finI=debutI; finI<this.getNbNoeud(); finI++) {
                     
                     for(int debutJ=0; debutJ<autreSequence.getNbPaires(); debutJ++) {
-                        for(int finJ=debutJ; finJ<autreSequence.getNbPaires()&& finJ-debutJ<4; finJ++) {
+                        for(int finJ=debutJ; finJ<autreSequence.getNbPaires(); finJ++) {
                             OperateurInterSequences op = OperateurLocal.getOperateurInter(type, this, autreSequence, debutI, finI , debutJ, finJ);
-                            if(op.isMeilleur(best)) {
+                            //System.out.println(op);
+                            if(op.isMeilleur(best) && !liste.isTabou(op)) {
                                 best = op;
                             } 
                         } 
                     }
-                    
-                    
                     
                 }
             }

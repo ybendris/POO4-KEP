@@ -10,13 +10,13 @@ import solution.SchemaEchange;
  *
  * @author yanni
  */
-public class InterRemplacement extends OperateurInterSequences{
+public class InterDeplacement extends OperateurInterSequences{
 
-    public InterRemplacement() {
+    public InterDeplacement() {
         super();
     }
 
-    public InterRemplacement(SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
+    public InterDeplacement(SchemaEchange sequence, SchemaEchange autreSequence, int debutSequenceI, int finSequenceI, int debutSequenceJ, int finSequenceJ) {
         super(sequence, autreSequence, debutSequenceI, finSequenceI, debutSequenceJ, finSequenceJ);
     }
 
@@ -39,7 +39,7 @@ public class InterRemplacement extends OperateurInterSequences{
 
     @Override
     public String toString() {
-        return "InterRemplacement{" + 
+        return "InterDeplacement{" + 
                 "\n\tdebutSequenceI=" + debutSequenceI + 
                 "\n\tfinSequenceI=" + finSequenceI + 
                 "\n\tdebutSequenceJ=" + debutSequenceJ + 
@@ -50,6 +50,19 @@ public class InterRemplacement extends OperateurInterSequences{
                 "\n\tdeltaBeneficeAutreSequence=" + deltaBeneficeAutreSequence + 
                 "\n\tdeltaBenefice=" + deltaBenefice +
                 "\n}";
+    }
+
+    
+    @Override
+    public boolean isTabou(OperateurLocal operateur) {
+        if(operateur == null) return false;
+        if(!(operateur instanceof InterDeplacement)) return false;
+        if(operateur.sequence == null || operateur.noeudsSequenceI == null) return false;
+        
+        if(this.noeudsSequenceI.equals(operateur.noeudsSequenceI))
+            return true;
+        
+        return false;
     }
     
     
